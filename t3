@@ -27,17 +27,22 @@ func (m *MockRouterClient) Login(username, password string, steps []string) (boo
 			fmt.Println("Executing docker command (simulated)...")
 		} else if step == "vtysh" {
 			// Simulate entering vtysh mode
-			if m.loggedIn {
-				return true, nil
+			if username == "<replace_username_here>" && password == "<replace_password_here>" {
+				if m.loggedIn {
+					return true, nil
+				} else {
+					m.loggedIn = true
+					return true, nil
+				}
 			} else {
-				return false, fmt.Errorf("Not logged in")
+				return false, fmt.Errorf("Invalid username or password")
 			}
 		} else {
 			return false, fmt.Errorf("Unsupported step: %s", step)
 		}
 	}
-	m.loggedIn = true
-	return true, nil
+
+	return false, fmt.Errorf("Login failed") // Reach here if steps don't match expected flow
 }
 
 func TestRouterLoginAndConfig(t *testing.T) {
@@ -46,15 +51,13 @@ func TestRouterLoginAndConfig(t *testing.T) {
 
 	// **DO NOT** hardcode username and password here
 	// Replace with a secure way to provide credentials during testing
-	username := "<replace_username_here>"
-	password := "<replace_password_here>"
 
 	loginSteps := []string{
 		"sudo docker exec -it clab-frrlab-router1 /bin/bash",
 		"vtysh",
 	}
 
-	loggedIn, err := client.Login(username, password, loginSteps)
+	loggedIn, err := client.Login("", "", loginSteps)
 	if err != nil {
 		t.Errorf("Login failed: %v", err)
 		return

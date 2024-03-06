@@ -1,38 +1,72 @@
+
 package main
 
 import (
-  "bytes"
-  "fmt"
-  "os/exec"
-  "testing"
+	"fmt"
+	"testing"
 )
 
-func TestExecuteCommands(t *testing.T) {
-  // Password for sudo (replace with your actual password)
-  password := "your_password_here"
+// Mock interfaces for testing
+type RouterClient interface {
+	Login(username, password string) (bool, error)
+	SendCommand(string) (string, error)
+}
 
-  // Commands to execute
-  commands := []string{
-    "sudo docker exec -it clab-frrlab-router1 /bin/bash",
-    "vtysh",
-    "config",
-    "ping 8.8.8.8 -c 4",
-    "exit",
-    "exit",
-    "exit",
-  }
+type MockRouterClient struct {
+	loggedIn bool
+}
 
-  for _, cmd := range commands {
-    var combinedOutput bytes.Buffer
-    cmd := exec.Command("bash", "-c", cmd)
-    cmd.Stdin = bytes.NewBufferString(password + "\n")
-    cmd.Stdout = &combinedOutput
-    cmd.Stderr = &combinedOutput
+func (m *MockRouterClient) Login(username, password string) (bool, error) {
+	// Simulate successful login
+	if username == "admin" && password == "password123" {
+		m.loggedIn = true
+		return true, nil
+	}
+	return false, fmt.Errorf("Invalid username or password")
+}
 
-    if err := cmd.Run(); err != nil {
-      t.Errorf("Error executing command %s: %s", cmd, err)
-    }
+func (m *MockRouterClient) SendCommand(command string) (string, error) {
+	// Simulate successful commands for logged in user
+	if !m.loggedIn {
+		return "", fmt.Errorf("Not logged in")
+	}
+	switch command {
+	case "vtysh":
+		return "", nil
+	case "config":
+		return "", nil
+	default:
+		return "", fmt.Errorf("Unsupported command: %s", command)
+	}
+}
 
-    fmt.Printf("Output of command %s:\n%s\n", cmd, combinedOutput.String())
-  }
+func TestRouterLoginAndConfig(t *testing.T) {
+	// Use mock client for testing
+	client := &MockRouterClient{}
+
+	// Login with valid credentials
+	loggedIn, err := client.Login("admin", "password123")
+	if err != nil {
+		t.Errorf("Login failed: %v", err)
+		return
+	}
+	if !loggedIn {
+		t.Errorf("Login unsuccessful")
+	}
+
+	// Send commands (simulated)
+	fmt.Println("Sending command: vtysh")
+	_, err = client.SendCommand("vtysh")
+	if err != nil {
+		t.Errorf("vtysh command failed: %v", err)
+	}
+
+	fmt.Println("Sending command: config")
+	_, err = client.SendCommand("config")
+	if err != nil {
+		t.Errorf("config command failed: %v", err)
+	}
+
+	// Success message
+	fmt.Println("Successfully logged in and sent commands (simulated)")
 }

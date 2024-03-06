@@ -32,9 +32,9 @@ func (m *MockRouterClient) SendCommand(command string) (string, error) {
 	}
 	switch command {
 	case "vtysh":
-		return "", nil
+		return "Entering vtysh mode...", nil
 	case "config":
-		return "", nil
+		return "Entering configuration mode...", nil
 	default:
 		return "", fmt.Errorf("Unsupported command: %s", command)
 	}
@@ -56,15 +56,19 @@ func TestRouterLoginAndConfig(t *testing.T) {
 
 	// Send commands (simulated)
 	fmt.Println("Sending command: vtysh")
-	_, err = client.SendCommand("vtysh")
+	output, err := client.SendCommand("vtysh")
 	if err != nil {
 		t.Errorf("vtysh command failed: %v", err)
+	} else {
+		fmt.Println(output) // Print output for verification
 	}
 
 	fmt.Println("Sending command: config")
-	_, err = client.SendCommand("config")
+	output, err = client.SendCommand("config")
 	if err != nil {
 		t.Errorf("config command failed: %v", err)
+	} else {
+		fmt.Println(output) // Print output for verification
 	}
 
 	// Success message

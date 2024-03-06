@@ -1,0 +1,38 @@
+package main
+
+import (
+  "bytes"
+  "fmt"
+  "os/exec"
+  "testing"
+)
+
+func TestExecuteCommands(t *testing.T) {
+  // Password for sudo (replace with your actual password)
+  password := "your_password_here"
+
+  // Commands to execute
+  commands := []string{
+    "sudo docker exec -it clab-frrlab-router1 /bin/bash",
+    "vtysh",
+    "config",
+    "ping 8.8.8.8 -c 4",
+    "exit",
+    "exit",
+    "exit",
+  }
+
+  for _, cmd := range commands {
+    var combinedOutput bytes.Buffer
+    cmd := exec.Command("bash", "-c", cmd)
+    cmd.Stdin = bytes.NewBufferString(password + "\n")
+    cmd.Stdout = &combinedOutput
+    cmd.Stderr = &combinedOutput
+
+    if err := cmd.Run(); err != nil {
+      t.Errorf("Error executing command %s: %s", cmd, err)
+    }
+
+    fmt.Printf("Output of command %s:\n%s\n", cmd, combinedOutput.String())
+  }
+}

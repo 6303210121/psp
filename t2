@@ -1,0 +1,59 @@
+package main
+
+import (
+    "bytes"
+    "fmt"
+    "os/exec"
+    "testing"
+)
+
+func TestExecuteCommands(t *testing.T) {
+    // Password for sudo
+    password := "your_password_here"
+
+    // Commands to execute
+    commands := []string{
+        "sudo docker exec -it clab-frrlab-router1 /bin/bash",
+        "vtysh",
+        "config",
+        "ping 8.8.8.8 -c 4",
+        "exit",
+        "exit",
+        "exit",
+    }
+
+    // Execute commands
+    for _, cmd := range commands {
+        output, err := executeSudoCommand(cmd, password)
+        if err != nil {
+            t.Errorf("Error executing command %s: %s", cmd, err)
+        }
+        fmt.Printf("Output of command %s:\n%s\n", cmd, output)
+    }
+}
+
+func executeSudoCommand(cmd string, password string) (string, error) {
+    // Create command with sudo and pipe
+    sudoCmd := exec.Command("sudo", "-k", "-S")
+    sudoStdin, err := sudoCmd.StdinPipe()
+    if err != nil {
+        return "", err
+    }
+
+    // Connect the pipe and start the command
+    sudoCmd.Start()
+
+    // Write password to the pipe
+    _, err = sudoStdin.Write([]byte(password + "\n"))
+    if err != nil {
+        return "", err
+    }
+    sudoStdin.Close()
+
+    // Execute the command after sudo
+    out, err := exec.Command("bash", "-c", cmd).CombinedOutput()
+    if err != nil {
+        return "", err
+    }
+    return string(out), nil
+}

@@ -8,56 +8,49 @@ import (
 
 // Mock interfaces for testing
 type RouterClient interface {
-	Login(username, password string, steps []string) (bool, error)
+	Login(username, password string) (bool, error)
+	SendCommand(command string) (string, error)
 }
 
 type MockRouterClient struct {
 	loggedIn bool
 }
 
-func (m *MockRouterClient) Login(username, password string, steps []string) (bool, error) {
-	// **DO NOT** store username and password directly in code
-	// Replace with a mechanism to provide credentials securely during testing
-
-	// Simulate successful login for each step
-	for _, step := range steps {
-		fmt.Println("Executing command:", step) // Print simulated execution
-		if step == "sudo docker exec -it clab-frrlab-router1 /bin/bash" {
-			// Simulate first step (replace with desired output)
-			fmt.Println("Executing docker command (simulated)...")
-		} else if step == "vtysh" {
-			// Simulate entering vtysh mode
-			if username == "<replace_username_here>" && password == "<replace_password_here>" {
-				if m.loggedIn {
-					return true, nil
-				} else {
-					m.loggedIn = true
-					return true, nil
-				}
-			} else {
-				return false, fmt.Errorf("Invalid username or password")
-			}
-		} else {
-			return false, fmt.Errorf("Unsupported step: %s", step)
-		}
+func (m *MockRouterClient) Login(username, password string) (bool, error) {
+	// Simulate successful login (replace with actual validation logic)
+	if username == "tcs" && password == "tcs@123" {
+		m.loggedIn = true
+		return true, nil
 	}
+	return false, fmt.Errorf("Invalid username or password")
+}
 
-	return false, fmt.Errorf("Login failed") // Reach here if steps don't match expected flow
+func (m *MockRouterClient) SendCommand(command string) (string, error) {
+	// Simulate successful commands for logged in user
+	if !m.loggedIn {
+		return "", fmt.Errorf("Not logged in")
+	}
+	switch command {
+	case "vtysh":
+		// Simulate a specific vtysh output (replace with desired output)
+		return "Entering vtysh mode...\nRouter#", nil
+	case "config":
+		// Simulate a specific config output (replace with desired output)
+		return "Entering configuration mode...\nRouter(config)#", nil
+	case "do show run":
+		// Simulate output for "do show run" (replace with desired output)
+		return "Simulated running configuration output...\nRouter(config)#", nil
+	default:
+		return "", fmt.Errorf("Unsupported command: %s", command)
+	}
 }
 
 func TestRouterLoginAndConfig(t *testing.T) {
 	// Use mock client for testing
 	client := &MockRouterClient{}
 
-	// **DO NOT** hardcode username and password here
-	// Replace with a secure way to provide credentials during testing
-
-	loginSteps := []string{
-		"sudo docker exec -it clab-frrlab-router1 /bin/bash",
-		"vtysh",
-	}
-
-	loggedIn, err := client.Login("", "", loginSteps)
+	// Login with placeholders (replace with actual credentials during testing)
+	loggedIn, err := client.Login("tcs", "tcs@123")
 	if err != nil {
 		t.Errorf("Login failed: %v", err)
 		return
@@ -66,7 +59,31 @@ func TestRouterLoginAndConfig(t *testing.T) {
 		t.Errorf("Login unsuccessful")
 	}
 
-	// Success message (commands not simulated due to Golang limitations)
-	fmt.Println("Successfully logged in to router (simulated)")
-	fmt.Println("**Note:** Sending commands to real routers using Golang might require vendor-specific libraries or SSH tools (use with caution).")
+	// Send commands (simulated)
+	fmt.Println("Sending command: vtysh")
+	output, err := client.SendCommand("vtysh")
+	if err != nil {
+		t.Errorf("vtysh command failed: %v", err)
+	} else {
+		fmt.Println(output) // Print simulated vtysh entry message
+	}
+
+	fmt.Println("Sending command: config")
+	output, err = client.SendCommand("config")
+	if err != nil {
+		t.Errorf("config command failed: %v", err)
+	} else {
+		fmt.Println(output) // Print simulated config mode entry message
+	}
+
+	fmt.Println("Sending command: do show run")
+	output, err = client.SendCommand("do show run")
+	if err != nil {
+		t.Errorf("do show run command failed: %v", err)
+	} else {
+		fmt.Println(output) // Print simulated "do show run" output
+	}
+
+	// Success message
+	fmt.Println("Successfully logged in and sent commands (simulated)")
 }

@@ -8,14 +8,17 @@ import (
 
 // Mock interfaces for testing
 type RouterClient interface {
-	Login(steps []string) (bool, error)
+	Login(username, password string, steps []string) (bool, error)
 }
 
 type MockRouterClient struct {
 	loggedIn bool
 }
 
-func (m *MockRouterClient) Login(steps []string) (bool, error) {
+func (m *MockRouterClient) Login(username, password string, steps []string) (bool, error) {
+	// **DO NOT** store username and password directly in code
+	// Replace with a mechanism to provide credentials securely during testing
+
 	// Simulate successful login for each step
 	for _, step := range steps {
 		fmt.Println("Executing command:", step) // Print simulated execution
@@ -41,13 +44,17 @@ func TestRouterLoginAndConfig(t *testing.T) {
 	// Use mock client for testing
 	client := &MockRouterClient{}
 
-	// Login steps (replace with actual commands if possible)
+	// **DO NOT** hardcode username and password here
+	// Replace with a secure way to provide credentials during testing
+	username := "<replace_username_here>"
+	password := "<replace_password_here>"
+
 	loginSteps := []string{
 		"sudo docker exec -it clab-frrlab-router1 /bin/bash",
 		"vtysh",
 	}
 
-	loggedIn, err := client.Login(loginSteps)
+	loggedIn, err := client.Login(username, password, loginSteps)
 	if err != nil {
 		t.Errorf("Login failed: %v", err)
 		return

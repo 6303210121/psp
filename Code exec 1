@@ -1,0 +1,42 @@
+package main
+
+import (
+    "fmt"
+    "os/exec"
+)
+
+func main() {
+    // Commands to execute
+    commands := []string{
+        "sudo",
+        "docker",
+        "exec",
+        "-it",
+        "containername",
+        "/bin/bash",
+        "vtysh",
+        "config",
+    }
+
+    // Execute commands
+    for _, cmd := range commands {
+        out, err := exec.Command(cmd).CombinedOutput()
+        if err != nil {
+            fmt.Printf("Error executing command %s: %s\n", cmd, err)
+            fmt.Println(string(out))
+            return
+        }
+        fmt.Printf("Output of command %s:\n%s\n", cmd, string(out))
+    }
+
+    // Execute "exit" command three times
+    for i := 0; i < 3; i++ {
+        out, err := exec.Command("exit").CombinedOutput()
+        if err != nil {
+            fmt.Printf("Error executing exit command: %s\n", err)
+            fmt.Println(string(out))
+            return
+        }
+        fmt.Printf("Output of exit command:\n%s\n", string(out))
+    }
+}

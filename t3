@@ -17,8 +17,8 @@ type MockRouterClient struct {
 }
 
 func (m *MockRouterClient) Login(username, password string) (bool, error) {
-	// Simulate successful login
-	if username == "admin" && password == "password123" {
+	// Simulate successful login (replace with actual validation logic)
+	if username == "<replace_username_here>" && password == "<replace_password_here>" {
 		m.loggedIn = true
 		return true, nil
 	}
@@ -32,11 +32,11 @@ func (m *MockRouterClient) SendCommand(command string) (string, error) {
 	}
 	switch command {
 	case "vtysh":
-		// Simulate vtysh entry message
-		return "Entering vtysh mode...", nil
+		// Simulate a specific vtysh output (replace with desired output)
+		return "Entering vtysh mode...\nRouter#", nil
 	case "config":
-		// Simulate config mode entry message
-		return "Entering configuration mode...", nil
+		// Simulate a specific config output (replace with desired output)
+		return "Entering configuration mode...\nRouter(config)#", nil
 	default:
 		return "", fmt.Errorf("Unsupported command: %s", command)
 	}
@@ -46,8 +46,8 @@ func TestRouterLoginAndConfig(t *testing.T) {
 	// Use mock client for testing
 	client := &MockRouterClient{}
 
-	// Login with valid credentials
-	loggedIn, err := client.Login("admin", "password123")
+	// Login with placeholders (replace with actual credentials during testing)
+	loggedIn, err := client.Login("<replace_username_here>", "<replace_password_here>")
 	if err != nil {
 		t.Errorf("Login failed: %v", err)
 		return

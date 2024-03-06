@@ -74,3 +74,17 @@ func TestRouterLoginAndConfig(t *testing.T) {
 
 	// Success message
 	fmt.Println("Successfully logged in and sent commands (simulated)")
+
+====================================================================================================================================================
+o test t2_test.go -v
+=== RUN   TestRouterLoginAndConfig
+Sending command: vtysh
+Entering vtysh mode...
+Router#
+Sending command: config
+Entering configuration mode...
+Router(config)#
+Successfully logged in and sent commands (simulated)
+--- PASS: TestRouterLoginAndConfig (0.00s)
+PASS
+ok  	command-line-arguments	0.002s

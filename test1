@@ -1,17 +1,21 @@
 package main
 
 import (
+    "bytes"
     "fmt"
     "os/exec"
     "testing"
 )
 
-func TestExecuteCommand(t *testing.T) {
+func TestExecuteSudoDockerPS(t *testing.T) {
     // Command to execute
-    cmd := "ls"
+    cmd := "sudo docker ps"
+
+    // Password for sudo
+    password := "your_password_here"
 
     // Execute command
-    output, err := executeCommand(cmd)
+    output, err := executeSudoCommand(cmd, password)
     if err != nil {
         t.Errorf("Error executing command %s: %s", cmd, err)
     }
@@ -20,9 +24,26 @@ func TestExecuteCommand(t *testing.T) {
     fmt.Printf("Output of command %s:\n%s\n", cmd, output)
 }
 
-func executeCommand(cmd string) (string, error) {
-    // Execute command
-    out, err := exec.Command(cmd).CombinedOutput()
+func executeSudoCommand(cmd string, password string) (string, error) {
+    // Create command with sudo and pipe
+    sudoCmd := exec.Command("sudo", "-k", "-S")
+    sudoStdin, err := sudoCmd.StdinPipe()
+    if err != nil {
+        return "", err
+    }
+
+    // Connect the pipe and start the command
+    sudoCmd.Start()
+
+    // Write password to the pipe
+    _, err = sudoStdin.Write([]byte(password + "\n"))
+    if err != nil {
+        return "", err
+    }
+    sudoStdin.Close()
+
+    // Execute the command after sudo
+    out, err := exec.Command("bash", "-c", cmd).CombinedOutput()
     if err != nil {
         return "", err
     }

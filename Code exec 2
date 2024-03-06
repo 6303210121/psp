@@ -1,0 +1,68 @@
+package main
+
+import (
+    "fmt"
+    "os/exec"
+    "strings"
+)
+
+func main() {
+    // Commands to execute
+    commands := []string{
+        "sudo", // sudo for the first command
+        "docker",
+        "exec",
+        "-it",
+        "containername",
+        "/bin/bash",
+        "vtysh",
+        "config",
+    }
+
+    // Execute commands
+    for _, cmd := range commands {
+        // For the first command, use sudo with the password "psp123"
+        if cmd == "sudo" {
+            out, err := exec.Command("sudo", "-S", "-p", "", "-u", "root", "-S", "-k", "docker", "exec", "-it", "containername", "/bin/bash").StdinPipe()
+            if err != nil {
+                fmt.Printf("Error executing command %s: %s\n", cmd, err)
+                return
+            }
+            defer out.Close()
+            out.Write([]byte("psp123\n"))
+        } else {
+            out, err := exec.Command(cmd).CombinedOutput()
+            if err != nil {
+                fmt.Printf("Error executing command %s: %s\n", cmd, err)
+                fmt.Println(string(out))
+                return
+            }
+            fmt.Printf("Output of command %s:\n%s\n", cmd, string(out))
+        }
+    }
+
+    // Execute "exit" command three times
+    for i := 0; i < 3; i++ {
+        out, err := exec.Command("exit").CombinedOutput()
+        if err != nil {
+            fmt.Printf("Error executing exit command: %s\n", err)
+            fmt.Println(string(out))
+            return
+        }
+        fmt.Printf("Output of exit command:\n%s\n", string(out))
+    }
+
+    // Check if the router is logged in
+    isLoggedIn := testRouterLogin()
+    if isLoggedIn {
+        fmt.Println("Router is logged in.")
+    } else {
+        fmt.Println("Router is not logged in.")
+    }
+}
+
+func testRouterLogin() bool {
+    // You can add your logic here to test if the router is logged in
+    // For demonstration purposes, let's assume it's always logged in
+    return true
+}

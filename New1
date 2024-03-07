@@ -1,0 +1,31 @@
+package main
+
+import (
+    "os/exec"
+    "testing"
+)
+
+func TestExecuteCommand(t *testing.T) {
+    // Command to execute
+    cmd := "sudo docker ps"
+
+    // Execute command
+    output, err := exec.Command("bash", "-c", cmd).Output()
+    if err != nil {
+        t.Errorf("Error executing command %s: %s", cmd, err)
+    } else {
+        // Check exit code
+        exitCode := 0 // Default to success
+        if exitErr, ok := err.(*exec.ExitError); ok {
+            exitCode = exitErr.ExitCode()
+        }
+        if exitCode == 0 {
+            t.Logf("Command '%s' executed successfully", cmd)
+        } else {
+            t.Errorf("Command '%s' failed with exit code %d", cmd, exitCode)
+        }
+    }
+
+    // Print output
+    t.Logf("Output of command '%s':\n%s\n", cmd, string(output))
+}

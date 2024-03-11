@@ -64,3 +64,32 @@ func TestConnectToRouter16(t *testing.T) {
 	fmt.Println("Running configuration:")
 	fmt.Println(string(showConfigOutput))
        }
+
+..........................
+package main
+
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+)
+
+func TestConnectToRouter16(t *testingT) {
+	// ... (existing code to list containers and login to bash) ...
+
+	// Command to show interface brief
+	showInterfaceCommand := "do show interface brief"
+
+	// Execute the command to show interface brief
+	showInterfaceOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+showInterfaceCommand+"\"'").CombinedOutput()
+	if err != nil {
+		fmt.Println("Error showing interface brief:", err)
+		return
+	}
+
+	// Print the output of the show interface brief command
+	fmt.Println("Interface brief:")
+	fmt.Println(string(showInterfaceOutput))
+        }
+
+

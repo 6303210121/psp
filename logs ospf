@@ -330,4 +330,259 @@ router1(config)# exit
 router1# exit
 bash-5.1# exit
 exit
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ docker exec -it clab-frrlab-router1 /bin/bash
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router1# show ip config
+% Unknown command: show ip config
+router1# do show interfaqce ip br
+% Unknown command: do show interfaqce ip br
+router1# do show interface ip br
+% Unknown command: do show interface ip br
+router1# show interface ip br
+% Unknown command: show interface ip br
+router1# conf t
+router1(config)# do show interface ip br
+% Unknown command: do show interface ip br
+router1(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            up      default         
+eth2            up      default         
+eth3            up      default         
+lo              up      default         
+
+router1(config)# interface eth1
+router1(config-if)# ip address 192.168.1.1/24
+router1(config-if)# no shut
+router1(config-if)# 
+router1(config-if)# 
+router1(config-if)# exit
+router1(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+^C              up      default         192.168.2.1/2420::2/64 such file or directory'.
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ docker exec -it clab-frrlab-router3 /bin/bash
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router3# configure  
+router3(config)# show ip interface
+% Unknown command: show ip interface
+router3(config)# show interface brief
+% Unknown command: show interface brief
+router3(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.7/24
+                                        + 2001:172:20:20::7/64
+eth1            up      default         
+eth2            up      default         
+eth3            up      default         
+lo              up      default         
+
+router3(config)# interface eth1 
+router3(config-if)# ip address 192.168.1.3/24
+router3(config-if)# no shut
+router3(config-if)# no shut
+router3(config-if)# no shut
+router3(config-if)# exit
+router3(config)# interface eth2 
+router3(config-if)# ip address 192.168.2.3/24
+router3(config-if)# no shut
+router3(config-if)# no shut
+router3(config-if)# exit
+router3(config)# show interface brief
+% Unknown command: show interface brief
+router3(config)# do  show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.7/24
+                                        + 2001:172:20:20::7/64
+eth1            up      default         192.168.1.3/24
+eth2            up      default         192.168.2.3/24
+eth3            up      default         
+lo              up      default         
+
+router3(config)# router ospf
+router3(config-router)# network 192.168.0.0/16
+% Command incomplete: network 192.168.0.0/16
+router3(config-router)# network 192.168.0.0/16 area 0
+router3(config-router)# exit
+router3(config)# router ospf
+router3(config-router)# exit
+router3(config)# do show ip ospf neighbor 
+
+Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
+192.168.2.2       1 Full/DR           30.561s 192.168.2.2     eth2:192.168.2.3                     0     0     0
+
+router3(config)# do ping 192.168.2.1/24
+ping: bad address '192.168.2.1/24'
+router3(config)# do ping 192.168.2.1   
+PING 192.168.2.1 (192.168.2.1): 56 data bytes
+^C
+--- 192.168.2.1 ping statistics ---
+19 packets transmitted, 0 packets received, 100% packet loss
+router3(config)# do ping 192.168.2.2
+PING 192.168.2.2 (192.168.2.2): 56 data bytes
+64 bytes from 192.168.2.2: seq=0 ttl=64 time=0.108 ms
+64 bytes from 192.168.2.2: seq=1 ttl=64 time=0.091 ms
+^C
+--- 192.168.2.2 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.091/0.099/0.108 ms
+router3(config)# exit
+router3# show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.7/24
+                                        + 2001:172:20:20::7/64
+eth1            up      default         192.168.1.3/24
+eth2            up      default         192.168.2.3/24
+eth3            up      default         
+lo              up      default         
+
+router3#     
+bash-5.1# 
+exit
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ docker exec -it clab-frrlab-router1 /bin/bash
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router1# router ospf
+% Unknown command: router ospf
+router1# configure 
+router1(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            up      default         192.168.1.1/24
+eth2            up      default         192.168.2.1/24
+eth3            up      default         
+lo              up      default         
+
+router1(config)# do ping 192.168.1.3
+PING 192.168.1.3 (192.168.1.3): 56 data bytes
+^C
+--- 192.168.1.3 ping statistics ---
+3 packets transmitted, 0 packets received, 100% packet loss
+router1(config)# do show ip ospf neighbor 
+
+Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
+192.168.2.2       1 Full/DR           33.457s 192.168.1.2     eth1:192.168.1.1                     0     0     0
+
+router1(config)# xit
+% Unknown command: xit
+router1(config)# 
+bash-5.1# 
+exit
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ docker exec -it clab-frrlab-router2 /bin/bash
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# do show ping 192.168.1.1
+% Unknown command: do show ping 192.168.1.1
+router2# config
+router2(config)# do show ping 192.168.1.1
+% Unknown command: do show ping 192.168.1.1
+router2(config)# router   
+% Command incomplete: router
+router2(config)# do show interface       
+Interface eth0 is up, line protocol is up
+  Link ups:       0    last: (never)
+  Link downs:     0    last: (never)
+  vrf: default
+  index 21 metric 0 mtu 1500 speed 10000 
+  flags: <UP,BROADCAST,RUNNING,MULTICAST>
+  Type: Ethernet
+  HWaddr: 02:42:ac:14:14:03
+  inet 172.20.20.3/24
+  inet6 2001:172:20:20::3/64
+  inet6 fe80::42:acff:fe14:1403/64
+  Interface Type VETH
+  Interface Slave Type None
+  Parent ifindex: 22
+Interface eth1 is up, line protocol is up
+  Link ups:       0    last: (never)
+  Link downs:     0    last: (never)
+  vrf: default
+  index 27 metric 0 mtu 9500 speed 10000 
+  flags: <UP,BROADCAST,RUNNING,MULTICAST>
+  Type: Ethernet
+  HWaddr: aa:c1:ab:ac:1b:2d
+  inet 192.168.1.2/24
+  inet6 fe80::a8c1:abff:feac:1b2d/64
+  Interface Type VETH
+  Interface Slave Type None
+  Parent ifindex: 28
+Interface eth2 is up, line protocol is up
+  Link ups:       1    last: 2024/03/11 10:18:06.14
+  Link downs:     1    last: 2024/03/11 10:18:06.14
+  vrf: default
+  index 40 metric 0 mtu 9500 speed 10000 
+  flags: <UP,BROADCAST,RUNNING,MULTICAST>
+  Type: Unknown
+  HWaddr: aa:c1:ab:ba:47:4a
+  inet 192.168.2.2/24
+  inet6 fe80::a8c1:abff:feba:474a/64
+  Interface Type VETH
+  Interface Slave Type None
+Interface eth3 is up, line protocol is up
+  Link ups:       0    last: (never)
+  Link downs:     0    last: (never)
+  vrf: default
+  index 29 metric 0 mtu 9500 speed 10000 
+  flags: <UP,BROADCAST,RUNNING,MULTICAST>
+  Type: Ethernet
+  HWaddr: aa:c1:ab:78:50:89
+  inet6 fe80::a8c1:abff:fe78:5089/64
+  Interface Type VETH
+  Interface Slave Type None
+  Parent ifindex: 30
+Interface lo is up, line protocol is up
+  Link ups:       0    last: (never)
+  Link downs:     0    last: (never)
+  vrf: default
+  index 1 metric 0 mtu 65536 speed 0 
+  flags: <UP,LOOPBACK,RUNNING>
+  Type: Loopback
+  Interface Type Other
+  Interface Slave Type None
+router2(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.3/24
+                                        + 2001:172:20:20::3/64
+eth1            up      default         192.168.1.2/24
+eth2            up      default         192.168.2.2/24
+eth3            up      default         
+lo              up      default         
+
+router2(config)# router ospf
+router2(config-router)# network 192.168.0.0/16 area 0
+router2(config-router)# exit
+router2(config)# do show ip ospf neighbor 
+
+Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
+192.168.2.1       1 Full/Backup       37.359s 192.168.1.1     eth1:192.168.1.2                     0     0     0
+192.168.2.3       1 Full/Backup       33.353s 192.168.2.3     eth2:192.168.2.2                     0     0     0
+===============================================================================================

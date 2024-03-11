@@ -63,4 +63,4 @@ func TestConnectToRouter16(t *testing.T) {
 	// Print the output of the show running-config command
 	fmt.Println("Running configuration:")
 	fmt.Println(string(showConfigOutput))
-}
+       }

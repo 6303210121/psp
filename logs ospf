@@ -182,3 +182,152 @@ PING 192.168.1.2 (192.168.1.2): 56 data bytes
 14 packets transmitted, 0 packets received, 100% packet loss
 router2# exit
 bash-5.1# 
+-----------------------------------------------------------------------------------------------------------------------------
+
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router1# show ip config
+% Unknown command: show ip config
+router1# do show interfaqce ip br
+% Unknown command: do show interfaqce ip br
+router1# do show interface ip br
+% Unknown command: do show interface ip br
+router1# show interface ip br
+% Unknown command: show interface ip br
+router1# conf t
+router1(config)# do show interface ip br
+% Unknown command: do show interface ip br
+router1(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            up      default         
+eth2            up      default         
+eth3            up      default         
+lo              up      default         
+
+router1(config)# interface eth1
+router1(config-if)# ip address 192.168.1.1/24
+router1(config-if)# no shut
+router1(config-if)# 
+router1(config-if)# 
+router1(config-if)# exit
+router1(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            up      default         192.168.1.1/24
+eth2            up      default         
+eth3            up      default         
+lo              up      default         
+
+router1(config)# ip address 192.168.2.1/24
+% Unknown command: ip address 192.168.2.1/24
+router1(config)# interface eth2
+router1(config-if)# ip address 192.168.2.1/24
+router1(config-if)# 
+router1(config-if)# no shut
+router1(config-if)# no shut
+router1(config-if)# exit
+router1(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            up      default         192.168.1.1/24
+eth2            up      default         192.168.2.1/24
+eth3            up      default         
+lo              up      default         
+
+router1(config)#     
+bash-5.1# 
+exit
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ docker exec -it clab-frrlab-router2 /bin/bash
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# configure       
+router2(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.3/24
+                                        + 2001:172:20:20::3/64
+eth1            up      default         
+eth2            up      default         
+eth3            up      default         
+lo              up      default         
+
+router2(config)# interface eth1
+router2(config-if)# ip address 192.168.1.2/24
+router2(config-if)# no shut
+router2(config-if)# no shut
+router2(config-if)# no shut
+router2(config-if)# exit
+router2(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.3/24
+                                        + 2001:172:20:20::3/64
+eth1            up      default         192.168.1.2/24
+eth2            up      default         
+eth3            up      default         
+lo              up      default         
+
+router2(config)# interface eth2  
+router2(config-if)# ip address 192.168.2.2/24
+router2(config-if)# 
+router2(config-if)# exit
+router2(config)# ls]
+% Unknown command: ls]
+router2(config)# do show interface brief
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.3/24
+                                        + 2001:172:20:20::3/64
+eth1            up      default         192.168.1.2/24
+eth2            up      default         192.168.2.2/24
+eth3            up      default         
+lo              up      default         
+
+router2(config)# router ospf
+router2(config-router)# network 192.168.0.0/16 area 0
+router2(config-router)# exit
+router2(config)# exit
+router2# exit
+bash-5.1# 
+exit
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ docker exec -it clab-frrlab-router1 /bin/bash
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router1# ls
+% Unknown command: ls
+router1# config
+router1(config)# router ospf
+router1(config-router)# network 192.168.0.0/16 area 0
+router1(config-router)# exit
+router1(config)# 
+router1(config)# show ip ospf neighbor
+% Unknown command: show ip ospf neighbor
+router1(config)# do show ip ospf neighbor
+
+Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
+192.168.2.2       1 Full/DR           32.536s 192.168.1.2     eth1:192.168.1.1                     0     0     0
+
+router1(config)# exit
+router1# exit
+bash-5.1# exit
+exit
+

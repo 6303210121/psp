@@ -1,0 +1,184 @@
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/frrlab$ vi router3_intial_cfg 
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/frrlab$ docker exec -it clab-frrlab-router1 /bin/bash 
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router1# 
+router1# 
+router1# 
+router1# 
+router1# conf t
+router1(config)# do show interface ip br
+% Unknown command: do show interface ip br
+router1(config)# do show interface ip   
+% Can't find interface ip
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+lo              up      default         
+
+router1(config)# interface eth1 
+router1(config-if)# ip address 192.168.1.1/24
+router1(config-if)# no shut 
+router1(config-if)# exit
+router1(config)# do ping 192.168.1.1
+PING 192.168.1.1 (192.168.1.1): 56 data bytes
+^C
+--- 192.168.1.1 ping statistics ---
+10 packets transmitted, 0 packets received, 100% packet loss
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            down    default         
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            down    default         
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            down    default         
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            down    default         
+lo              up      default         
+
+router1(config)# do show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.2/24
+                                        + 2001:172:20:20::2/64
+eth1            down    default         
+lo              up      default         
+
+router1(config)# exit                    
+router1# exit
+bash-5.1# exit
+exit
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/frrlab$ docker exec -it clab-frrlab-router2 /bin/bash 
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.6/24
+                                        + 2001:172:20:20::6/64
+lo              up      default         
+
+router2# show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.6/24
+                                        + 2001:172:20:20::6/64
+lo              up      default         
+
+router2# show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.6/24
+                                        + 2001:172:20:20::6/64
+lo              up      default         
+
+router2# show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.6/24
+                                        + 2001:172:20:20::6/64
+lo              up      default         
+
+router2# show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.6/24
+                                        + 2001:172:20:20::6/64
+lo              up      default         
+
+router2# show interface brief 
+Interface       Status  VRF             Addresses
+---------       ------  ---             ---------
+eth0            up      default         172.20.20.6/24
+                                        + 2001:172:20:20::6/64
+lo              up      default         
+
+router2# conf t
+router2(config)# interface eth1 
+router2(config-if)# ip address 192.168.1.2/245
+% Unknown command: ip address 192.168.1.2/245
+router2(config-if)# ip address 192.168.1.2/24 
+router2(config-if)# no shut
+router2(config-if)# no shut
+router2(config-if)# no shut
+router2(config-if)# ip address 192.168.1.2/24
+router2(config-if)# ip address 192.168.1.2/24
+router2(config-if)# no shut
+router2(config-if)# no shut
+router2(config-if)# no shut
+router2(config-if)# no shut
+router2(config-if)# exit
+router2(config)# exit
+router2# ping 192.168.1.2
+PING 192.168.1.2 (192.168.1.2): 56 data bytes
+^C
+--- 192.168.1.2 ping statistics ---
+14 packets transmitted, 0 packets received, 100% packet loss
+router2# exit
+bash-5.1# 

@@ -1,1 +1,49 @@
 
+package main
+
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+)
+
+// ... (existing functions for login, VTYSH, neighbors, and exit) ...
+
+func enterOSPFConfig(vtyshOutput []byte) ([]byte, error) {
+	return exec.Command("sh", "-c", string(vtyshOutput)+" -c 'router ospf'").CombinedOutput()
+}
+
+func configureOSPFNetwork(vtyshOutput []byte) ([]byte, error) {
+	return exec.Command("sh", "-c", string(vtyshOutput)+" -c 'network 192.169.0.0 area 0'").CombinedOutput()
+}
+
+func exitOSPFConfig(vtyshOutput []byte) ([]byte, error) {
+	return exec.Command("sh", "-c", string(vtyshOutput)+" -c 'exit'").CombinedOutput()
+}
+
+func TestConnectToRouter16(t *testing.T) {
+	// ... (existing container login and VTYSH) ...
+
+    // Enter OSPF configuration mode
+    ospfConfigOutput, err := enterOSPFConfig(vtyshOutput)
+    if err != nil {
+        fmt.Println("Error entering OSPF configuration:", err)
+        return
+    }
+
+    // Configure the OSPF network
+    networkConfigOutput, err := configureOSPFNetwork(ospfConfigOutput)
+    if err != nil {
+        fmt.Println("Error configuring OSPF network:", err)
+        return
+    }
+
+    // Exit OSPF configuration mode
+    exitOutput, err := exitOSPFConfig(networkConfigOutput)
+    if err != nil {
+        fmt.Println("Error exiting OSPF configuration:", err)
+        return
+    }
+
+    // ... (proceed with neighbor commands and other testing) ...
+}

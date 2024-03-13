@@ -2,23 +2,21 @@
 package main
 
 import (
+    "fmt"
     "os/exec"
-    "testing"
 )
 
-func TestListDockerContainers(t *testing.T) {
+func main() {
     // Command to list Docker containers
     cmd := exec.Command("sudo", "docker", "ps")
 
     // Execute the command
-    output, err := cmd.Output()
+    output, err := cmd.CombinedOutput()
     if err != nil {
-        t.Errorf("Error executing command: %s", err)
+        fmt.Println("Error executing command:", err)
         return
     }
 
-    // Check if the output is not empty
-    if len(output) == 0 {
-        t.Error("No output received from 'sudo docker ps' command")
-    }
+    // Print the output
+    fmt.Println(string(output))
 }

@@ -2,21 +2,34 @@
 package main
 
 import (
+    "bytes"
     "fmt"
     "os/exec"
 )
 
-func main() {
+func listDockerContainers() (string, error) {
     // Command to list Docker containers
     cmd := exec.Command("sudo", "docker", "ps")
 
     // Execute the command
-    output, err := cmd.CombinedOutput()
+    var output bytes.Buffer
+    cmd.Stdout = &output
+    cmd.Stderr = &output
+    err := cmd.Run()
     if err != nil {
-        fmt.Println("Error executing command:", err)
+        return "", fmt.Errorf("error executing command: %s", err)
+    }
+
+    return output.String(), nil
+}
+
+func main() {
+    output, err := listDockerContainers()
+    if err != nil {
+        fmt.Println("Error:", err)
         return
     }
 
     // Print the output
-    fmt.Println(string(output))
+    fmt.Println(output)
 }

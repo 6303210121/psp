@@ -1,0 +1,32 @@
+
+package main
+
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+)
+
+func TestConnectToRouter16(t *testing.T) {
+	// ... (existing code to list containers and login to bash) ...
+
+	// Define commands
+	psCommand := "sudo docker ps"
+	loginCommand := "sudo docker exec clab-frrlab-router1 /bin/bash"
+	vtyshCommand := "vtysh"
+	configureOspfCommands := "router ospf 1; network 192.168.0.0/16; no router ospf 1"
+	showCombinedCommand := "show running-config; do show interface brief; do show ip ospf neighbor"
+
+	// Chain commands to log in to VTYSH, configure OSPF, and execute show commands
+	combinedCommand := loginCommand + " -c '" + vtyshCommand + " -c '" + configureOspfCommands + "; " + showCombinedCommand + "'"
+
+	// Execute the combined command
+	combinedOutput, err := exec.Command("sh", "-c", combinedCommand).CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing commands:", err)
+		return
+	}
+
+	// Print the combined output
+	fmt.Println(string(combinedOutput))
+}

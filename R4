@@ -1,0 +1,66 @@
+package main
+
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+)
+
+func TestConnectToRouter16(t *testing.T) {
+	// Command to list available containers
+	psCommand := "docker ps"
+
+	// Execute the command to list available containers
+	psOutput, err := exec.Command("sh", "-c", psCommand).Output()
+	if err != nil {
+		fmt.Println("Error executing docker ps command:", err)
+		return
+	}
+
+	// Print the output of the docker ps command
+	fmt.Println("Available containers:")
+	fmt.Println(string(psOutput))
+
+	// Command to log in to bash shell of the container
+	loginCommand := "docker exec clab-frrlab-router2 /bin/bash"
+
+	// Execute the command to log in to the bash shell of the container
+	loginOutput, err := exec.Command("sh", "-c", loginCommand).CombinedOutput()
+	if err != nil {
+		fmt.Println("Error logging in to the container:", err)
+		return
+	}
+
+	// Print the output of the login command
+	//fmt.Println("Login output:")
+	fmt.Println(string(loginOutput))
+
+	// Command to log in to vtysh
+	vtyshCommand := "vtysh"
+
+	// Execute the command to log in to vtysh within the container's environment
+	vtyshOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+"'").CombinedOutput()
+	if err != nil {
+		fmt.Println("Error logging in to vtysh:", err)
+		return
+	}
+
+	// Print the output of the vtysh command
+	fmt.Println("vtysh output:")
+	fmt.Println(string(vtyshOutput))
+
+	// Command to enter OSPF configuration mode and configure OSPF network
+	ospfAndNetworkCommand := "router ospf\n" +
+		"network 192.168.0.0/16 area 0"
+
+	// Execute the commands to enter OSPF configuration mode and configure OSPF network within the container's environment
+	ospfAndNetworkOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+ospfAndNetworkCommand+"\"'").CombinedOutput()
+	if err != nil {
+		fmt.Println("Error configuring OSPF network:", err)
+		return
+	}
+
+	// Print the output of the OSPF and network configuration commands
+	fmt.Println("OSPF and network configuration:")
+	fmt.Println(string(ospfAndNetworkOutput))
+}

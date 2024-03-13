@@ -65,7 +65,7 @@ func TestConnectToRouter16(t *testing.T) {
 
 	
 	// Command to show interface brief
-	showInterfaceCommand := "do show ip ospf neighbor"
+	showInterfaceCommand := "do show interface brief"
 
 	// Execute the command to show interface brief
 	showInterfaceOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+showInterfaceCommand+"\"'").CombinedOutput()

@@ -1,0 +1,75 @@
+
+package main
+
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+)
+
+func TestConnectToRouter16(t *testing.T) {
+	// ... (existing code to list containers and login to bash) ...
+
+	// Define commands
+	psCommand := "sudo docker ps"
+	loginCommand := "sudo docker exec clab-frrlab-router1 /bin/bash"
+	vtyshCommand := "vtysh"
+	configureOspfCommands := "router ospf; router ospf 1; network 192.168.0.0/16; no router ospf 1"
+	showRunningConfigCommand := "show running-config"
+	showInterfaceBriefCommand := "do show interface brief"
+	showOspfNeighborCommand := "do show ip ospf neighbor"
+
+	// Execute psCommand
+	psOutput, err := exec.Command("sh", "-c", psCommand).CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing ps command:", err)
+		return
+	}
+	fmt.Println("PS Command Output:")
+	fmt.Println(string(psOutput))
+
+	// Execute loginCommand
+	loginOutput, err := exec.Command("sh", "-c", loginCommand).CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing login command:", err)
+		return
+	}
+	fmt.Println("Login Command Output:")
+	fmt.Println(string(loginOutput))
+
+	// Execute OSPF configuration commands
+	configureOspfOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+configureOspfCommands+"'").CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing OSPF configuration commands:", err)
+		return
+	}
+	fmt.Println("OSPF Configuration Output:")
+	fmt.Println(string(configureOspfOutput))
+
+	// Execute show running-config command
+	showRunningConfigOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+showRunningConfigCommand+"'").CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing show running-config command:", err)
+		return
+	}
+	fmt.Println("Show Running Config Output:")
+	fmt.Println(string(showRunningConfigOutput))
+
+	// Execute show interface brief command
+	showInterfaceBriefOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+showInterfaceBriefCommand+"'").CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing show interface brief command:", err)
+		return
+	}
+	fmt.Println("Show Interface Brief Output:")
+	fmt.Println(string(showInterfaceBriefOutput))
+
+	// Execute show ip ospf neighbor command
+	showOspfNeighborOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+showOspfNeighborCommand+"'").CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing show ip ospf neighbor command:", err)
+		return
+	}
+	fmt.Println("Show OSPF Neighbor Output:")
+	fmt.Println(string(showOspfNeighborOutput))
+}

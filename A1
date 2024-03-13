@@ -1,35 +1,23 @@
 
-package main
-
-import (
-    "bytes"
-    "fmt"
-    "os/exec"
-)
-
-func listDockerContainers() (string, error) {
-    // Command to list Docker containers
-    cmd := exec.Command("sudo", "docker", "ps")
-
-    // Execute the command
-    var output bytes.Buffer
-    cmd.Stdout = &output
-    cmd.Stderr = &output
-    err := cmd.Run()
-    if err != nil {
-        return "", fmt.Errorf("error executing command: %s", err)
-    }
-
-    return output.String(), nil
-}
-
-func main() {
-    output, err := listDockerContainers()
-    if err != nil {
-        fmt.Println("Error:", err)
-        return
-    }
-
-    // Print the output
-    fmt.Println(output)
+func (m *MockRouterClient) SendCommand(command string) (string, error) {
+	// Simulate successful commands for logged in user
+	if !m.loggedIn {
+		return "", fmt.Errorf("Not logged in")
+	}
+	switch command {
+	case "vtysh":
+		// Simulate a specific vtysh output (replace with desired output)
+		return "Entering vtysh mode...\nRouter#", nil
+	case "config":
+		// Simulate a specific config output (replace with desired output)
+		return "Entering configuration mode...\nRouter(config)#", nil
+	case "router ospf":
+		// Simulate a specific OSPF router configuration output
+		return "Configuring OSPF routing protocol...\nRouter(config-router)#", nil
+	case "network 192.168.0.0/24":
+		// Simulate adding a network to OSPF configuration
+		return "Adding network 192.168.0.0/24 to OSPF configuration...\nRouter(config-router)#", nil
+	default:
+		return "", fmt.Errorf("Unsupported command: %s", command)
+	}
 }

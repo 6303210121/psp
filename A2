@@ -1,14 +1,45 @@
 
 package main
 
-import "os"
+import (
+    "fmt"
+    "testing"
+)
 
-// GetRouterCredentials retrieves router credentials from environment variables.
-func GetRouterCredentials() (username, password string, err error) {
-    username = os.Getenv("ROUTER_USERNAME")
-    password = os.Getenv("ROUTER_PASSWORD")
-    if username == "" || password == "" {
-        err = fmt.Errorf("Router credentials not provided")
+func TestRouterLoginAndConfig(t *testing.T) {
+    // Use mock client for testing
+    client := &MockRouterClient{}
+
+    // Get credentials from environment variables
+    username, password, err := GetRouterCredentials()
+    if err != nil {
+        t.Fatal(err)
     }
-    return username, password, err
+
+    // Login with provided credentials
+    loggedIn, err := client.Login(username, password)
+    if err != nil {
+        t.Errorf("Login failed: %v", err)
+        return
+    }
+    if !loggedIn {
+        t.Errorf("Login unsuccessful")
+    }
+
+    // Send commands (simulated)
+    fmt.Println("Sending command: vtysh")
+    output, err := client.SendCommand("vtysh")
+    if err != nil {
+        t.Errorf("vtysh command failed: %v", err)
+    } else {
+        fmt.Println(output) // Print simulated vtysh entry message
+    }
+
+    fmt.Println("Sending command: config")
+    output, err = client.SendCommand("config")
+    if err != nil {
+        t.Errorf("config command failed: %v", err)
+    } else {
+        fmt.Println(output) // Print simulated config mode entry message
+    }
 }

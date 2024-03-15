@@ -1,28 +1,14 @@
 
+package main
+
 import "os"
 
-func TestRouterLoginAndConfig(t *testing.T) {
-	// Use mock client for testing
-	client := &MockRouterClient{}
-
-	// Read credentials from environment variables
-	username := os.Getenv("ROUTER_USERNAME")
-	password := os.Getenv("ROUTER_PASSWORD")
-
-	if username == "" || password == "" {
-		t.Fatal("Router credentials not provided")
-	}
-
-	// Login with provided credentials
-	loggedIn, err := client.Login(username, password)
-	if err != nil {
-		t.Errorf("Login failed: %v", err)
-		return
-	}
-	if !loggedIn {
-		t.Errorf("Login unsuccessful")
-	}
-
-	// Send commands (simulated)
-	// Rest of the testing code remains the same...
+// GetRouterCredentials retrieves router credentials from environment variables.
+func GetRouterCredentials() (username, password string, err error) {
+    username = os.Getenv("ROUTER_USERNAME")
+    password = os.Getenv("ROUTER_PASSWORD")
+    if username == "" || password == "" {
+        err = fmt.Errorf("Router credentials not provided")
+    }
+    return username, password, err
 }

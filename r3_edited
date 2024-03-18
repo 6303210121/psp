@@ -51,12 +51,12 @@ func TestConnectToRouter16(t *testing.T) {
 	fmt.Println(string(vtyshOutput))
 
 	// Command to show running configuration
-	showConfigCommand := "configure"
+	showConfigCommand := "configure terminal"
 
 	// Execute the command to show running configuration within the container's environment
 	showConfigOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+"' -c '"+showConfigCommand+"'").CombinedOutput()
 	if err != nil {
-		fmt.Println("Error showing running configuration:", err)
+		fmt.Println("Error executing configure command:", err)
 		return
 	}
 

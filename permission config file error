@@ -1,0 +1,548 @@
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ go test r32_test.go -v
+=== RUN   TestConnectToRouter16
+Available containers:
+CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS          PORTS                                  NAMES
+48d4140348a2   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   35 minutes ago   Up 35 minutes                                          clab-frrlab-router2
+6901c51c32b5   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   35 minutes ago   Up 35 minutes   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC2
+02ad83a83dd0   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   35 minutes ago   Up 35 minutes                                          clab-frrlab-router1
+27e1d77d5bc6   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   35 minutes ago   Up 35 minutes   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC3
+4199382e8bcd   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   35 minutes ago   Up 35 minutes                                          clab-frrlab-router3
+20d7a6489122   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   35 minutes ago   Up 35 minutes   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC1
+
+
+vtysh output:
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# 
+
+Running configuration:
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# 
+
+--- PASS: TestConnectToRouter16 (0.41s)
+PASS
+ok  	command-line-arguments	0.413s
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ configure terminal
+configure: command not found
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ docker exec -it clab-frrlab-router2 /bin/bash
+bash-5.1# vtysh
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# configure terminal
+router2(config)# exit
+router2# 
+bash-5.1# 
+exit
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ vi r32_test.go 
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ go test r32_test.go -v
+=== RUN   TestConnectToRouter16
+Available containers:
+CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS          PORTS                                  NAMES
+48d4140348a2   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   38 minutes ago   Up 38 minutes                                          clab-frrlab-router2
+6901c51c32b5   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   38 minutes ago   Up 38 minutes   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC2
+02ad83a83dd0   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   38 minutes ago   Up 38 minutes                                          clab-frrlab-router1
+27e1d77d5bc6   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   38 minutes ago   Up 38 minutes   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC3
+4199382e8bcd   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   38 minutes ago   Up 38 minutes                                          clab-frrlab-router3
+20d7a6489122   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   38 minutes ago   Up 38 minutes   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC1
+
+
+vtysh output:
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# 
+
+Running configuration:
+% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# 
+
+--- PASS: TestConnectToRouter16 (0.41s)
+PASS
+ok  	command-line-arguments	0.415s
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ cd /etc/frr
+bash: cd: /etc/frr: Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ sudo cd /etc/frr
+[sudo] password for tcs: 
+sudo: cd: command not found
+sudo: "cd" is a shell built-in command, it cannot be run directly.
+sudo: the -s option may be used to run a privileged shell.
+sudo: the -D option may be used to run a command in a specific directory.
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ sudo cd /etc/frr -s
+sudo: cd: command not found
+sudo: "cd" is a shell built-in command, it cannot be run directly.
+sudo: the -s option may be used to run a privileged shell.
+sudo: the -D option may be used to run a command in a specific directory.
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation/s1$ cd ..
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/bashAutomation$ cd ..
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~$ cd frrlab/
+tcs@tcs-HP-Compaq-Elite-8300-SFF:~/frrlab$ cd /etc/
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls
+acpi                           dconf                hdparm.conf      lsb-release          polkit-1                 ssh
+adduser.conf                   debconf.conf         host.conf        ltrace.conf          popularity-contest.conf  ssl
+aliases                        debian_version       hostname         machine-id           postfix                  sssd
+aliases.db                     default              hosts            magic                ppp                      subgid
+alsa                           deluser.conf         hosts.allow      magic.mime           printcap                 subgid-
+alternatives                   depmod.d             hosts.deny       mailcap              profile                  subuid
+anacrontab                     dhcp                 hp               mailcap.order        profile.d                subuid-
+apache2                        dictionaries-common  ifplugd          mailname             protocols                sudo.conf
+apg.conf                       dkms                 ImageMagick-6    manpath.config       pulse                    sudoers
+apm                            dnf                  init             mime.types           python2.7                sudoers.d
+apparmor                       dnsmasq.d            init.d           mke2fs.conf          python3                  sudo_logsrvd.conf
+apparmor.d                     docker               initramfs-tools  ModemManager         python3.10               sysctl.conf
+apport                         dpkg                 inputrc          modprobe.d           python3.6                sysctl.d
+appstream.conf                 e2scrub.conf         insserv.conf.d   modules              python3.8                systemd
+apt                            emacs                ipp-usb          modules-load.d       rc0.d                    terminfo
+avahi                          environment          iproute2         mtab                 rc1.d                    thermald
+bash.bashrc                    environment.d        issue            mtools.conf          rc2.d                    thunderbird
+bash_completion                ethertypes           issue.net        mysql                rc3.d                    timezone
+bash_completion.d              firefox              java-11-openjdk  nanorc               rc4.d                    tmpfiles.d
+bindresvport.blacklist         fonts                kernel           netconfig            rc5.d                    ubuntu-advantage
+binfmt.d                       fprintd.conf         kernel-img.conf  netplan              rc6.d                    ucf.conf
+bluetooth                      frr                  kerneloops.conf  network              rcS.d                    udev
+brlapi.key                     fstab                ldap             networkd-dispatcher  resolv.conf              udisks2
+brltty                         fuse.conf            ld.so.cache      NetworkManager       resolvconf               ufw
+brltty.conf                    fwupd                ld.so.conf       networks             rmt                      updatedb.conf
+ca-certificates                gai.conf             ld.so.conf.d     newt                 rpc                      update-manager
+ca-certificates.conf           gamemode.ini         legal            nftables.conf        rsyslog.conf             update-motd.d
+ca-certificates.conf.dpkg-old  gdb                  letsencrypt      nsswitch.conf        rsyslog.d                update-notifier
+calendar                       gdm3                 libao.conf       openvpn              rygel.conf               UPower
+chatscripts                    geoclue              libaudit.conf    opt                  sane.d                   usb_modeswitch.conf
+cni                            ghostscript          libblockdev      os-release           security                 usb_modeswitch.d
+console-setup                  glvnd                libnl-3          PackageKit           selinux                  vim
+containerlab                   gnome                libpaper.d       pam.conf             sensors3.conf            vtrgb
+cracklib                       groff                libreoffice      pam.d                sensors.d                vulkan
+cron.d                         group                libreport        papersize            services                 wgetrc
+cron.daily                     group-               lighttpd         passwd               sgml                     wpa_supplicant
+cron.hourly                    group.org            locale.alias     passwd-              shadow                   X11
+cron.monthly                   grub.d               locale.gen       passwd.org           shadow-                  xattr.conf
+crontab                        gshadow              localtime        pcmcia               shadow.org               xdg
+cron.weekly                    gshadow-             logcheck         perl                 shells                   xml
+cups                           gss                  login.defs       pki                  skel                     zsh_command_not_found
+cupshelpers                    gtk-2.0              logrotate.conf   pm                   snmp
+dbus-1                         gtk-3.0              logrotate.d      pnm2ppa.conf         speech-dispatcher
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ cd frr/
+bash: cd: frr/: Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ sudo cd frr/
+sudo: cd: command not found
+sudo: "cd" is a shell built-in command, it cannot be run directly.
+sudo: the -s option may be used to run a privileged shell.
+sudo: the -D option may be used to run a command in a specific directory.
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ cd frr/ -s
+bash: cd: too many arguments
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ sudo -s cd frr/ 
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls
+acpi                           dconf                hdparm.conf      lsb-release          polkit-1                 ssh
+adduser.conf                   debconf.conf         host.conf        ltrace.conf          popularity-contest.conf  ssl
+aliases                        debian_version       hostname         machine-id           postfix                  sssd
+aliases.db                     default              hosts            magic                ppp                      subgid
+alsa                           deluser.conf         hosts.allow      magic.mime           printcap                 subgid-
+alternatives                   depmod.d             hosts.deny       mailcap              profile                  subuid
+anacrontab                     dhcp                 hp               mailcap.order        profile.d                subuid-
+apache2                        dictionaries-common  ifplugd          mailname             protocols                sudo.conf
+apg.conf                       dkms                 ImageMagick-6    manpath.config       pulse                    sudoers
+apm                            dnf                  init             mime.types           python2.7                sudoers.d
+apparmor                       dnsmasq.d            init.d           mke2fs.conf          python3                  sudo_logsrvd.conf
+apparmor.d                     docker               initramfs-tools  ModemManager         python3.10               sysctl.conf
+apport                         dpkg                 inputrc          modprobe.d           python3.6                sysctl.d
+appstream.conf                 e2scrub.conf         insserv.conf.d   modules              python3.8                systemd
+apt                            emacs                ipp-usb          modules-load.d       rc0.d                    terminfo
+avahi                          environment          iproute2         mtab                 rc1.d                    thermald
+bash.bashrc                    environment.d        issue            mtools.conf          rc2.d                    thunderbird
+bash_completion                ethertypes           issue.net        mysql                rc3.d                    timezone
+bash_completion.d              firefox              java-11-openjdk  nanorc               rc4.d                    tmpfiles.d
+bindresvport.blacklist         fonts                kernel           netconfig            rc5.d                    ubuntu-advantage
+binfmt.d                       fprintd.conf         kernel-img.conf  netplan              rc6.d                    ucf.conf
+bluetooth                      frr                  kerneloops.conf  network              rcS.d                    udev
+brlapi.key                     fstab                ldap             networkd-dispatcher  resolv.conf              udisks2
+brltty                         fuse.conf            ld.so.cache      NetworkManager       resolvconf               ufw
+brltty.conf                    fwupd                ld.so.conf       networks             rmt                      updatedb.conf
+ca-certificates                gai.conf             ld.so.conf.d     newt                 rpc                      update-manager
+ca-certificates.conf           gamemode.ini         legal            nftables.conf        rsyslog.conf             update-motd.d
+ca-certificates.conf.dpkg-old  gdb                  letsencrypt      nsswitch.conf        rsyslog.d                update-notifier
+calendar                       gdm3                 libao.conf       openvpn              rygel.conf               UPower
+chatscripts                    geoclue              libaudit.conf    opt                  sane.d                   usb_modeswitch.conf
+cni                            ghostscript          libblockdev      os-release           security                 usb_modeswitch.d
+console-setup                  glvnd                libnl-3          PackageKit           selinux                  vim
+containerlab                   gnome                libpaper.d       pam.conf             sensors3.conf            vtrgb
+cracklib                       groff                libreoffice      pam.d                sensors.d                vulkan
+cron.d                         group                libreport        papersize            services                 wgetrc
+cron.daily                     group-               lighttpd         passwd               sgml                     wpa_supplicant
+cron.hourly                    group.org            locale.alias     passwd-              shadow                   X11
+cron.monthly                   grub.d               locale.gen       passwd.org           shadow-                  xattr.conf
+crontab                        gshadow              localtime        pcmcia               shadow.org               xdg
+cron.weekly                    gshadow-             logcheck         perl                 shells                   xml
+cups                           gss                  login.defs       pki                  skel                     zsh_command_not_found
+cupshelpers                    gtk-2.0              logrotate.conf   pm                   snmp
+dbus-1                         gtk-3.0              logrotate.d      pnm2ppa.conf         speech-dispatcher
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ vi frr/
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ vi frr
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls -l frr/vtysh.conf
+ls: cannot access 'frr/vtysh.conf': Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ chmod +r frr/vtysh.conf
+chmod: cannot access 'frr/vtysh.conf': Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls -l frr/vtysh.conf
+ls: cannot access 'frr/vtysh.conf': Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ vi frr/
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls -l frr/vtysh.conf
+ls: cannot access 'frr/vtysh.conf': Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ cd ..
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/$ ls
+bin   cdrom  etc   initrd.img      lib    lib64   lost+found  mnt  proc  run   snap  swapfile  tmp  var      vmlinuz.old
+boot  dev    home  initrd.img.old  lib32  libx32  media       opt  root  sbin  srv   sys       usr  vmlinuz
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/$ cd etc
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls
+acpi                           dconf                hdparm.conf      lsb-release          polkit-1                 ssh
+adduser.conf                   debconf.conf         host.conf        ltrace.conf          popularity-contest.conf  ssl
+aliases                        debian_version       hostname         machine-id           postfix                  sssd
+aliases.db                     default              hosts            magic                ppp                      subgid
+alsa                           deluser.conf         hosts.allow      magic.mime           printcap                 subgid-
+alternatives                   depmod.d             hosts.deny       mailcap              profile                  subuid
+anacrontab                     dhcp                 hp               mailcap.order        profile.d                subuid-
+apache2                        dictionaries-common  ifplugd          mailname             protocols                sudo.conf
+apg.conf                       dkms                 ImageMagick-6    manpath.config       pulse                    sudoers
+apm                            dnf                  init             mime.types           python2.7                sudoers.d
+apparmor                       dnsmasq.d            init.d           mke2fs.conf          python3                  sudo_logsrvd.conf
+apparmor.d                     docker               initramfs-tools  ModemManager         python3.10               sysctl.conf
+apport                         dpkg                 inputrc          modprobe.d           python3.6                sysctl.d
+appstream.conf                 e2scrub.conf         insserv.conf.d   modules              python3.8                systemd
+apt                            emacs                ipp-usb          modules-load.d       rc0.d                    terminfo
+avahi                          environment          iproute2         mtab                 rc1.d                    thermald
+bash.bashrc                    environment.d        issue            mtools.conf          rc2.d                    thunderbird
+bash_completion                ethertypes           issue.net        mysql                rc3.d                    timezone
+bash_completion.d              firefox              java-11-openjdk  nanorc               rc4.d                    tmpfiles.d
+bindresvport.blacklist         fonts                kernel           netconfig            rc5.d                    ubuntu-advantage
+binfmt.d                       fprintd.conf         kernel-img.conf  netplan              rc6.d                    ucf.conf
+bluetooth                      frr                  kerneloops.conf  network              rcS.d                    udev
+brlapi.key                     fstab                ldap             networkd-dispatcher  resolv.conf              udisks2
+brltty                         fuse.conf            ld.so.cache      NetworkManager       resolvconf               ufw
+brltty.conf                    fwupd                ld.so.conf       networks             rmt                      updatedb.conf
+ca-certificates                gai.conf             ld.so.conf.d     newt                 rpc                      update-manager
+ca-certificates.conf           gamemode.ini         legal            nftables.conf        rsyslog.conf             update-motd.d
+ca-certificates.conf.dpkg-old  gdb                  letsencrypt      nsswitch.conf        rsyslog.d                update-notifier
+calendar                       gdm3                 libao.conf       openvpn              rygel.conf               UPower
+chatscripts                    geoclue              libaudit.conf    opt                  sane.d                   usb_modeswitch.conf
+cni                            ghostscript          libblockdev      os-release           security                 usb_modeswitch.d
+console-setup                  glvnd                libnl-3          PackageKit           selinux                  vim
+containerlab                   gnome                libpaper.d       pam.conf             sensors3.conf            vtrgb
+cracklib                       groff                libreoffice      pam.d                sensors.d                vulkan
+cron.d                         group                libreport        papersize            services                 wgetrc
+cron.daily                     group-               lighttpd         passwd               sgml                     wpa_supplicant
+cron.hourly                    group.org            locale.alias     passwd-              shadow                   X11
+cron.monthly                   grub.d               locale.gen       passwd.org           shadow-                  xattr.conf
+crontab                        gshadow              localtime        pcmcia               shadow.org               xdg
+cron.weekly                    gshadow-             logcheck         perl                 shells                   xml
+cups                           gss                  login.defs       pki                  skel                     zsh_command_not_found
+cupshelpers                    gtk-2.0              logrotate.conf   pm                   snmp
+dbus-1                         gtk-3.0              logrotate.d      pnm2ppa.conf         speech-dispatcher
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ cd frr
+bash: cd: frr: Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ sudo cd frr
+sudo: cd: command not found
+sudo: "cd" is a shell built-in command, it cannot be run directly.
+sudo: the -s option may be used to run a privileged shell.
+sudo: the -D option may be used to run a command in a specific directory.
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ sudo cd frr -D
+sudo: cd: command not found
+sudo: "cd" is a shell built-in command, it cannot be run directly.
+sudo: the -s option may be used to run a privileged shell.
+sudo: the -D option may be used to run a command in a specific directory.
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ sudo -s cd frr
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ sudo -D cd frr
+sudo: you are not permitted to use the -D option with frr
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls -l frr
+ls: cannot open directory 'frr': Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls -l
+total 1312
+drwxr-xr-x  3 root root    4096 Jan 31 13:22 acpi
+-rw-r--r--  1 root root    3028 Sep 16  2021 adduser.conf
+-rw-r--r--  1 root root      83 Mar  4 12:45 aliases
+-rw-r--r--  1 root root   12288 Mar  1 14:54 aliases.db
+drwxr-xr-x  3 root root    4096 Jan 30 13:29 alsa
+drwxr-xr-x  2 root root   12288 Mar  1 12:49 alternatives
+-rw-r--r--  1 root root     335 Mar 23  2022 anacrontab
+drwxr-xr-x  3 root root    4096 Feb 14 12:08 apache2
+-rw-r--r--  1 root root     433 Oct  2  2017 apg.conf
+drwxr-xr-x  6 root root    4096 Sep 16  2021 apm
+drwxr-xr-x  3 root root    4096 Jan 31 13:18 apparmor
+drwxr-xr-x  8 root root    4096 Feb 13 10:45 apparmor.d
+drwxr-xr-x  4 root root    4096 Jan 31 13:32 apport
+-rw-r--r--  1 root root     769 Apr  4  2018 appstream.conf
+drwxr-xr-x  8 root root    4096 Jan 31 12:49 apt
+drwxr-xr-x  3 root root    4096 Jan 31 13:29 avahi
+-rw-r--r--  1 root root    2319 Apr  5  2018 bash.bashrc
+-rw-r--r--  1 root root      45 Apr  2  2018 bash_completion
+drwxr-xr-x  2 root root    4096 Jan 31 13:32 bash_completion.d
+-rw-r--r--  1 root root     367 Jan 27  2016 bindresvport.blacklist
+drwxr-xr-x  2 root root    4096 Apr 20  2018 binfmt.d
+drwxr-xr-x  2 root root    4096 Jan 31 13:21 bluetooth
+-rw-r-----  1 root root      33 Sep 16  2021 brlapi.key
+drwxr-xr-x  7 root root    4096 Sep 16  2021 brltty
+-rw-r--r--  1 root root   29219 Jun 28  2022 brltty.conf
+drwxr-xr-x  3 root root    4096 Sep 16  2021 ca-certificates
+-rw-r--r--  1 root root    7817 Jan 30 11:57 ca-certificates.conf
+-rw-r--r--  1 root root    6841 Sep 16  2021 ca-certificates.conf.dpkg-old
+drwxr-xr-x  2 root root    4096 Jan 30 14:04 calendar
+drwxr-s---  2 root dip     4096 Jan 31 13:25 chatscripts
+drwxr-xr-x  3 root root    4096 Mar  4 15:27 cni
+drwxr-xr-x  2 root root    4096 Jan 31 13:33 console-setup
+drwxr-xr-x  4 root root    4096 Mar  5 10:12 containerlab
+drwxr-xr-x  2 root root    4096 Jan 31 13:21 cracklib
+drwxr-xr-x  2 root root    4096 Feb 28 16:48 cron.d
+drwxr-xr-x  2 root root    4096 Jan 31 13:33 cron.daily
+drwxr-xr-x  2 root root    4096 Jan 31 13:20 cron.hourly
+drwxr-xr-x  2 root root    4096 Jan 31 13:20 cron.monthly
+-rw-r--r--  1 root root    1136 Mar 23  2022 crontab
+drwxr-xr-x  2 root root    4096 Jan 31 13:33 cron.weekly
+drwxr-xr-x  5 root lp      4096 Mar 18 15:07 cups
+drwxr-xr-x  2 root root    4096 Jan 31 13:30 cupshelpers
+drwxr-xr-x  4 root root    4096 Sep 16  2021 dbus-1
+drwxr-xr-x  4 root root    4096 Sep 16  2021 dconf
+-rw-r--r--  1 root root    2969 Feb 28  2018 debconf.conf
+-rw-r--r--  1 root root      13 Jan  2 22:39 debian_version
+drwxr-xr-x  3 root root    4096 Mar  4 15:27 default
+-rw-r--r--  1 root root     604 Aug 13  2017 deluser.conf
+drwxr-xr-x  2 root root    4096 Jan 31 13:17 depmod.d
+drwxr-xr-x  4 root root    4096 Jan 31 13:22 dhcp
+drwxr-xr-x  2 root root    4096 Jan 31 13:35 dictionaries-common
+drwxr-xr-x  4 root root    4096 Feb 15 11:21 dkms
+drwxr-xr-x  8 root root    4096 Feb 28 11:53 dnf
+drwxr-xr-x  2 root root    4096 Mar  4 15:27 dnsmasq.d
+drwxr-xr-x  2 root root    4096 Aug 22  2023 docker
+drwxr-xr-x  4 root root    4096 Feb 14 12:08 dpkg
+-rw-r--r--  1 root root     685 Jun  2  2022 e2scrub.conf
+drwxr-xr-x  3 root root    4096 Jan 30 14:01 emacs
+-rw-r--r--  1 root root     106 Sep 16  2021 environment
+drwxr-xr-x  2 root root    4096 Jan 31 13:30 environment.d
+-rw-r--r--  1 root root    1816 Dec 27  2019 ethertypes
+drwxr-xr-x  3 root root    4096 Jan 31 13:26 firefox
+drwxr-xr-x  4 root root    4096 Jan 31 13:22 fonts
+-rw-r--r--  1 root root      20 Jan 13  2021 fprintd.conf
+drwxr-x---  2 frr  frr     4096 Mar  8 06:31 frr
+-rw-rw-r--  1 root root     550 Jan 30 11:03 fstab
+-rw-r--r--  1 root root     694 Mar 23  2022 fuse.conf
+drwxr-xr-x  3 root root    4096 Jan 31 13:29 fwupd
+-rw-r--r--  1 root root    2584 Feb  1  2018 gai.conf
+-rw-r--r--  1 root root    4372 May 18  2020 gamemode.ini
+drwxr-xr-x  3 root root    4096 Jan 31 13:28 gdb
+drwxr-xr-x  8 root root    4096 Jan 31 13:34 gdm3
+drwxr-xr-x  2 root root    4096 Jan 31 13:31 geoclue
+drwxr-xr-x  4 root root    4096 Sep 16  2021 ghostscript
+drwxr-xr-x  3 root root    4096 Sep 16  2021 glvnd
+drwxr-xr-x  2 root root    4096 Jan 31 13:26 gnome
+drwxr-xr-x  2 root root    4096 Jan 31 13:21 groff
+-rw-r--r--  1 root root    1203 Mar  7 15:15 group
+-rw-r--r--  1 root root    1200 Mar  6 12:39 group-
+-rw-r--r--  1 root root    1052 Jan 30 14:50 group.org
+drwxr-xr-x  2 root root    4096 Jan 31 13:29 grub.d
+-rw-r-----  1 root shadow   996 Mar  7 15:15 gshadow
+-rw-r-----  1 root shadow   993 Mar  6 12:39 gshadow-
+drwxr-xr-x  3 root root    4096 Sep 16  2021 gss
+drwxr-xr-x  2 root root    4096 Jan 31 13:20 gtk-2.0
+drwxr-xr-x  2 root root    4096 Jan 31 13:33 gtk-3.0
+-rw-r--r--  1 root root    4436 Dec 16  2020 hdparm.conf
+-rw-r--r--  1 root root      92 Apr  9  2018 host.conf
+-rw-r--r--  1 root root      29 Feb 28 15:10 hostname
+-rw-r--r--  1 root root     760 Mar 18 14:47 hosts
+-rw-r--r--  1 root root     411 Sep 16  2021 hosts.allow
+-rw-r--r--  1 root root     711 Sep 16  2021 hosts.deny
+drwxr-xr-x  2 root root    4096 Jan 31 13:32 hp
+drwxr-xr-x  3 root root    4096 Sep 16  2021 ifplugd
+drwxr-xr-x  2 root root    4096 Jan 31 13:14 ImageMagick-6
+drwxr-xr-x  2 root root    4096 Mar  4 15:27 init
+drwxr-xr-x  2 root root    4096 Mar  8 06:31 init.d
+drwxr-xr-x  5 root root    4096 Jan 31 13:22 initramfs-tools
+-rw-r--r--  1 root root    1748 May 16  2017 inputrc
+drwxr-xr-x  2 root root    4096 Mar  1 12:49 insserv.conf.d
+drwxr-xr-x  2 root root    4096 Jan 31 13:30 ipp-usb
+drwxr-xr-x  4 root root    4096 Jan 31 13:22 iproute2
+-rw-r--r--  1 root root      26 Jan  2 22:39 issue
+-rw-r--r--  1 root root      19 Jan  2 22:39 issue.net
+drwxr-xr-x  5 root root    4096 Jan 31 13:32 java-11-openjdk
+drwxr-xr-x  8 root root    4096 Feb 15 11:21 kernel
+-rw-r--r--  1 root root     110 Jan 30 11:10 kernel-img.conf
+-rw-r--r--  1 root root    1308 Dec  2  2017 kerneloops.conf
+drwxr-xr-x  2 root root    4096 Jan 31 13:17 ldap
+-rw-r--r--  1 root root   73487 Mar 16 06:06 ld.so.cache
+-rw-r--r--  1 root root      34 Jan 27  2016 ld.so.conf
+drwxr-xr-x  2 root root    4096 Feb 14 12:08 ld.so.conf.d
+-rw-r--r--  1 root root     267 Apr  9  2018 legal
+drwxr-xr-x  4 root root    4096 Mar 18 13:08 letsencrypt
+-rw-r--r--  1 root root      27 Jan 19  2018 libao.conf
+-rw-r--r--  1 root root     191 Feb  8  2018 libaudit.conf
+drwxr-xr-x  3 root root    4096 Sep 16  2021 libblockdev
+drwxr-xr-x  2 root root    4096 Jan 31 13:19 libnl-3
+drwxr-xr-x  2 root root    4096 Apr 28  2017 libpaper.d
+drwxr-xr-x  3 root root    4096 Jan 31 13:30 libreoffice
+drwxr-xr-x  3 root root    4096 Feb 28 11:52 libreport
+drwxr-xr-x  4 root root    4096 Feb 14 12:08 lighttpd
+-rw-r--r--  1 root root    2996 Jan  2 18:52 locale.alias
+-rw-r--r--  1 root root    9454 Jan 31 12:24 locale.gen
+lrwxrwxrwx  1 root root      32 Mar  2 06:14 localtime -> /usr/share/zoneinfo/Asia/Kolkata
+drwxr-xr-x  4 root root    4096 Sep 16  2021 logcheck
+-rw-r--r--  1 root root   10734 Nov 11  2021 login.defs
+-rw-r--r--  1 root root     592 May 25  2022 logrotate.conf
+drwxr-xr-x  2 root root    4096 Mar  8 06:31 logrotate.d
+-rw-r--r--  1 root root     104 Jan  2 22:39 lsb-release
+-rw-r--r--  1 root root   14867 Oct 13  2016 ltrace.conf
+-r--r--r--  1 root root      33 Jan 30 11:17 machine-id
+-rw-r--r--  1 root root     111 Feb 14  2018 magic
+-rw-r--r--  1 root root     111 Feb 14  2018 magic.mime
+-rw-r--r--  1 root root   37915 Mar  5 06:24 mailcap
+-rw-r--r--  1 root root     449 Jul 15  2016 mailcap.order
+-rw-r--r--  1 root root      33 Feb 28 16:37 mailname
+-rw-r--r--  1 root root    5217 Mar 18  2022 manpath.config
+-rw-r--r--  1 root root   72029 Mar 21  2022 mime.types
+-rw-r--r--  1 root root     744 Jun  2  2022 mke2fs.conf
+drwxr-xr-x  4 root root    4096 Jan 31 13:11 ModemManager
+drwxr-xr-x  2 root root    4096 Feb 15 11:21 modprobe.d
+-rw-r--r--  1 root root     195 Sep 16  2021 modules
+drwxr-xr-x  2 root root    4096 Mar  4 15:31 modules-load.d
+lrwxrwxrwx  1 root root      19 Jan 30 11:09 mtab -> ../proc/self/mounts
+-rw-r--r--  1 root root     624 Aug  8  2007 mtools.conf
+drwxr-xr-x  3 root root    4096 Jan 31 13:14 mysql
+-rw-r--r--  1 root root   11204 Feb  9  2022 nanorc
+-rw-r--r--  1 root root     767 Jul 25  2022 netconfig
+drwxr-xr-x  2 root root    4096 Sep 16  2021 netplan
+drwxr-xr-x  6 root root    4096 Mar  4 15:27 network
+drwxr-xr-x  8 root root    4096 Jan 30 13:40 networkd-dispatcher
+drwxr-xr-x  7 root root    4096 Jan 31 13:27 NetworkManager
+-rw-r--r--  1 root root      91 Apr  9  2018 networks
+drwxr-xr-x  2 root root    4096 Jan 31 13:20 newt
+-rwxr-xr-x  1 root root     228 Mar 23  2022 nftables.conf
+-rw-r--r--  1 root root     596 Jan 31 13:20 nsswitch.conf
+drwxr-xr-x  4 root root    4096 Jan 31 13:26 openvpn
+drwxr-xr-x  2 root root    4096 Sep 16  2021 opt
+lrwxrwxrwx  1 root root      21 Jan  2 22:39 os-release -> ../usr/lib/os-release
+drwxr-xr-x  2 root root    4096 Jan 31 13:29 PackageKit
+-rw-r--r--  1 root root     552 Apr  5  2018 pam.conf
+drwxr-xr-x  2 root root    4096 Mar  8 06:31 pam.d
+-rw-rw-r--  1 root root       3 Jan 30 11:09 papersize
+-rw-r--r--  1 root root    3146 Mar  6 12:39 passwd
+-rw-r--r--  1 root root    3126 Mar  6 12:39 passwd-
+-rw-r--r--  1 root root    2831 Jan 30 14:50 passwd.org
+drwxr-xr-x  2 root root    4096 Sep 16  2021 pcmcia
+drwxr-xr-x  4 root root    4096 Jan 30 13:23 perl
+drwxr-xr-x  4 root root    4096 Sep 16  2021 pki
+drwxr-xr-x  3 root root    4096 Sep 16  2021 pm
+-rw-r--r--  1 root root    7649 Jan 31 13:30 pnm2ppa.conf
+drwxr-xr-x  4 root root    4096 Jan 31 12:36 polkit-1
+-rw-rw-r--  1 root root     350 Jan 30 11:09 popularity-contest.conf
+drwxr-xr-x  5 root root    4096 Mar  4 12:56 postfix
+drwxr-xr-x  8 root dip     4096 Jan 31 14:09 ppp
+lrwxrwxrwx  1 root root      18 Jan 31 13:32 printcap -> /run/cups/printcap
+-rw-r--r--  1 root root     582 Jan  2 19:09 profile
+drwxr-xr-x  2 root root    4096 Feb 13 10:45 profile.d
+-rw-r--r--  1 root root    2932 Dec 26  2016 protocols
+drwxr-xr-x  4 root root    4096 Jan 31 13:31 pulse
+drwxr-xr-x  2 root root    4096 Jan 31 13:18 python2.7
+drwxr-xr-x  2 root root    4096 Sep 16  2021 python3
+drwxr-xr-x  2 root root    4096 Jan 31 12:27 python3.10
+drwxr-xr-x  2 root root    4096 Jan 30 11:58 python3.6
+drwxr-xr-x  2 root root    4096 Jan 30 13:18 python3.8
+drwxr-xr-x  2 root root    4096 Mar  6 12:39 rc0.d
+drwxr-xr-x  2 root root    4096 Mar  6 12:39 rc1.d
+drwxr-xr-x  2 root root    4096 Mar  6 12:39 rc2.d
+drwxr-xr-x  2 root root    4096 Mar  6 12:39 rc3.d
+drwxr-xr-x  2 root root    4096 Mar  6 12:39 rc4.d
+drwxr-xr-x  2 root root    4096 Mar  6 12:39 rc5.d
+drwxr-xr-x  2 root root    4096 Mar  6 12:39 rc6.d
+drwxr-xr-x  2 root root    4096 Jan 31 13:25 rcS.d
+lrwxrwxrwx  1 root root      39 Jan 30 11:05 resolv.conf -> ../run/systemd/resolve/stub-resolv.conf
+drwxr-xr-x  3 root root    4096 Mar  1 12:49 resolvconf
+lrwxrwxrwx  1 root root      13 Dec  5 10:45 rmt -> /usr/sbin/rmt
+-rw-r--r--  1 root root     887 Dec 26  2016 rpc
+-rw-r--r--  1 root root    1382 Feb 11  2020 rsyslog.conf
+drwxr-xr-x  2 root root    4096 Mar  8 06:31 rsyslog.d
+-rw-r--r--  1 root root    5620 Jan  9  2022 rygel.conf
+drwxr-xr-x  3 root root   12288 Jan 31 13:31 sane.d
+drwxr-xr-x  4 root root    4096 Jan 31 13:20 security
+drwxr-xr-x  2 root root    4096 Jan 31 12:30 selinux
+-rw-r--r--  1 root root   10593 Apr  1  2022 sensors3.conf
+drwxr-xr-x  2 root root    4096 Jan 31 13:17 sensors.d
+-rw-r--r--  1 root root   12813 Mar 28  2021 services
+drwxr-xr-x  3 root root    4096 Jan 31 13:34 sgml
+-rw-r-----  1 root shadow  1599 Mar  6 12:39 shadow
+-rw-r-----  1 root shadow  1599 Mar  6 12:39 shadow-
+-rw-r-----  1 root shadow  1460 Jan 30 14:50 shadow.org
+-rw-r--r--  1 root root     128 Jan 31 13:19 shells
+drwxr-xr-x  2 root root    4096 Jan 31 12:37 skel
+drwxr-xr-x  2 root root    4096 Jan 31 13:17 snmp
+drwxr-xr-x  4 root root    4096 Jan 31 13:27 speech-dispatcher
+drwxr-xr-x  4 root root    4096 Feb  5 15:49 ssh
+drwxr-xr-x  4 root root    4096 Feb 28 06:09 ssl
+drwx--x--x  3 root root    4096 Jan 31 13:14 sssd
+-rw-r--r--  1 root root      17 Jan 30 11:07 subgid
+-rw-r--r--  1 root root       0 Sep 16  2021 subgid-
+-rw-r--r--  1 root root      17 Jan 30 11:07 subuid
+-rw-r--r--  1 root root       0 Sep 16  2021 subuid-
+-rw-r--r--  1 root root    4573 Apr  3  2023 sudo.conf
+-r--r-----  1 root root    1671 Aug  3  2022 sudoers
+drwxr-xr-x  2 root root    4096 Jan 31 13:19 sudoers.d
+-rw-r--r--  1 root root    9390 Apr  3  2023 sudo_logsrvd.conf
+-rw-r--r--  1 root root    2355 Feb 25  2022 sysctl.conf
+drwxr-xr-x  2 root root    4096 Jan 31 13:21 sysctl.d
+drwxr-xr-x  5 root root    4096 Jan 31 13:19 systemd
+drwxr-xr-x  2 root root    4096 Jan 31 12:34 terminfo
+drwxr-xr-x  2 root root    4096 Jan 31 13:25 thermald
+drwxr-xr-x  2 root root    4096 Mar  5 06:24 thunderbird
+-rw-r--r--  1 root root      13 Mar  2 06:14 timezone
+drwxr-xr-x  2 root root    4096 Apr 20  2018 tmpfiles.d
+drwxr-xr-x  2 root root    4096 Jan 31 13:29 ubuntu-advantage
+-rw-r--r--  1 root root    1260 Feb 26  2018 ucf.conf
+drwxr-xr-x  4 root root    4096 Jan 31 13:18 udev
+drwxr-xr-x  2 root root    4096 Jan 31 13:26 udisks2
+drwxr-xr-x  3 root root    4096 Jan 31 13:27 ufw
+-rw-r--r--  1 root root     568 Feb 10  2022 updatedb.conf
+drwxr-xr-x  3 root root    4096 Jan 31 13:33 update-manager
+drwxr-xr-x  2 root root    4096 Jan 31 13:33 update-motd.d
+drwxr-xr-x  2 root root    4096 Aug 24  2021 update-notifier
+drwxr-xr-x  2 root root    4096 Jan 31 13:20 UPower
+-rw-r--r--  1 root root    1523 Mar  6  2018 usb_modeswitch.conf
+drwxr-xr-x  2 root root    4096 Feb 24  2018 usb_modeswitch.d
+drwxr-xr-x  2 root root    4096 Jan 31 13:21 vim
+lrwxrwxrwx  1 root root      23 Jan 30 11:03 vtrgb -> /etc/alternatives/vtrgb
+drwxr-xr-x  5 root root    4096 Jan 30 13:31 vulkan
+-rw-r--r--  1 root root    4942 Apr  9  2019 wgetrc
+drwxr-xr-x  2 root root    4096 Jan 31 13:24 wpa_supplicant
+drwxr-xr-x 12 root root    4096 Jan 31 13:23 X11
+-rw-r--r--  1 root root     681 Mar 23  2022 xattr.conf
+drwxr-xr-x  6 root root    4096 Jan 31 13:15 xdg
+drwxr-xr-x  2 root root    4096 Jan 31 13:35 xml
+-rw-r--r--  1 root root     460 Dec  8  2021 zsh_command_not_found
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls -l frr
+ls: cannot open directory 'frr': Permission denied
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ chmod 755 frr
+chmod: changing permissions of 'frr': Operation not permitted
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ sudo chmod 755 frr
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ ls -l frr
+total 20
+-rw-r----- 1 frr frr 2619 Nov 16 20:18 daemons
+-rw-r----- 1 frr frr  489 Nov  8  2021 frr.conf
+-rw-r----- 1 frr frr 5411 Nov 16 20:18 support_bundle_commands.conf
+-rw-r----- 1 frr frr   32 Nov 16 20:18 vtysh.conf
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc$ cd frr
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ ls
+daemons  frr.conf  support_bundle_commands.conf  vtysh.conf
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ vi vtysh.conf 
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ chmod 755 vtysh.conf 
+chmod: changing permissions of 'vtysh.conf': Operation not permitted
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ sudo chmod 755 vtysh.conf 
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ ls -l vtysh.conf
+-rwxr-xr-x 1 frr frr 32 Nov 16 20:18 vtysh.conf
+tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ 

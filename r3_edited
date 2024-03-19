@@ -64,3 +64,62 @@ func TestConnectToRouter16(t *testing.T) {
 	fmt.Println("Running configuration:")
 	fmt.Println(string(showConfigOutput))
 }
+
+
+...,....................................
+
+// Command to configure eth1 interface
+configEth1Command := "interface eth1"
+
+// Execute the command to configure eth1 interface
+configEth1Output, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+"' -c '"+configEth1Command+"'").CombinedOutput()
+if err != nil {
+    fmt.Println("Error configuring eth1 interface:", err)
+    return
+}
+
+// Print the output of the configure eth1 command
+fmt.Println("Eth1 configuration:")
+fmt.Println(string(configEth1Output))
+
+// Command to remove IP address 192.168.2.2 from eth1 interface
+removeIPCommand := "no IP address 192.168.2.2"
+
+// Execute the command to remove IP address from eth1 interface
+removeIPOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+"' -c '"+removeIPCommand+"'").CombinedOutput()
+if err != nil {
+    fmt.Println("Error removing IP address from eth1 interface:", err)
+    return
+}
+
+// Print the output of the remove IP address command
+fmt.Println("Removed IP address from eth1:")
+fmt.Println(string(removeIPOutput))
+
+// Command to exit from vtysh
+exitCommand := "exit"
+
+// Execute the command to exit from vtysh
+exitOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+"' -c '"+exitCommand+"'").CombinedOutput()
+if err != nil {
+    fmt.Println("Error exiting vtysh:", err)
+    return
+}
+
+// Print the output of the exit command
+fmt.Println("Exit vtysh:")
+fmt.Println(string(exitOutput))
+
+// Command to show interface brief
+showInterfaceBriefCommand := "do show interface brief"
+
+// Execute the command to show interface brief within the container's environment
+showInterfaceBriefOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+"' -c '"+showInterfaceBriefCommand+"'").CombinedOutput()
+if err != nil {
+    fmt.Println("Error executing show interface brief command:", err)
+    return
+}
+
+// Print the output of the show interface brief command
+fmt.Println("Interface brief:")
+fmt.Println(string(showInterfaceBriefOutput))

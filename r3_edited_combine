@@ -4,18 +4,18 @@ package main
 import (
 	"fmt"
 	"os/exec"
+	"strings"
 	"testing"
 )
 
-func TestConnectToRouter16(t *testing.T) {
+func TestConnectToRouter(t *testing.T) {
 	// Command to list available containers
 	psCommand := "docker ps"
 
 	// Execute the command to list available containers
-	psOutput, err := exec.Command("sh", "-c", psCommand).Output()
+	psOutput, err := exec.Command("/bin/sh", "-c", psCommand).CombinedOutput()
 	if err != nil {
-		fmt.Println("Error executing docker ps command:", err)
-		return
+		t.Fatalf("Error executing docker ps command: %v", err)
 	}
 
 	// Print the output of the docker ps command
@@ -26,30 +26,30 @@ func TestConnectToRouter16(t *testing.T) {
 	loginCommand := "docker exec clab-frrlab-router2 /bin/bash"
 
 	// Execute the command to log in to the bash shell of the container
-	loginOutput, err := exec.Command("sh", "-c", loginCommand).CombinedOutput()
+	loginOutput, err := exec.Command("/bin/sh", "-c", loginCommand).CombinedOutput()
 	if err != nil {
-		fmt.Println("Error logging in to the container:", err)
-		return
+		t.Fatalf("Error logging in to the container: %v", err)
 	}
 
 	// Print the output of the login command
-	//fmt.Println("Login output:")
+	fmt.Println("Login output:")
 	fmt.Println(string(loginOutput))
 
 	// Command to log in to vtysh and execute commands
 	vtyshCommands := `
 		vtysh
+		configure terminal
 		interface eth1
 		no IP address 192.168.2.2
+		end
+		show interface brief
 		exit
-		do show interface brief
 	`
 
 	// Execute the commands within the container's environment
-	vtyshOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommands+"'").CombinedOutput()
+	vtyshOutput, err := exec.Command("/bin/sh", "-c", loginCommand+" -c '"+strings.ReplaceAll(vtyshCommands, "\n", ";")+"'").CombinedOutput()
 	if err != nil {
-		fmt.Println("Error executing vtysh commands:", err)
-		return
+		t.Fatalf("Error executing vtysh commands: %v", err)
 	}
 
 	// Print the output of the vtysh commands

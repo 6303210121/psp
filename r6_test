@@ -44,22 +44,21 @@ func TestConnectToRouter(t *testing.T) {
 	fmt.Println(loginOutput)
 
 	// Command to log in to vtysh and execute commands
-	vtyshCommands := `
-		vtysh -c 'configure terminal;
-		          interface eth1;
-		          no IP address 192.168.2.2;
-		          end;
-		          show interface brief;
-		          exit;'
-	`
-
-	// Execute the commands within the container's environment
-	vtyshOutput, err := runCommand(fmt.Sprintf("%s -c '%s'", loginCommand, strings.ReplaceAll(vtyshCommands, "\n", " ")))
-	if err != nil {
-		t.Fatalf("Failed to execute vtysh commands: %v", err)
+	vtyshCommands := []string{
+		"vtysh -c 'configure terminal'",
+		"vtysh -c 'interface eth1'",
+		"vtysh -c 'no IP address 192.168.2.2'",
+		"vtysh -c 'end'",
+		"vtysh -c 'show interface brief'",
+		"exit",
 	}
 
-	// Print the output of the vtysh commands
-	fmt.Println("vtysh output:")
-	fmt.Println(vtyshOutput)
+	// Execute the commands within the container's environment
+	for _, cmd := range vtyshCommands {
+		vtyshOutput, err := runCommand(fmt.Sprintf("%s -c \"%s\"", loginCommand, cmd))
+		if err != nil {
+			t.Fatalf("Failed to execute vtysh command '%s': %v", cmd, err)
+		}
+		fmt.Printf("vtysh output for command '%s':\n%s\n", cmd, vtyshOutput)
+	}
 }

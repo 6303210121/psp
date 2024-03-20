@@ -45,11 +45,11 @@ func TestConnectToRouter(t *testing.T) {
 
 	// Command to log in to vtysh and execute commands
 	vtyshCommands := []string{
-		"vtysh -c 'configure terminal'",
-		"vtysh -c 'interface eth1'",
-		"vtysh -c 'no IP address 192.168.2.2'",
-		"vtysh -c 'end'",
-		"vtysh -c 'show interface brief'",
+		"configure terminal",
+		"interface eth1",
+		"no IP address 192.168.2.2",
+		"end",
+		"show interface brief",
 		"exit",
 	}
 

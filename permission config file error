@@ -546,3 +546,9 @@ tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ sudo chmod 755 vtysh.conf
 tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ ls -l vtysh.conf
 -rwxr-xr-x 1 frr frr 32 Nov 16 20:18 vtysh.conf
 tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$ 
+
+
+###########################################################################
+to save a read-only file 
+sudo nano -w <filename> ,then ctrl-O + enter to save ,ctrl-x to save 
+

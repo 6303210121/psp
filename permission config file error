@@ -549,6 +549,12 @@ tcs@tcs-HP-Compaq-Elite-8300-SFF:/etc/frr$
 
 
 ###########################################################################
-to save a read-only file 
+To save a read-only file 
 sudo nano -w <filename> ,then ctrl-O + enter to save ,ctrl-x to save 
 
+To change a file from read-only to edit in Linux?
+To change directory permissions in Linux, use the following:
+1. chmod +rwx filename to add permissions.
+2. chmod -rwx directoryname to remove permissions.
+3. chmod +x filename to allow executable permissions.
+4. chmod -wx filename to take out write and executable permissions

@@ -3,8 +3,8 @@ package main
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
+	"testing"
 )
 
 // SSHHandler simulates an SSH connection handler
@@ -42,6 +42,9 @@ func EnterVTYSHRoot(ssh *SSHHandler) {
 	if !strings.Contains(ssh.Prompt, "vtysh") {
 		ssh.SendCommand("vtysh")
 	}
+
+	// Print the command output
+	fmt.Println("Output after entering vtysh root:", ssh.SendCommand("show version"))
 }
 
 // EnterConfigRoot enters the configuration mode
@@ -52,49 +55,38 @@ func EnterConfigRoot(ssh *SSHHandler) {
 	if !strings.Contains(ssh.Prompt, "(config") {
 		ssh.SendCommand("configure terminal")
 	}
-}
-
-func main() {
-	// Create an instance of SSHHandler
-	ssh := &SSHHandler{
-		Prompt: "Initial Prompt",
-	}
-
-	// Example usage:
-	EnterVTYSHRoot(ssh)
-	fmt.Println("Prompt after entering vtysh root:", ssh.FindPrompt())
-
-	// Print the command output
-	fmt.Println("Output after entering vtysh root:", ssh.SendCommand("show version"))
-
-	EnterConfigRoot(ssh)
-	fmt.Println("Prompt after entering config mode:", ssh.FindPrompt())
 
 	// Print the command output
 	fmt.Println("Output after entering config mode:", ssh.SendCommand("show running-config"))
 }
 
-
 func TestEnterVTYSHRoot(t *testing.T) {
-    ssh := &SSHHandler{
-        Prompt: "Initial Prompt",
-    }
+	ssh := &SSHHandler{
+		Prompt: "Initial Prompt",
+	}
 
-    EnterVTYSHRoot(ssh)
-    expectedPrompt := "vtysh Prompt"
-    if ssh.Prompt != expectedPrompt {
-        t.Errorf("Prompt after entering vtysh root: got %s, want %s", ssh.Prompt, expectedPrompt)
-    }
+	EnterVTYSHRoot(ssh)
+	expectedPrompt := "vtysh Prompt"
+	if ssh.Prompt != expectedPrompt {
+		t.Errorf("Prompt after entering vtysh root: got %s, want %s", ssh.Prompt, expectedPrompt)
+	}
 }
 
 func TestEnterConfigRoot(t *testing.T) {
-    ssh := &SSHHandler{
-        Prompt: "Initial Prompt",
-    }
+	ssh := &SSHHandler{
+		Prompt: "Initial Prompt",
+	}
 
-    EnterConfigRoot(ssh)
-    expectedPrompt := "Config Prompt"
-    if ssh.Prompt != expectedPrompt {
-        t.Errorf("Prompt after entering config mode: got %s, want %s", ssh.Prompt, expectedPrompt)
-    }
+	EnterConfigRoot(ssh)
+	expectedPrompt := "Config Prompt"
+	if ssh.Prompt != expectedPrompt {
+		t.Errorf("Prompt after entering config mode: got %s, want %s", ssh.Prompt, expectedPrompt)
+	}
+}
+
+func main() {
+	// Run tests
+	t := &testing.T{}
+	TestEnterVTYSHRoot(t)
+	TestEnterConfigRoot(t)
 }

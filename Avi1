@@ -3,12 +3,13 @@ package main
 
 import (
     "fmt"
+    "strings"
     "testing"
 )
 
 // SSHHandler simulates an SSH connection handler
 type SSHHandler struct {
-    Prompt string
+    Prompt     string
     ConfigMode bool
 }
 
@@ -16,7 +17,7 @@ type SSHHandler struct {
 func (ssh *SSHHandler) SendCommand(command string) string {
     // Simulating command execution and getting the output
     output := "Command output for: " + command
-    
+
     // Update prompt if command changes the mode
     if command == "exit" {
         ssh.Prompt = "New Prompt"
@@ -28,7 +29,7 @@ func (ssh *SSHHandler) SendCommand(command string) string {
         ssh.Prompt = "Config Prompt"
         ssh.ConfigMode = true
     }
-    
+
     return output
 }
 
@@ -64,8 +65,8 @@ func EnterConfigRoot(ssh *SSHHandler) {
 
 func TestEnterVTYSHRoot(t *testing.T) {
     ssh := &SSHHandler{
-        Prompt:      "Initial Prompt",
-        ConfigMode:  false,
+        Prompt:     "Initial Prompt",
+        ConfigMode: false,
     }
 
     EnterVTYSHRoot(ssh)
@@ -80,8 +81,8 @@ func TestEnterVTYSHRoot(t *testing.T) {
 
 func TestEnterConfigRoot(t *testing.T) {
     ssh := &SSHHandler{
-        Prompt:      "Initial Prompt",
-        ConfigMode:  false,
+        Prompt:     "Initial Prompt",
+        ConfigMode: false,
     }
 
     EnterConfigRoot(ssh)

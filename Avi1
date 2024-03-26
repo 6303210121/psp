@@ -1,4 +1,67 @@
 
+package main
+
+import (
+    "fmt"
+    "testing"
+)
+
+// SSHHandler simulates an SSH connection handler
+type SSHHandler struct {
+    Prompt string
+    ConfigMode bool
+}
+
+// SendCommand sends a command over SSH
+func (ssh *SSHHandler) SendCommand(command string) string {
+    // Simulating command execution and getting the output
+    output := "Command output for: " + command
+    
+    // Update prompt if command changes the mode
+    if command == "exit" {
+        ssh.Prompt = "New Prompt"
+        ssh.ConfigMode = false
+    } else if command == "vtysh" {
+        ssh.Prompt = "vtysh Prompt"
+        ssh.ConfigMode = false
+    } else if command == "configure terminal" {
+        ssh.Prompt = "Config Prompt"
+        ssh.ConfigMode = true
+    }
+    
+    return output
+}
+
+// FindPrompt returns the current prompt
+func (ssh *SSHHandler) FindPrompt() string {
+    return ssh.Prompt
+}
+
+// EnterVTYSHRoot enters the vtysh root mode
+func EnterVTYSHRoot(ssh *SSHHandler) {
+    for ssh.ConfigMode {
+        ssh.SendCommand("exit")
+    }
+    if ssh.ConfigMode {
+        return
+    }
+    ssh.SendCommand("vtysh")
+}
+
+// EnterConfigRoot enters the configuration mode
+func EnterConfigRoot(ssh *SSHHandler) {
+    for ssh.ConfigMode && !strings.Contains(ssh.Prompt, "(config)") {
+        ssh.SendCommand("exit")
+    }
+    if ssh.ConfigMode {
+        return
+    }
+    ssh.SendCommand("configure terminal")
+    if !strings.Contains(ssh.Prompt, "(config") {
+        fmt.Println("Failed to enter config mode from vtysh")
+    }
+}
+
 func TestEnterVTYSHRoot(t *testing.T) {
     ssh := &SSHHandler{
         Prompt:      "Initial Prompt",
@@ -29,4 +92,11 @@ func TestEnterConfigRoot(t *testing.T) {
 
     // Print the command output
     fmt.Println("Output after entering config mode:", ssh.SendCommand("show running-config"))
+}
+
+func main() {
+    // Run tests
+    t := &testing.T{}
+    TestEnterVTYSHRoot(t)
+    TestEnterConfigRoot(t)
 }

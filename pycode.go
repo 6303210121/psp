@@ -39,4 +39,84 @@ def enter_config_root(handler):
     assert '(config' in handler.find_prompt(), 'Failed to enter config mode from vtysh'
 
 
+#########################################################################
+
+package main
+
+import (
+    "fmt"
+    "regexp"
+    "strings"
+)
+
+// SSHHandler simulates an SSH connection handler
+type SSHHandler struct {
+    Prompt string
+    ConfigMode bool
+}
+
+// SendCommand sends a command over SSH
+func (ssh *SSHHandler) SendCommand(command string) string {
+    // Simulating command execution and getting the output
+    output := "Command output for: " + command
+    
+    // Update prompt if command changes the mode
+    if strings.Contains(command, "exit") {
+        ssh.Prompt = "New Prompt"
+        ssh.ConfigMode = false
+    } else if strings.Contains(command, "vtysh") {
+        ssh.Prompt = "vtysh Prompt"
+        ssh.ConfigMode = false
+    } else if strings.Contains(command, "configure terminal") {
+        ssh.Prompt = "Config Prompt"
+        ssh.ConfigMode = true
+    }
+    
+    return output
+}
+
+// FindPrompt returns the current prompt
+func (ssh *SSHHandler) FindPrompt() string {
+    return ssh.Prompt
+}
+
+// EnterVTYSHRoot enters the vtysh root mode
+func EnterVTYSHRoot(ssh *SSHHandler) {
+    for strings.Contains(ssh.Prompt, "(config") {
+        ssh.SendCommand("exit")
+    }
+    if ssh.ConfigMode {
+        return
+    }
+    ssh.SendCommand("vtysh")
+}
+
+// EnterConfigRoot enters the configuration mode
+func EnterConfigRoot(ssh *SSHHandler) {
+    for strings.Contains(ssh.Prompt, "(config") && !strings.Contains(ssh.Prompt, "(config)") {
+        ssh.SendCommand("exit")
+    }
+    if ssh.ConfigMode {
+        return
+    }
+    ssh.SendCommand("configure terminal")
+    if !strings.Contains(ssh.Prompt, "(config") {
+        fmt.Println("Failed to enter config mode from vtysh")
+    }
+}
+
+func main() {
+    // Create an instance of SSHHandler
+    ssh := &SSHHandler{
+        Prompt:      "Initial Prompt",
+        ConfigMode: false,
+    }
+
+    // Example usage:
+    EnterVTYSHRoot(ssh)
+    fmt.Println("Prompt after entering vtysh root:", ssh.FindPrompt())
+
+    EnterConfigRoot(ssh)
+    fmt.Println("Prompt after entering config mode:", ssh.FindPrompt())
+}
 

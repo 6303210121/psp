@@ -1,23 +1,36 @@
 
 # ospf_lib.py
+import types
 
-class OSPFConfig:
-    def __init__(self, device):
-        self.device = device
+def _send_command(ssh, *args, **kwargs):
+    kwargs.update(expect_string=r'[^\n]\S+#\W$')
+    return ssh.send_command(*args, **kwargs)
 
-    def configure_ospf(self, process_id, network, area):
-        config_commands = [
-            f"router ospf {process_id}",
-            f"network {network} area {area}",
-            "end"
-        ]
-        self.device.execute(config_commands)
+def enter_vtysh_root(handler):
+    prompt = handler.find_prompt()
+    is_config_mode = '(config' in prompt  #checks if initially in config mode
+    if not getattr(handler, 'is_wrapped', False):
+        handler.send_command_frr = types.MethodType(_send_command, handler)
+        handler.is_wrapped = True
+    while '(config' in prompt:
+        handler.send_command('exit', expect_string=r'[^\n]\S+#\W$')
+        prompt = handler.find_prompt()
+    if is_config_mode:
+        # we have reached the vtysh root using exit command(s)
+        return
+    #if we are in linux prompt do the following
+    handler.send_command('vtysh', expect_string=r'[^\n]\S+#\W$')
 
 
-class OSPFMonitor:
-    def __init__(self, device):
-        self.device = device
-
-    def get_ospf_neighbors(self):
-        output = self.device.parse("show ip ospf neighbor")
-        return output
+def enter_config_root(handler):
+    prompt = handler.find_prompt()
+    is_config_mode = '(config' in prompt  #checks if initially in config mode
+    while '(config' in prompt and '(config)' not in prompt:
+        handler.send_command('exit', expect_string=r'[^\n]\S+#\W$')
+        prompt = handler.find_prompt()
+    if is_config_mode:
+        # we have reached the vtysh root using exit command(s)
+        return
+    #if we are in vtysh root, do the following
+    handler.send_command('configure terminal', expect_string=r'[^\n]\S+#\W$')
+    assert '(config' in handler.find_prompt(), 'Failed to enter config mode from vtysh'

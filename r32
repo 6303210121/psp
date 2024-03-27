@@ -12,9 +12,9 @@ func TestConnectToRouter16(t *testing.T) {
 
 	// Execute the commands in the given order
 	commands := []string{
-		"vtysh -c 'show running-config'",
-		"vtysh -c 'do show run'",
+		"vtysh -c 'config'",
 		"vtysh -c 'no router ospf'",
+		"vtysh -c 'do show run'",
 	}
 
 	// Execute the commands sequentially

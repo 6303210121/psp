@@ -1,10 +1,55 @@
 
 devices:
+  clab-frrlab-router1:
+    alias: router1
+    type: linux
+    connections:
+      ssh:
+        ip: <IP_ADDRESS>
+        username: root
+        password: root_password
+
   clab-frrlab-router2:
     alias: router2
     type: linux
     connections:
       ssh:
-        ip: 192.168.1.2  # Replace with the actual IP address of the container
-        username: clab_admin  # Replace with the actual username
-        password: clab_password  # Replace with the actual password
+        ip: <IP_ADDRESS>
+        username: root
+        password: root_password
+
+  clab-frrlab-router3:
+    alias: router3
+    type: linux
+    connections:
+      ssh:
+        ip: <IP_ADDRESS>
+        username: root
+        password: root_password
+
+  clab-frrlab-PC1:
+    alias: pc1
+    type: linux
+    connections:
+      ssh:
+        ip: <IP_ADDRESS>
+        username: root
+        password: root_password
+
+  clab-frrlab-PC2:
+    alias: pc2
+    type: linux
+    connections:
+      ssh:
+        ip: <IP_ADDRESS>
+        username: root
+        password: root_password
+
+  clab-frrlab-PC3:
+    alias: pc3
+    type: linux
+    connections:
+      ssh:
+        ip: <IP_ADDRESS>
+        username: root
+        password: root_password

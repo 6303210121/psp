@@ -1,0 +1,7 @@
+CONTAINER ID   IMAGE                             COMMAND                  CREATED        STATUS        PORTS                                  NAMES
+d8563d8a1c03   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   47 hours ago   Up 47 hours                                          clab-frrlab-router1
+bd4862866f57   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   47 hours ago   Up 47 hours   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC1
+68f3c19fd9d2   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   47 hours ago   Up 47 hours   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC2
+2ee6d9c83802   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   47 hours ago   Up 47 hours                                          clab-frrlab-router3
+5a3354185da4   praqma/network-multitool:latest   "/bin/sh /docker/ent…"   47 hours ago   Up 47 hours   80/tcp, 443/tcp, 1180/tcp, 11443/tcp   clab-frrlab-PC3
+d41ea40c01d0   frrouting/frr:v7.5.1              "/sbin/tini -- /usr/…"   47 hours ago   Up 47 hours                                          clab-frrlab-router2

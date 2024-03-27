@@ -53,3 +53,7 @@ devices:
         ip: <IP_ADDRESS>
         username: root
         password: root_password
+
+###############
+if we want to know the ip of the containers
+docker inspect -f {{range. NetworkSettings.Networks}} {{.IPAddress}}{{end}}' <CONTAINER_ID>

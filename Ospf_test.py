@@ -22,7 +22,9 @@ class OSPFTest(aetest.Testcase):
 
     @aetest.cleanup
     def cleanup(self):
-        self.device.disconnect()
+        # Disconnect from the device
+        if hasattr(self, 'device') and hasattr(self.device, 'is_connected') and self.device.is_connected():
+            self.device.disconnect()
 
 if __name__ == '__main__':
     # Execute the test script

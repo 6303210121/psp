@@ -1,1 +1,34 @@
+package main
 
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+)
+
+func TestConnectToRouter16(t *testing.T) {
+	// Command to log in to bash shell of the container
+	loginCommand := "docker exec clab-frrlab-router2 /bin/bash"
+
+	// Execute the commands in the given order
+	commands := []string{
+		"vtysh -c 'show running-config'",
+		"vtysh -c 'do show run'",
+		"vtysh -c 'no router ospf'",
+	}
+
+	// Execute the commands sequentially
+	var combinedOutput []byte
+	for _, command := range commands {
+		output, err := exec.Command("sh", "-c", loginCommand+" -c '"+command+"'").CombinedOutput()
+		if err != nil {
+			fmt.Println("Error executing command:", command, "Error:", err)
+			return
+		}
+		combinedOutput = append(combinedOutput, output...)
+	}
+
+	// Print the combined output of all commands
+	fmt.Println("Combined output of all commands:")
+	fmt.Println(string(combinedOutput))
+}

@@ -1,8 +1,41 @@
 
-ospf_test.py
-from pyats import aetest
 from pyats.topology import loader
-from ospf_lib import OSPFConfig, OSPFMonitor
+from pyats import aetest
+from netmiko import ConnectHandler
+import types
+
+def _send_command(ssh, *args, **kwargs):
+    kwargs.update(expect_string=r'[^\n]\S+#\W$')
+    return ssh.send_command(*args, **kwargs)
+
+def enter_vtysh_root(handler):
+    prompt = handler.find_prompt()
+    is_config_mode = '(config' in prompt  #checks if initially in config mode
+    if not getattr(handler, 'is_wrapped', False):
+        handler.send_command_frr = types.MethodType(_send_command, handler)
+        handler.is_wrapped = True
+    while '(config' in prompt:
+        handler.send_command('exit', expect_string=r'[^\n]\S+#\W$')
+        prompt = handler.find_prompt()
+    if is_config_mode:
+        # we have reached the vtysh root using exit command(s)
+        return
+    #if we are in linux prompt do the following
+    handler.send_command('vtysh', expect_string=r'[^\n]\S+#\W$')
+
+
+def enter_config_root(handler):
+    prompt = handler.find_prompt()
+    is_config_mode = '(config' in prompt  #checks if initially in config mode
+    while '(config' in prompt and '(config)' not in prompt:
+        handler.send_command('exit', expect_string=r'[^\n]\S+#\W$')
+        prompt = handler.find_prompt()
+    if is_config_mode:
+        # we have reached the vtysh root using exit command(s)
+        return
+    #if we are in vtysh root, do the following
+    handler.send_command('configure terminal', expect_string=r'[^\n]\S+#\W$')
+    assert '(config' in handler.find_prompt(), 'Failed to enter config mode from vtysh'
 
 class OSPFTest(aetest.Testcase):
 
@@ -14,19 +47,17 @@ class OSPFTest(aetest.Testcase):
         self.device.connect()
 
     @aetest.test
-    def test_configure_ospf(self):
-        ospf_config = OSPFConfig(self.device)
-        ospf_config.configure_ospf(process_id='1', network='10.0.0.0 0.255.255.255', area='0')
+    def test_enter_vtysh_root(self):
+        enter_vtysh_root(self.device)
 
     @aetest.test
-    def test_monitor_ospf(self):
-        ospf_monitor = OSPFMonitor(self.device)
-        neighbors = ospf_monitor.get_ospf_neighbors()
-        self.passed('OSPF neighbors: {}'.format(neighbors))
+    def test_enter_config_root(self):
+        enter_config_root(self.device)
 
     @aetest.cleanup
     def cleanup(self):
         self.device.disconnect()
 
 if __name__ == '__main__':
+    # Execute the test script
     aetest.main()

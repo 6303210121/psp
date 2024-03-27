@@ -1,5 +1,4 @@
 
-# ospf_test.py
 from pyats import aetest
 from pyats.topology import loader
 from ospf_lib import enter_vtysh_root, enter_config_root
@@ -10,7 +9,7 @@ class OSPFTest(aetest.Testcase):
     def setup(self):
         # Load testbed and connect to device
         self.testbed = loader.load('testbed.yaml')
-        self.device = self.testbed.devices['device']
+        self.device = self.testbed.devices['router']
         self.device.connect()
 
     @aetest.test

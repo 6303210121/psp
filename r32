@@ -1,1 +1,23 @@
+package main
 
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+)
+
+func TestConnectToRouter16(t *testing.T) {
+	// Combine all commands into a single line using &&
+	combinedCommand := "docker ps && docker exec clab-frrlab-router2 /bin/bash -c 'vtysh -c \"no router ospf\"' && docker exec clab-frrlab-router2 /bin/bash -c 'vtysh -c \"do show run\"'"
+
+	// Execute the combined command
+	combinedOutput, err := exec.Command("sh", "-c", combinedCommand).CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing combined command:", err)
+		return
+	}
+
+	// Print the combined output
+	fmt.Println("Combined output:")
+	fmt.Println(string(combinedOutput))
+}

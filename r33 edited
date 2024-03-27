@@ -1,0 +1,33 @@
+
+package main
+
+import (
+	"fmt"
+	"os/exec"
+	"testing"
+        
+)
+
+func TestConnectToRouter16(t *testing.T) {
+
+        loginCommand := "docker exec clab-frrlab-router2 /bin/bash"
+        vtyshCommand := "vtysh"
+	showInterfaceCommand := "do show interface brief"
+//        showrun := "do show run"
+        ConfigCommand := "configure terminal"
+        interfaceCommand := "interface eth1"
+        noipcommand := "no ip address 192.168.1.2/24"
+        exitcommand := "exit"  
+
+          
+	showConfigOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+/*" -c "+showrun+*/" -c "+ConfigCommand+" -c "+interfaceCommand+" -c "+noipcommand+" -c "+exitcommand+" -c \""+showInterfaceCommand+"\"'").CombinedOutput()
+
+	if err != nil {
+		fmt.Println("Error showing running configuration:", err)
+		return
+	}
+
+	fmt.Println("Running configuration:")
+	fmt.Println(string(showConfigOutput))
+
+}

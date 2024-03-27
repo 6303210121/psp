@@ -1,0 +1,9 @@
+
+devices:
+  device:
+    type: <device_type>
+    connections:
+      defaults:
+        class: <connection_class>
+      cli:
+        command: <cli_command>

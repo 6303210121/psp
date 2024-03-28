@@ -6,7 +6,6 @@ import (
     "fmt"
     "os/exec"
     "regexp"
-    "strconv"
     "strings"
     "testing"
     "time"
@@ -39,14 +38,14 @@ func TestConnectToRouter16(t *testing.T) {
         return
     }
 
-    // Create a scanner to read from the command's output
-    scanner := bufio.NewScanner(stdout)
-
     // Send commands
     sendCommand(stdin, "vtysh")
     sendCommand(stdin, "configure terminal")
     sendCommand(stdin, "exit")
     sendCommand(stdin, "exit")
+
+    // Create a scanner to read from the command's output
+    scanner := bufio.NewScanner(stdout)
 
     // Start reading output and handle prompts
     go func() {
@@ -54,8 +53,9 @@ func TestConnectToRouter16(t *testing.T) {
             line := scanner.Text()
             fmt.Println("Output:", line)
 
-            // Check for prompts
+            // Check for prompt
             if isPrompt(line) {
+                fmt.Println("Prompt detected.")
                 break
             }
         }
@@ -94,39 +94,19 @@ func TestConnectToRouter16(t *testing.T) {
 }
 
 // sendCommand sends a command to stdin
-func sendCommand(stdin io.WriteCloser, cmd string) {
+func sendCommand(stdin *bufio.Writer, cmd string) {
     fmt.Println("Sending command:", cmd)
     _, err := fmt.Fprintf(stdin, "%s\n", cmd)
     if err != nil {
         fmt.Println("Error sending command:", err)
     }
+    stdin.Flush()
 }
 
 // isPrompt checks if a line contains a prompt
 func isPrompt(line string) bool {
-    prompts := []string{"#", "router#"}
-    for _, p := range prompts {
-        if strings.Contains(line, p) {
-            return true
-        }
-    }
-    return false
+    promptRegex := regexp.MustCompile(`^(?:.*?)(router2(?:\(config\))?)#`)
+    return promptRegex.MatchString(line)
 }
 
-func TestPattern(t *testing.T) {
-    // Test isPrompt function
-    tests := []struct {
-        line     string
-        expected bool
-    }{
-        {"Hello, this is FRRouting (version 7.5.1 git).", false},
-        {"router#", true},
-        {"router(config)#", true},
-    }
-
-    for i, test := range tests {
-        if isPrompt(test.line) != test.expected {
-            t.Errorf("Test %d: Expected %v, got %v", i+1, test.expected, !test.expected)
-        }
-    }
-}
+func Test**⬤**

@@ -10,9 +10,12 @@ import (
 func TestConnectToRouter16(t *testing.T) {
 
 	loginCommand := "docker exec -it clab-frrlab-router2 /bin/bash -c 'vtysh -c \"configure terminal\"'"
-	showConfigOutput, err := exec.Command("sh", "-c", loginCommand).CombinedOutput()
+	cmd := exec.Command("sh", "-c", loginCommand)
+
+	showConfigOutput, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println("Error showing running configuration:", err)
+		fmt.Println("Combined output:", string(showConfigOutput))
 		return
 	}
 

@@ -2,6 +2,7 @@
 package main
 
 import (
+    "bufio"
     "fmt"
     "io"
     "os/exec"
@@ -54,7 +55,7 @@ func TestConnectToRouter16(t *testing.T) {
 
     // Read output in main goroutine
     go func() {
-        scanner := io.NewScanner(stdout)
+        scanner := bufio.NewScanner(stdout)
         for scanner.Scan() {
             fmt.Println(scanner.Text())
             if strings.Contains(scanner.Text(), "#") {
@@ -68,7 +69,7 @@ func TestConnectToRouter16(t *testing.T) {
 
     // Read error in main goroutine
     go func() {
-        scanner := io.NewScanner(stderr)
+        scanner := bufio.NewScanner(stderr)
         for scanner.Scan() {
             fmt.Println(scanner.Text())
         }

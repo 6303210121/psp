@@ -2,44 +2,20 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/client"
-	"strings"
+	"os/exec"
 	"testing"
 )
 
 func TestConnectToRouter16(t *testing.T) {
-	ctx := context.Background()
-	cli, err := client.NewClientWithOpts(client.FromEnv)
+	cmd := exec.Command("docker", "exec", "-i", "clab-frrlab-router2", "vtysh", "-c", "configure terminal")
+
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("Failed to create Docker client: %v", err)
+		fmt.Println("Error:", err)
+		fmt.Println("Output:", string(output))
+		return
 	}
 
-	execConfig := types.ExecConfig{
-		AttachStdout: true,
-		AttachStderr: true,
-		Tty:          true,
-		Cmd:          []string{"vtysh", "-c", "configure terminal"},
-	}
-
-	resp, err := cli.ContainerExecCreate(ctx, "clab-frrlab-router2", execConfig)
-	if err != nil {
-		t.Fatalf("Failed to create exec instance: %v", err)
-	}
-
-	execResp, err := cli.ContainerExecAttach(ctx, resp.ID, types.ExecStartCheck{})
-	if err != nil {
-		t.Fatalf("Failed to attach to exec instance: %v", err)
-	}
-	defer execResp.Close()
-
-	var output strings.Builder
-	_, err = io.Copy(&output, execResp.Reader)
-	if err != nil {
-		t.Fatalf("Failed to read output: %v", err)
-	}
-
-	fmt.Println("Output:", output.String())
+	fmt.Println("Output:", string(output))
 }

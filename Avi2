@@ -10,7 +10,8 @@ import (
 )
 
 func TestConnectToRouter16(t *testing.T) {
-    cmd := exec.Command("docker", "exec", "-it", "clab-frrlab-router2", "/bin/bash")
+    // Create the docker exec command
+    cmd := exec.Command("docker", "exec", "-i", "clab-frrlab-router2", "/bin/bash")
 
     // Connect to the command's standard input
     stdin, err := cmd.StdinPipe()
@@ -19,7 +20,7 @@ func TestConnectToRouter16(t *testing.T) {
         return
     }
 
-    // Connect to the command's standard output
+    // Connect to the command's standard output and standard error
     stdout, err := cmd.StdoutPipe()
     if err != nil {
         fmt.Println("Error obtaining stdout pipe:", err)
@@ -65,9 +66,12 @@ func TestConnectToRouter16(t *testing.T) {
         }
     }
 
-    // Wait for the command to finish
+    // Wait for the command to finish and check for errors
     if err := cmd.Wait(); err != nil {
         fmt.Println("Error waiting for command to exit:", err)
+        if exitErr, ok := err.(*exec.ExitError); ok {
+            fmt.Println("Stderr:", string(exitErr.Stderr))
+        }
         return
     }
 }

@@ -2,12 +2,11 @@
 package main
 
 import (
-    "bufio"
     "fmt"
+    "io"
     "os/exec"
     "strings"
     "testing"
-    "time"
 )
 
 func TestConnectToRouter16(t *testing.T) {
@@ -33,39 +32,42 @@ func TestConnectToRouter16(t *testing.T) {
         return
     }
 
-    // Create a scanner to read from the command's output
-    scanner := bufio.NewScanner(stdout)
+    // Create a reader for the command's output
+    reader := io.MultiReader(stdout)
 
-    // Wait a moment to let the shell start up
-    time.Sleep(2 * time.Second)
+    // Create a buffer to read the output
+    buf := make([]byte, 4096)
 
-    // Enter vtysh mode
-    fmt.Fprintln(stdin, "vtysh")
+    // Read the output in a loop
+    for {
+        // Read from the output
+        n, err := reader.Read(buf)
+        if err != nil {
+            if err == io.EOF {
+                break
+            }
+            fmt.Println("Error reading from output:", err)
+            return
+        }
 
-    // Wait for the prompt indicating vtysh mode
-    waitForPrompt(scanner, "router#")
+        // Print the output
+        fmt.Print(string(buf[:n]))
 
-    // Enter configure terminal mode
-    fmt.Fprintln(stdin, "configure terminal")
+        // Check if the prompt is present
+        output := string(buf[:n])
+        if strings.Contains(output, "#") {
+            // Send the commands
+            fmt.Fprintln(stdin, "vtysh")
+            fmt.Fprintln(stdin, "configure terminal")
+            fmt.Fprintln(stdin, "exit")
+            fmt.Fprintln(stdin, "exit")
+            break
+        }
+    }
 
-    // Wait for the prompt indicating configure terminal mode
-    waitForPrompt(scanner, "router(config)#")
-
-    // Exit the shell
-    fmt.Fprintln(stdin, "exit")
-
-    // Wait for the shell to exit
+    // Wait for the command to finish
     if err := cmd.Wait(); err != nil {
         fmt.Println("Error waiting for command to exit:", err)
         return
-    }
-}
-
-func waitForPrompt(scanner *bufio.Scanner, prompt string) {
-    for scanner.Scan() {
-        line := scanner.Text()
-        if strings.Contains(line, prompt) {
-            break
-        }
     }
 }

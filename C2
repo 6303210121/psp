@@ -1,0 +1,24 @@
+#!/usr/bin/expect
+
+spawn docker exec -it clab-frrlab-router2 /bin/bash
+
+expect "#"
+send "vtysh\r"
+
+expect "router#"
+send "configure terminal\r"
+
+expect "router(config)#"
+send "interface eth1\r"
+
+expect "router(config-if)#"  # Assuming this is the prompt after configuring the interface
+# You can add more commands here if needed
+
+expect "router(config-if)#"  # Assuming this is the prompt after executing additional commands
+send "exit\r"
+
+expect "router(config)#"
+send "exit\r"
+
+expect "#"
+send "exit\r"

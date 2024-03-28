@@ -109,4 +109,20 @@ func isPrompt(line string) bool {
     return promptRegex.MatchString(line)
 }
 
-func Test**⬤**
+func TestPattern(t *testing.T) {
+    // Test isPrompt function
+    tests := []struct {
+        line     string
+        expected bool
+    }{
+        {"Hello, this is FRRouting (version 7.5.1 git).", false},
+        {"router#", true},
+        {"router(config)#", true},
+    }
+
+    for i, test := range tests {
+        if isPrompt(test.line) != test.expected {
+            t.Errorf("Test %d: Expected %v, got %v", i+1, test.expected, !test.expected)
+        }
+    }
+}

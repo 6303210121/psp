@@ -3,70 +3,19 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"os/exec"
+	"testing"
 )
 
-// SSHHandler simulates an SSH connection handler
-type SSHHandler struct {
-	Prompt string
-}
+func TestConnectToRouter16(t *testing.T) {
 
-// SendCommand sends a command over SSH
-func (ssh *SSHHandler) SendCommand(command string) string {
-	// Simulating command execution and getting the output
-	output := "Command output for: " + command
-
-	// Update prompt if command changes the mode
-	if command == "exit" {
-		ssh.Prompt = "New Prompt"
-	} else if command == "vtysh" {
-		ssh.Prompt = "vtysh Prompt"
-		// Print the command output
-		fmt.Println("Output after entering vtysh:", output)
-	} else if command == "configure terminal" {
-		ssh.Prompt = "Config Prompt"
-		// Print the command output
-		fmt.Println("Output after entering config:", output)
+	loginCommand := "docker exec -it clab-frrlab-router2 /bin/bash -c 'vtysh -c \"configure terminal\"'"
+	showConfigOutput, err := exec.Command("sh", "-c", loginCommand).CombinedOutput()
+	if err != nil {
+		fmt.Println("Error showing running configuration:", err)
+		return
 	}
 
-	return output
-}
-
-// FindPrompt returns the current prompt
-func (ssh *SSHHandler) FindPrompt() string {
-	return ssh.Prompt
-}
-
-// EnterVTYSHRoot enters the vtysh root mode
-func EnterVTYSHRoot(ssh *SSHHandler) {
-	for strings.Contains(ssh.Prompt, "(config") {
-		ssh.SendCommand("exit")
-	}
-	if !strings.Contains(ssh.Prompt, "vtysh") {
-		ssh.SendCommand("vtysh")
-	}
-}
-
-// EnterConfigRoot enters the configuration mode
-func EnterConfigRoot(ssh *SSHHandler) {
-	for strings.Contains(ssh.Prompt, "(config") && !strings.Contains(ssh.Prompt, "(config)") {
-		ssh.SendCommand("exit")
-	}
-	if !strings.Contains(ssh.Prompt, "(config") {
-		ssh.SendCommand("configure terminal")
-	}
-}
-
-func main() {
-	// Create an instance of SSHHandler
-	ssh := &SSHHandler{
-		Prompt: "Initial Prompt",
-	}
-
-	// Example usage:
-	EnterVTYSHRoot(ssh)
-	fmt.Println("Prompt after entering vtysh root:", ssh.FindPrompt())
-
-	EnterConfigRoot(ssh)
-	fmt.Println("Prompt after entering config mode:", ssh.FindPrompt())
+	fmt.Println("Running configuration:")
+	fmt.Println(string(showConfigOutput))
 }

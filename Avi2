@@ -2,20 +2,72 @@
 package main
 
 import (
-	"fmt"
-	"os/exec"
-	"testing"
+    "fmt"
+    "io"
+    "os/exec"
+    "strings"
+    "testing"
 )
 
 func TestConnectToRouter16(t *testing.T) {
-	cmd := exec.Command("docker", "exec", "-i", "clab-frrlab-router2", "vtysh", "-c", "configure terminal")
+    cmd := exec.Command("docker", "exec", "-it", "clab-frrlab-router2", "/bin/bash")
 
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Println("Error:", err)
-		fmt.Println("Output:", string(output))
-		return
-	}
+    // Connect to the command's standard input
+    stdin, err := cmd.StdinPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stdin pipe:", err)
+        return
+    }
 
-	fmt.Println("Output:", string(output))
+    // Connect to the command's standard output
+    stdout, err := cmd.StdoutPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stdout pipe:", err)
+        return
+    }
+
+    // Start the command
+    if err := cmd.Start(); err != nil {
+        fmt.Println("Error starting command:", err)
+        return
+    }
+
+    // Create a reader for the command's output
+    reader := io.MultiReader(stdout)
+
+    // Create a buffer to read the output
+    buf := make([]byte, 4096)
+
+    // Read the output in a loop
+    for {
+        // Read from the output
+        n, err := reader.Read(buf)
+        if err != nil {
+            if err == io.EOF {
+                break
+            }
+            fmt.Println("Error reading from output:", err)
+            return
+        }
+
+        // Print the output
+        fmt.Print(string(buf[:n]))
+
+        // Check if the prompt is present
+        output := string(buf[:n])
+        if strings.Contains(output, "#") {
+            // Send the commands
+            fmt.Fprintln(stdin, "vtysh")
+            fmt.Fprintln(stdin, "configure terminal")
+            fmt.Fprintln(stdin, "exit")
+            fmt.Fprintln(stdin, "exit")
+            break
+        }
+    }
+
+    // Wait for the command to finish
+    if err := cmd.Wait(); err != nil {
+        fmt.Println("Error waiting for command to exit:", err)
+        return
+    }
 }

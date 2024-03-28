@@ -1,0 +1,10 @@
+
+-SFF:~$ docker exec -it clab-frrlab-router2 /bin/bash
+bash-5.1# vtysh
+
+Hello, this is FRRouting (version 7.5.1_git).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+router2# config
+router2(config)#               
+router2(config)# 

@@ -1,1 +1,86 @@
+package main
 
+import (
+    "bytes"
+    "fmt"
+    "os/exec"
+    "strings"
+)
+
+func main() {
+    // Command to execute
+    cmd := exec.Command("docker", "exec", "-it", "clab-frrlab-router2", "/bin/bash")
+
+    // Create a pipe for stdin, stdout, and stderr
+    var stdin, stdout, stderr bytes.Buffer
+    cmd.Stdin = &stdin
+    cmd.Stdout = &stdout
+    cmd.Stderr = &stderr
+
+    // Start the command
+    if err := cmd.Start(); err != nil {
+        fmt.Printf("Error starting command: %s\n", err)
+        return
+    }
+
+    // Send "vtysh" command
+    _, err := stdin.WriteString("vtysh\n")
+    if err != nil {
+        fmt.Printf("Error writing to stdin: %s\n", err)
+        return
+    }
+    fmt.Println("Sent 'vtysh' command")
+
+    // Wait for vtysh prompt
+    if err := waitForPrompt(&stdout, "router2#"); err != nil {
+        fmt.Printf("Error waiting for vtysh prompt: %s\n", err)
+        fmt.Println("Output so far:")
+        fmt.Println(stdout.String())
+        return
+    }
+    fmt.Println("Received vtysh prompt")
+
+    // Send "config" command
+    _, err = stdin.WriteString("config\n")
+    if err != nil {
+        fmt.Printf("Error writing to stdin: %s\n", err)
+        return
+    }
+    fmt.Println("Sent 'config' command")
+
+    // Wait for config prompt
+    if err := waitForPrompt(&stdout, "router2(config)#"); err != nil {
+        fmt.Printf("Error waiting for config prompt: %s\n", err)
+        fmt.Println("Output so far:")
+        fmt.Println(stdout.String())
+        return
+    }
+    fmt.Println("Received config prompt")
+
+    // Print acknowledgment message
+    fmt.Println("Entered into config mode successfully.")
+
+    // Wait for the command to finish
+    if err := cmd.Wait(); err != nil {
+        fmt.Printf("Command execution error: %s\n", err)
+        return
+    }
+}
+
+func waitForPrompt(stdout *bytes.Buffer, prompt string) error {
+    // Read output until the prompt is encountered
+    for {
+        line, err := stdout.ReadString('\n')
+        if err != nil {
+            if err.Error() == "EOF" {
+                return fmt.Errorf("EOF encountered while waiting for prompt")
+            }
+            return fmt.Errorf("error reading output: %s", err)
+        }
+        fmt.Print(line)
+        if strings.Contains(line, prompt) {
+            break
+        }
+    }
+    return nil
+}

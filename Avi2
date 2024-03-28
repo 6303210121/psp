@@ -40,9 +40,6 @@ func TestConnectToRouter16(t *testing.T) {
     // Create a scanner to read from the command's output
     scanner := bufio.NewScanner(stdout)
 
-    // Create a buffer to store output lines
-    var outputLines []string
-
     // Send commands and read output sequentially
     go func() {
         // Send commands
@@ -57,23 +54,8 @@ func TestConnectToRouter16(t *testing.T) {
                 fmt.Println("Error writing command:", err)
                 return
             }
-            // Sleep briefly to allow time for output to be processed
-            time.Sleep(100 * time.Millisecond)
-        }
-
-        // Read output
-        for scanner.Scan() {
-            line := scanner.Text()
-            outputLines = append(outputLines, line)
-            fmt.Println(line)
-            // Check if the prompt indicating successful completion of the commands is reached
-            if strings.Contains(line, "#") {
-                break
-            }
-        }
-
-        if err := scanner.Err(); err != nil {
-            fmt.Println("Error reading output:", err)
+            // Wait for the prompt
+            waitForPrompt(scanner)
         }
     }()
 
@@ -81,7 +63,7 @@ func TestConnectToRouter16(t *testing.T) {
     go func() {
         scanner := bufio.NewScanner(stderr)
         for scanner.Scan() {
-            fmt.Println(scanner.Text())
+            fmt.Println("Error:", scanner.Text())
         }
         if err := scanner.Err(); err != nil {
             fmt.Println("Error reading stderr:", err)
@@ -92,5 +74,16 @@ func TestConnectToRouter16(t *testing.T) {
     if err := cmd.Wait(); err != nil {
         fmt.Println("Error waiting for command to exit:", err)
         return
+    }
+}
+
+func waitForPrompt(scanner *bufio.Scanner) {
+    for scanner.Scan() {
+        line := scanner.Text()
+        fmt.Println("Output:", line)
+        if strings.HasSuffix(line, "#") {
+            fmt.Println("Prompt detected.")
+            break
+        }
     }
 }

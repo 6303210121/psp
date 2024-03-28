@@ -14,3 +14,5 @@ send "exit\r"
 
 expect "#"
 send "exit\r"
+
+#command to run ./commands.exp

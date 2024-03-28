@@ -1,4 +1,5 @@
-package main
+
+    package main
 
 import (
     "bytes"
@@ -29,12 +30,14 @@ func main() {
         fmt.Printf("Error writing to stdin: %s\n", err)
         return
     }
+    fmt.Println("Sent 'vtysh' command")
 
     // Wait for vtysh prompt
     if err := waitForPrompt(&stdout, "router2#"); err != nil {
         fmt.Printf("Error waiting for vtysh prompt: %s\n", err)
         return
     }
+    fmt.Println("Received vtysh prompt")
 
     // Send "config" command
     _, err = stdin.WriteString("config\n")
@@ -42,12 +45,14 @@ func main() {
         fmt.Printf("Error writing to stdin: %s\n", err)
         return
     }
+    fmt.Println("Sent 'config' command")
 
     // Wait for config prompt
     if err := waitForPrompt(&stdout, "router2(config)#"); err != nil {
         fmt.Printf("Error waiting for config prompt: %s\n", err)
         return
     }
+    fmt.Println("Received config prompt")
 
     // Print acknowledgment message
     fmt.Println("Entered into config mode successfully.")

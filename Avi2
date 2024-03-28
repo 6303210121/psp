@@ -4,6 +4,7 @@ package main
 import (
     "bufio"
     "fmt"
+    "io"
     "os/exec"
     "regexp"
     "strings"
@@ -32,6 +33,9 @@ func TestConnectToRouter16(t *testing.T) {
         return
     }
 
+    // Create a bufio.Writer for stdin
+    stdinWriter := bufio.NewWriter(stdin)
+
     // Start the command
     if err := cmd.Start(); err != nil {
         fmt.Println("Error starting command:", err)
@@ -39,10 +43,10 @@ func TestConnectToRouter16(t *testing.T) {
     }
 
     // Send commands
-    sendCommand(stdin, "vtysh")
-    sendCommand(stdin, "configure terminal")
-    sendCommand(stdin, "exit")
-    sendCommand(stdin, "exit")
+    sendCommand(stdinWriter, "vtysh")
+    sendCommand(stdinWriter, "configure terminal")
+    sendCommand(stdinWriter, "exit")
+    sendCommand(stdinWriter, "exit")
 
     // Create a scanner to read from the command's output
     scanner := bufio.NewScanner(stdout)

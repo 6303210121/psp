@@ -4,7 +4,6 @@ package main
 import (
     "bufio"
     "fmt"
-    "io"
     "os/exec"
     "strings"
     "testing"
@@ -25,11 +24,6 @@ func TestConnectToRouter16(t *testing.T) {
         fmt.Println("Error obtaining stdout pipe:", err)
         return
     }
-    stderr, err := cmd.StderrPipe()
-    if err != nil {
-        fmt.Println("Error obtaining stderr pipe:", err)
-        return
-    }
 
     // Start the command
     if err := cmd.Start(); err != nil {
@@ -41,49 +35,37 @@ func TestConnectToRouter16(t *testing.T) {
     scanner := bufio.NewScanner(stdout)
 
     // Send commands and read output sequentially
-    go func() {
-        // Send commands
-        commands := []string{
-            "vtysh\n",
-            "configure terminal\n",
-            "exit\n",
-            "exit\n",
+    sendCommand := func(cmd string) {
+        _, err := fmt.Fprintln(stdin, cmd)
+        if err != nil {
+            fmt.Println("Error sending command:", err)
         }
-        for _, cmd := range commands {
-            if _, err := io.WriteString(stdin, cmd); err != nil {
-                fmt.Println("Error writing command:", err)
-                return
-            }
-            // Wait for the prompt
-            waitForPrompt(scanner)
-        }
-    }()
+    }
 
-    // Read error in main goroutine
-    go func() {
-        scanner := bufio.NewScanner(stderr)
+    // Expect functions
+    expect := func(expected string) {
         for scanner.Scan() {
-            fmt.Println("Error:", scanner.Text())
+            line := scanner.Text()
+            fmt.Println("Output:", line)
+            if strings.Contains(line, expected) {
+                fmt.Println("Prompt detected:", expected)
+                break
+            }
         }
-        if err := scanner.Err(); err != nil {
-            fmt.Println("Error reading stderr:", err)
-        }
-    }()
+    }
+
+    // Send commands and expect prompts
+    sendCommand("vtysh")
+    expect("router#")
+    sendCommand("configure terminal")
+    expect("router(config)#")
+    sendCommand("exit")
+    expect("#")
+    sendCommand("exit")
 
     // Wait for the command to finish
     if err := cmd.Wait(); err != nil {
         fmt.Println("Error waiting for command to exit:", err)
         return
-    }
-}
-
-func waitForPrompt(scanner *bufio.Scanner) {
-    for scanner.Scan() {
-        line := scanner.Text()
-        fmt.Println("Output:", line)
-        if strings.HasSuffix(line, "#") {
-            fmt.Println("Prompt detected.")
-            break
-        }
     }
 }

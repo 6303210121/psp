@@ -38,14 +38,14 @@ func TestConnectToRouter16(t *testing.T) {
 	fmt.Println("vtysh output:")
 	fmt.Println(string(vtyshOutput))
 
-	// Wait for the configuration prompt "router2(config)#"
+	// Wait for the configuration prompt "router(config)#"
 	if !waitForConfigPrompt(vtyshOutput, 10*time.Second) {
 		t.Error("Configuration prompt not found")
 		return
 	}
 
 	// Command to show running configuration
-	showConfigCommand := "configure"
+	showConfigCommand := "show running-config"
 
 	// Execute the command to show running configuration within the container's environment
 	showConfigOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+showConfigCommand+"\"'").CombinedOutput()
@@ -60,7 +60,7 @@ func TestConnectToRouter16(t *testing.T) {
 }
 
 func waitForConfigPrompt(output []byte, timeout time.Duration) bool {
-	configPrompt := "router2(config)#"
+	configPrompt := "router(config)#"
 	start := time.Now()
 
 	for {

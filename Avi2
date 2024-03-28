@@ -2,133 +2,133 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"io"
-	"os/exec"
-	"regexp"
-	"strings"
-	"testing"
-	"time"
+    "bufio"
+    "fmt"
+    "io"
+    "os/exec"
+    "regexp"
+    "strings"
+    "testing"
+    "time"
 )
 
 func TestConnectToRouter16(t *testing.T) {
-	// Create the docker exec command
-	cmd := exec.Command("docker", "exec", "-i", "clab-frrlab-router2", "/bin/bash")
+    // Create the docker exec command
+    cmd := exec.Command("docker", "exec", "-i", "clab-frrlab-router2", "/bin/bash")
 
-	// Connect to the command's standard input, output, and error
-	stdin, err := cmd.StdinPipe()
-	if err != nil {
-		fmt.Println("Error obtaining stdin pipe:", err)
-		return
-	}
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		fmt.Println("Error obtaining stdout pipe:", err)
-		return
-	}
-	stderr, err := cmd.StderrPipe()
-	if err != nil {
-		fmt.Println("Error obtaining stderr pipe:", err)
-		return
-	}
+    // Connect to the command's standard input, output, and error
+    stdin, err := cmd.StdinPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stdin pipe:", err)
+        return
+    }
+    stdout, err := cmd.StdoutPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stdout pipe:", err)
+        return
+    }
+    stderr, err := cmd.StderrPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stderr pipe:", err)
+        return
+    }
 
-	// Create a bufio.Writer for stdin
-	stdinWriter := bufio.NewWriter(stdin)
+    // Create a bufio.Writer for stdin
+    stdinWriter := bufio.NewWriter(stdin)
 
-	// Start the command
-	if err := cmd.Start(); err != nil {
-		fmt.Println("Error starting command:", err)
-		return
-	}
+    // Start the command
+    if err := cmd.Start(); err != nil {
+        fmt.Println("Error starting command:", err)
+        return
+    }
 
-	// Send commands
-	sendCommand(stdinWriter, "vtysh")
-	sendCommand(stdinWriter, "configure terminal")
+    // Send commands
+    sendCommand(stdinWriter, "vtysh")
+    sendCommand(stdinWriter, "configure terminal")
+    sendCommand(stdinWriter, "interface eth0")
+    sendCommand(stdinWriter, "ip address 192.168.1.1/24")
+    sendCommand(stdinWriter, "exit")
+    sendCommand(stdinWriter, "exit")
 
-	// Create a scanner to read from the command's output
-	scanner := bufio.NewScanner(stdout)
+    // Create a scanner to read from the command's output
+    scanner := bufio.NewScanner(stdout)
 
-	// Read and print output
-	go func() {
-		for scanner.Scan() {
-			line := scanner.Text()
-			fmt.Println("Output:", line)
+    // Start reading output and handle prompts
+    go func() {
+        for scanner.Scan() {
+            line := scanner.Text()
+            fmt.Println("Output:", line)
 
-			// Check for prompt
-			if isPrompt(line) {
-				fmt.Println("Prompt detected.")
-				break
-			}
-		}
-		if err := scanner.Err(); err != nil {
-			fmt.Println("Error reading output:", err)
-		}
-	}()
+            // Check for prompt
+            if isPrompt(line) {
+                fmt.Println("Prompt detected.")
+                break
+            }
+        }
+        if err := scanner.Err(); err != nil {
+            fmt.Println("Error reading output:", err)
+        }
+    }()
 
-	// Send more commands
-	sendCommand(stdinWriter, "exit")
-	sendCommand(stdinWriter, "exit")
+    // Read and print error
+    go func() {
+        scanner := bufio.NewScanner(stderr)
+        for scanner.Scan() {
+            fmt.Println("Error:", scanner.Text())
+        }
+        if err := scanner.Err(); err != nil {
+            fmt.Println("Error reading stderr:", err)
+        }
+    }()
 
-	// Read and print error
-	go func() {
-		scanner := bufio.NewScanner(stderr)
-		for scanner.Scan() {
-			fmt.Println("Error:", scanner.Text())
-		}
-		if err := scanner.Err(); err != nil {
-			fmt.Println("Error reading stderr:", err)
-		}
-	}()
-
-	// Wait for the command to finish with timeout
-	timeout := 30 * time.Second
-	done := make(chan error, 1)
-	go func() {
-		done <- cmd.Wait()
-	}()
-	select {
-	case <-time.After(timeout):
-		fmt.Println("Execution timed out after", timeout)
-		return
-	case err := <-done:
-		if err != nil {
-			fmt.Println("Error waiting for command to exit:", err)
-			return
-		}
-	}
+    // Wait for the command to finish with timeout
+    timeout := 30 * time.Second
+    done := make(chan error, 1)
+    go func() {
+        done <- cmd.Wait()
+    }()
+    select {
+    case <-time.After(timeout):
+        fmt.Println("Execution timed out after", timeout)
+        return
+    case err := <-done:
+        if err != nil {
+            fmt.Println("Error waiting for command to exit:", err)
+            return
+        }
+    }
 }
 
 // sendCommand sends a command to stdin
 func sendCommand(stdin *bufio.Writer, cmd string) {
-	fmt.Println("Sending command:", cmd)
-	_, err := fmt.Fprintf(stdin, "%s\n", cmd)
-	if err != nil {
-		fmt.Println("Error sending command:", err)
-	}
-	stdin.Flush()
+    fmt.Println("Sending command:", cmd)
+    _, err := fmt.Fprintf(stdin, "%s\n", cmd)
+    if err != nil {
+        fmt.Println("Error sending command:", err)
+    }
+    stdin.Flush()
 }
 
 // isPrompt checks if a line contains a prompt
 func isPrompt(line string) bool {
-	promptRegex := regexp.MustCompile(`^(?:.*?)(router2(?:\(config\))?)#`)
-	return promptRegex.MatchString(line)
+    promptRegex := regexp.MustCompile(`^(?:.*?)(router2(?:\(config\))?)#`)
+    return promptRegex.MatchString(line)
 }
 
 func TestPattern(t *testing.T) {
-	// Test isPrompt function
-	tests := []struct {
-		line     string
-		expected bool
-	}{
-		{"Hello, this is FRRouting (version 7.5.1 git).", false},
-		{"router#", true},
-		{"router(config)#", true},
-	}
+    // Test isPrompt function
+    tests := []struct {
+        line     string
+        expected bool
+    }{
+        {"Hello, this is FRRouting (version 7.5.1 git).", false},
+        {"router#", true},
+        {"router(config)#", true},
+    }
 
-	for i, test := range tests {
-		if isPrompt(test.line) != test.expected {
-			t.Errorf("Test %d: Expected %v, got %v", i+1, test.expected, !test.expected)
-		}
-	}
+    for i, test := range tests {
+        if isPrompt(test.line) != test.expected {
+            t.Errorf("Test %d: Expected %v, got %v", i+1, test.expected, !test.expected)
+        }
+    }
 }

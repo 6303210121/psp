@@ -37,8 +37,15 @@ func TestConnectToRouter16(t *testing.T) {
         return
     }
 
-    // Send commands in a separate goroutine
+    // Create a scanner to read from the command's output
+    scanner := bufio.NewScanner(stdout)
+
+    // Create a buffer to store output lines
+    var outputLines []string
+
+    // Send commands and read output sequentially
     go func() {
+        // Send commands
         commands := []string{
             "vtysh\n",
             "configure terminal\n",
@@ -50,18 +57,21 @@ func TestConnectToRouter16(t *testing.T) {
                 fmt.Println("Error writing command:", err)
                 return
             }
+            // Sleep briefly to allow time for output to be processed
+            time.Sleep(100 * time.Millisecond)
         }
-    }()
 
-    // Read output in main goroutine
-    go func() {
-        scanner := bufio.NewScanner(stdout)
+        // Read output
         for scanner.Scan() {
-            fmt.Println(scanner.Text())
-            if strings.Contains(scanner.Text(), "#") {
+            line := scanner.Text()
+            outputLines = append(outputLines, line)
+            fmt.Println(line)
+            // Check if the prompt indicating successful completion of the commands is reached
+            if strings.Contains(line, "#") {
                 break
             }
         }
+
         if err := scanner.Err(); err != nil {
             fmt.Println("Error reading output:", err)
         }

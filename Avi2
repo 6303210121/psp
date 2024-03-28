@@ -5,8 +5,11 @@ import (
     "bufio"
     "fmt"
     "os/exec"
+    "regexp"
+    "strconv"
     "strings"
     "testing"
+    "time"
 )
 
 func TestConnectToRouter16(t *testing.T) {
@@ -24,6 +27,11 @@ func TestConnectToRouter16(t *testing.T) {
         fmt.Println("Error obtaining stdout pipe:", err)
         return
     }
+    stderr, err := cmd.StderrPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stderr pipe:", err)
+        return
+    }
 
     // Start the command
     if err := cmd.Start(); err != nil {
@@ -34,38 +42,91 @@ func TestConnectToRouter16(t *testing.T) {
     // Create a scanner to read from the command's output
     scanner := bufio.NewScanner(stdout)
 
-    // Send commands and read output sequentially
-    sendCommand := func(cmd string) {
-        _, err := fmt.Fprintln(stdin, cmd)
-        if err != nil {
-            fmt.Println("Error sending command:", err)
-        }
-    }
+    // Send commands
+    sendCommand(stdin, "vtysh")
+    sendCommand(stdin, "configure terminal")
+    sendCommand(stdin, "exit")
+    sendCommand(stdin, "exit")
 
-    // Expect functions
-    expect := func(expected string) {
+    // Start reading output and handle prompts
+    go func() {
         for scanner.Scan() {
             line := scanner.Text()
             fmt.Println("Output:", line)
-            if strings.Contains(line, expected) {
-                fmt.Println("Prompt detected:", expected)
+
+            // Check for prompts
+            if isPrompt(line) {
                 break
             }
         }
+        if err := scanner.Err(); err != nil {
+            fmt.Println("Error reading output:", err)
+        }
+    }()
+
+    // Read and print error
+    go func() {
+        scanner := bufio.NewScanner(stderr)
+        for scanner.Scan() {
+            fmt.Println("Error:", scanner.Text())
+        }
+        if err := scanner.Err(); err != nil {
+            fmt.Println("Error reading stderr:", err)
+        }
+    }()
+
+    // Wait for the command to finish with timeout
+    timeout := 30 * time.Second
+    done := make(chan error, 1)
+    go func() {
+        done <- cmd.Wait()
+    }()
+    select {
+    case <-time.After(timeout):
+        fmt.Println("Execution timed out after", timeout)
+        return
+    case err := <-done:
+        if err != nil {
+            fmt.Println("Error waiting for command to exit:", err)
+            return
+        }
+    }
+}
+
+// sendCommand sends a command to stdin
+func sendCommand(stdin io.WriteCloser, cmd string) {
+    fmt.Println("Sending command:", cmd)
+    _, err := fmt.Fprintf(stdin, "%s\n", cmd)
+    if err != nil {
+        fmt.Println("Error sending command:", err)
+    }
+}
+
+// isPrompt checks if a line contains a prompt
+func isPrompt(line string) bool {
+    prompts := []string{"#", "router#"}
+    for _, p := range prompts {
+        if strings.Contains(line, p) {
+            return true
+        }
+    }
+    return false
+}
+
+func TestPattern(t *testing.T) {
+    // Test isPrompt function
+    tests := []struct {
+        line     string
+        expected bool
+    }{
+        {"Hello, this is FRRouting (version 7.5.1 git).", false},
+        {"router#", true},
+        {"router(config)#", true},
     }
 
-    // Send commands and expect prompts
-    sendCommand("vtysh")
-    expect("router#")
-    sendCommand("configure terminal")
-    expect("router(config)#")
-    sendCommand("exit")
-    expect("#")
-    sendCommand("exit")
-
-    // Wait for the command to finish
-    if err := cmd.Wait(); err != nil {
-        fmt.Println("Error waiting for command to exit:", err)
-        return
+    for i, test := range tests {
+        if isPrompt(test.line) != test.expected {
+            t.Errorf("Test %d: Expected %v, got %v", i+1, test.expected, !test.expected)
+        }
     }
 }

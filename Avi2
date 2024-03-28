@@ -2,33 +2,65 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"os/exec"
 	"testing"
 )
 
-func TestDockerExecCommand(t *testing.T) {
-	// Create the command
-	cmd := exec.Command("docker", "exec", "clab-frrlab-router2", "/bin/bash")
+func TestConnectToRouter16(t *testing.T) {
+	// Command to list available containers
+	psCommand := "docker ps"
 
-	// Create buffers to store the output
-	var stdout bytes.Buffer
-	var stderr bytes.Buffer
-	cmd.Stdout = &stdout
-	cmd.Stderr = &stderr
-
-	// Run the command
-	err := cmd.Run()
+	// Execute the command to list available containers
+	psOutput, err := exec.Command("sh", "-c", psCommand).Output()
 	if err != nil {
-		t.Errorf("Error executing command: %v", err)
-		// Print stderr output
-		fmt.Println("Error output:")
-		fmt.Println(stderr.String())
+		t.Errorf("Error executing docker ps command: %v", err)
 		return
 	}
 
-	// Print stdout output
-	fmt.Println("Output of the command:")
-	fmt.Println(stdout.String())
+	// Print the output of the docker ps command
+	fmt.Println("Available containers:")
+	fmt.Println(string(psOutput))
+
+	// Command to log in to bash shell of the container
+	loginCommand := "docker exec clab-frrlab-router2 /bin/bash"
+
+	// Execute the command to log in to the bash shell of the container
+	loginOutput, err := exec.Command("sh", "-c", loginCommand).CombinedOutput()
+	if err != nil {
+		t.Errorf("Error logging in to the container: %v", err)
+		return
+	}
+
+	// Print the output of the login command
+	fmt.Println("Login output:")
+	fmt.Println(string(loginOutput))
+
+	// Command to log in to vtysh
+	vtyshCommand := "vtysh"
+
+	// Execute the command to log in to vtysh within the container's environment
+	vtyshOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+"'").CombinedOutput()
+	if err != nil {
+		t.Errorf("Error logging in to vtysh: %v", err)
+		return
+	}
+
+	// Print the output of the vtysh command
+	fmt.Println("vtysh output:")
+	fmt.Println(string(vtyshOutput))
+
+	// Command to show running configuration
+	showConfigCommand := "configure"
+
+	// Execute the command to show running configuration within the container's environment
+	showConfigOutput, err := exec.Command("sh", "-c", loginCommand+" -c '"+vtyshCommand+" -c \""+showConfigCommand+"\"'").CombinedOutput()
+	if err != nil {
+		t.Errorf("Error showing running configuration: %v", err)
+		return
+	}
+
+	// Print the output of the show running-config command
+	fmt.Println("Running configuration:")
+	fmt.Println(string(showConfigOutput))
 }

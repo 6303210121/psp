@@ -2,44 +2,70 @@
 package main
 
 import (
+    "bufio"
     "fmt"
+    "os/exec"
+    "strings"
     "testing"
+    "time"
 )
 
-func TestRouterLoginAndConfig(t *testing.T) {
-    // Use mock client for testing
-    client := &MockRouterClient{}
+func TestConnectToRouter16(t *testing.T) {
+    cmd := exec.Command("docker", "exec", "-it", "clab-frrlab-router2", "/bin/bash")
 
-    // Get credentials from environment variables
-    username, password, err := GetRouterCredentials()
+    // Connect to the command's standard input
+    stdin, err := cmd.StdinPipe()
     if err != nil {
-        t.Fatal(err)
-    }
-
-    // Login with provided credentials
-    loggedIn, err := client.Login(username, password)
-    if err != nil {
-        t.Errorf("Login failed: %v", err)
+        fmt.Println("Error obtaining stdin pipe:", err)
         return
     }
-    if !loggedIn {
-        t.Errorf("Login unsuccessful")
+
+    // Connect to the command's standard output
+    stdout, err := cmd.StdoutPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stdout pipe:", err)
+        return
     }
 
-    // Send commands (simulated)
-    fmt.Println("Sending command: vtysh")
-    output, err := client.SendCommand("vtysh")
-    if err != nil {
-        t.Errorf("vtysh command failed: %v", err)
-    } else {
-        fmt.Println(output) // Print simulated vtysh entry message
+    // Start the command
+    if err := cmd.Start(); err != nil {
+        fmt.Println("Error starting command:", err)
+        return
     }
 
-    fmt.Println("Sending command: config")
-    output, err = client.SendCommand("config")
-    if err != nil {
-        t.Errorf("config command failed: %v", err)
-    } else {
-        fmt.Println(output) // Print simulated config mode entry message
+    // Create a scanner to read from the command's output
+    scanner := bufio.NewScanner(stdout)
+
+    // Wait a moment to let the shell start up
+    time.Sleep(2 * time.Second)
+
+    // Enter vtysh mode
+    fmt.Fprintln(stdin, "vtysh")
+
+    // Wait for the prompt indicating vtysh mode
+    waitForPrompt(scanner, "router#")
+
+    // Enter configure terminal mode
+    fmt.Fprintln(stdin, "configure terminal")
+
+    // Wait for the prompt indicating configure terminal mode
+    waitForPrompt(scanner, "router(config)#")
+
+    // Exit the shell
+    fmt.Fprintln(stdin, "exit")
+
+    // Wait for the shell to exit
+    if err := cmd.Wait(); err != nil {
+        fmt.Println("Error waiting for command to exit:", err)
+        return
+    }
+}
+
+func waitForPrompt(scanner *bufio.Scanner, prompt string) {
+    for scanner.Scan() {
+        line := scanner.Text()
+        if strings.Contains(line, prompt) {
+            break
+        }
     }
 }

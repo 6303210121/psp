@@ -13,17 +13,20 @@ func TestConnectToRouter16(t *testing.T) {
     // Create the docker exec command
     cmd := exec.Command("docker", "exec", "-i", "clab-frrlab-router2", "/bin/bash")
 
-    // Connect to the command's standard input
+    // Connect to the command's standard input, output, and error
     stdin, err := cmd.StdinPipe()
     if err != nil {
         fmt.Println("Error obtaining stdin pipe:", err)
         return
     }
-
-    // Connect to the command's standard output and standard error
     stdout, err := cmd.StdoutPipe()
     if err != nil {
         fmt.Println("Error obtaining stdout pipe:", err)
+        return
+    }
+    stderr, err := cmd.StderrPipe()
+    if err != nil {
+        fmt.Println("Error obtaining stderr pipe:", err)
         return
     }
 
@@ -33,45 +36,50 @@ func TestConnectToRouter16(t *testing.T) {
         return
     }
 
-    // Create a reader for the command's output
-    reader := io.MultiReader(stdout)
+    // Send commands in a separate goroutine
+    go func() {
+        commands := []string{
+            "vtysh\n",
+            "configure terminal\n",
+            "exit\n",
+            "exit\n",
+        }
+        for _, cmd := range commands {
+            if _, err := io.WriteString(stdin, cmd); err != nil {
+                fmt.Println("Error writing command:", err)
+                return
+            }
+        }
+    }()
 
-    // Create a buffer to read the output
-    buf := make([]byte, 4096)
-
-    // Read the output in a loop
-    for {
-        // Read from the output
-        n, err := reader.Read(buf)
-        if err != nil {
-            if err == io.EOF {
+    // Read output in main goroutine
+    go func() {
+        scanner := io.NewScanner(stdout)
+        for scanner.Scan() {
+            fmt.Println(scanner.Text())
+            if strings.Contains(scanner.Text(), "#") {
                 break
             }
-            fmt.Println("Error reading from output:", err)
-            return
         }
-
-        // Print the output
-        fmt.Print(string(buf[:n]))
-
-        // Check if the prompt is present
-        output := string(buf[:n])
-        if strings.Contains(output, "#") {
-            // Send the commands
-            fmt.Fprintln(stdin, "vtysh")
-            fmt.Fprintln(stdin, "configure terminal")
-            fmt.Fprintln(stdin, "exit")
-            fmt.Fprintln(stdin, "exit")
-            break
+        if err := scanner.Err(); err != nil {
+            fmt.Println("Error reading output:", err)
         }
-    }
+    }()
 
-    // Wait for the command to finish and check for errors
+    // Read error in main goroutine
+    go func() {
+        scanner := io.NewScanner(stderr)
+        for scanner.Scan() {
+            fmt.Println(scanner.Text())
+        }
+        if err := scanner.Err(); err != nil {
+            fmt.Println("Error reading stderr:", err)
+        }
+    }()
+
+    // Wait for the command to finish
     if err := cmd.Wait(); err != nil {
         fmt.Println("Error waiting for command to exit:", err)
-        if exitErr, ok := err.(*exec.ExitError); ok {
-            fmt.Println("Stderr:", string(exitErr.Stderr))
-        }
         return
     }
 }

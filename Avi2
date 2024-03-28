@@ -13,14 +13,20 @@ import (
 )
 
 func main() {
+	// Run the function to interact with the Docker container
+	if err := interactWithContainer(); err != nil {
+		fmt.Println("Error:", err)
+	}
+}
+
+func interactWithContainer() error {
 	// Start the docker exec command
 	cmd := exec.Command("docker", "exec", "-it", "clab-frrlab-router2", "/bin/bash")
 
 	// Start a pseudo-terminal (pty) for interaction
 	ptyMaster, tty, err := pty.Open()
 	if err != nil {
-		fmt.Println("Error opening pty:", err)
-		return
+		return fmt.Errorf("error opening pty: %v", err)
 	}
 	defer ptyMaster.Close()
 
@@ -31,69 +37,77 @@ func main() {
 
 	// Start the command
 	if err := cmd.Start(); err != nil {
-		fmt.Println("Error starting command:", err)
-		return
+		return fmt.Errorf("error starting command: %v", err)
 	}
 
 	// Create a reader for the command's output
 	cmdOutputReader, err := cmd.StdoutPipe()
 	if err != nil {
-		fmt.Println("Error obtaining command's stdout pipe:", err)
-		return
+		return fmt.Errorf("error obtaining command's stdout pipe: %v", err)
 	}
 
 	// Create a writer for the command's input
 	cmdInputWriter := io.MultiWriter(ptyMaster, os.Stdout)
 
 	// Wait for the command to display the prompt
-	waitForPrompt(cmdOutputReader, "router#", 10*time.Second)
+	if err := waitForPrompt(cmdOutputReader, "router#", 10*time.Second); err != nil {
+		return fmt.Errorf("error waiting for prompt: %v", err)
+	}
 
 	// Send commands
+	sendCommand(cmdInputWriter, "vtysh")
+	if err := waitForPrompt(cmdOutputReader, "router#", 10*time.Second); err != nil {
+		return fmt.Errorf("error waiting for vtysh prompt: %v", err)
+	}
+
 	sendCommand(cmdInputWriter, "configure terminal")
-	waitForPrompt(cmdOutputReader, "router\\(config\\)#", 10*time.Second)
+	if err := waitForPrompt(cmdOutputReader, "router\\(config\\)#", 10*time.Second); err != nil {
+		return fmt.Errorf("error waiting for configure terminal prompt: %v", err)
+	}
 
 	// Send exit commands
 	sendCommand(cmdInputWriter, "exit")
-	waitForPrompt(cmdOutputReader, "router#", 10*time.Second)
+	if err := waitForPrompt(cmdOutputReader, "router#", 10*time.Second); err != nil {
+		return fmt.Errorf("error waiting for router# prompt after exiting configure terminal: %v", err)
+	}
+
 	sendCommand(cmdInputWriter, "exit")
-	waitForPrompt(cmdOutputReader, "#", 10*time.Second)
+	if err := waitForPrompt(cmdOutputReader, "#", 10*time.Second); err != nil {
+		return fmt.Errorf("error waiting for # prompt after exiting vtysh: %v", err)
+	}
 
 	// Wait for the command to exit
 	if err := cmd.Wait(); err != nil {
-		fmt.Println("Error waiting for command to exit:", err)
-		return
+		return fmt.Errorf("error waiting for command to exit: %v", err)
 	}
+
+	return nil
 }
 
 // sendCommand sends a command to the command's input
 func sendCommand(writer io.Writer, cmd string) {
 	fmt.Println("Sending command:", cmd)
-	_, err := fmt.Fprintf(writer, "%s\r", cmd)
-	if err != nil {
-		fmt.Println("Error sending command:", err)
-	}
+	fmt.Fprintf(writer, "%s\r", cmd)
 }
 
 // waitForPrompt waits for the command to display the specified prompt
-func waitForPrompt(reader io.Reader, prompt string, timeout time.Duration) {
+func waitForPrompt(reader io.Reader, prompt string, timeout time.Duration) error {
 	buffer := make([]byte, 1024)
 	start := time.Now()
 
 	for {
 		n, err := reader.Read(buffer)
 		if err != nil && err != io.EOF {
-			fmt.Println("Error reading command output:", err)
-			return
+			return fmt.Errorf("error reading command output: %v", err)
 		}
 
 		if strings.Contains(string(buffer[:n]), prompt) {
 			fmt.Println("Prompt detected:", prompt)
-			return
+			return nil
 		}
 
 		if time.Since(start) > timeout {
-			fmt.Println("Timeout waiting for prompt:", prompt)
-			return
+			return fmt.Errorf("timeout waiting for prompt: %s", prompt)
 		}
 
 		time.Sleep(100 * time.Millisecond)

@@ -1,4 +1,5 @@
 
+
 package main
 
 import (
@@ -57,9 +58,6 @@ func main() {
     // Print acknowledgment message
     fmt.Println("Entered into config mode successfully.")
 
-    // Close the stdin pipe to signal EOF
-    stdin.Close()
-
     // Wait for the command to finish
     if err := cmd.Wait(); err != nil {
         fmt.Printf("Command execution error: %s\n", err)
@@ -72,25 +70,6 @@ func waitForPrompt(stdout *bytes.Buffer, prompt string) error {
     for {
         line, err := stdout.ReadString('\n')
         if err != nil {
-            return fmt.Errorf("error reading output: %s", err)
-        }
-        fmt.Print(line)
-        if strings.Contains(line, prompt) {
-            break
-        }
-    }
-    return nil
-}
-
-func waitForPrompt(stdout *bytes.Buffer, prompt string) error {
-    // Read output until the prompt is encountered
-    for {
-        line, err := stdout.ReadString('\n')
-        if err != nil {
-            if err == io.EOF {
-                fmt.Println("Reached EOF while waiting for prompt.")
-                return fmt.Errorf("EOF encountered while waiting for prompt")
-            }
             return fmt.Errorf("error reading output: %s", err)
         }
         fmt.Print(line)

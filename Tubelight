@@ -6,7 +6,9 @@ Copy code
 git clone https://github.com/CESNET/libnetconf2.git
 cd libnetconf2
 mkdir build && cd build
-cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D CMAKE_BUILD_TYPE:String="Release" ..
+cmake -D 
+CMAKE_INSTALL_PREFIX:PATH=/usr -D 
+CMAKE_BUILD_TYPE:String="Release" ..
 make
 sudo make install
 cd ../..

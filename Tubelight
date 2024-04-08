@@ -1,0 +1,54 @@
+libnetconf2
+After successfully installing libyang:
+
+bash
+Copy code
+git clone https://github.com/CESNET/libnetconf2.git
+cd libnetconf2
+mkdir build && cd build
+cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D CMAKE_BUILD_TYPE:String="Release" ..
+make
+sudo make install
+cd ../..
+Sysrepo
+Make sure all Sysrepo dependencies are installed, as it may require additional libraries:
+
+bash
+Copy code
+sudo apt install -y libavl-dev libev-dev libprotobuf-c-dev protobuf-c-compiler
+Then, proceed with Sysrepo installation:
+
+bash
+Copy code
+git clone https://github.com/sysrepo/sysrepo.git
+cd sysrepo
+mkdir build && cd build
+cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D CMAKE_BUILD_TYPE:String="Release" ..
+make
+sudo make install
+cd ../..
+Netopeer2
+After libyang, libnetconf2, and Sysrepo are successfully installed:
+
+bash
+Copy code
+git clone https://github.com/CESNET/Netopeer2.git
+cd Netopeer2
+mkdir build && cd build
+cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D CMAKE_BUILD_TYPE:String="Release" ..
+make
+sudo make install
+cd ../..
+Final Steps
+Update the library cache: After installation, refresh the system's library cache to ensure the newly installed libraries are found by the linker.
+
+bash
+Copy code
+sudo ldconfig
+Verify installation: Check that each component is correctly installed and accessible. For example, you can check if netopeer2-server and netopeer2-cli are in your system's PATH:
+
+bash
+Copy code
+netopeer2-server -V
+netopeer2-cli -V
+These commands should set up a working environment with libyang, libnetconf2, Sysrepo, and Netopeer2, allowing you to manage FRRouting configurations via Netconf. Remember, precise steps may vary based on your system and the specific versions of the tools you're working with. Always refer to the official documentation for the most up-to-date information.

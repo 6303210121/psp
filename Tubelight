@@ -1,3 +1,5 @@
+wget https://github.com/uncrustify/uncrustify/archive/refs/tags/uncrustify-0.77.tar.gz
+
 libnetconf2
 After successfully installing libyang:
 

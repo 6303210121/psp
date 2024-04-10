@@ -1,7 +1,4 @@
-Make Warning at CMakeLists.txt:283 (message):
-  valgrind executable not found! Disabling memory leak tests.
-
-
+bash-5.1# cmake -DENABLE_SOURCE_FORMAT=OFF ..
 CMake Error at CMakeModules/FindUncrustify.cmake:12 (string):
   string sub-command FIND requires 3 or 4 parameters.
 Call Stack (most recent call first):
@@ -34,14 +31,6 @@ CMake Error at CMakeModules/UseCompat.cmake:48 (list):
   list sub-command REMOVE_ITEM requires two or more arguments.
 Call Stack (most recent call first):
   CMakeLists.txt:339 (use_compat)
-
-
-CMake Warning at tests/yanglint/CMakeLists.txt:27 (message):
-  'tclsh' not found! The yanglint(1) interactive tests will not be available.
-
-
-CMake Warning at tests/yangre/CMakeLists.txt:3 (message):
-  'tclsh' not found! The yangre test will not be available.
 
 
 -- Configuring incomplete, errors occurred!

@@ -1,0 +1,49 @@
+Make Warning at CMakeLists.txt:283 (message):
+  valgrind executable not found! Disabling memory leak tests.
+
+
+CMake Error at CMakeModules/FindUncrustify.cmake:12 (string):
+  string sub-command FIND requires 3 or 4 parameters.
+Call Stack (most recent call first):
+  CMakeModules/SourceFormat.cmake:9 (find_package)
+  CMakeLists.txt:321 (source_format_enable)
+
+
+CMake Error at CMakeModules/FindUncrustify.cmake:14 (string):
+  string begin index: 1 is out of range 0 - 0
+Call Stack (most recent call first):
+  CMakeModules/SourceFormat.cmake:9 (find_package)
+  CMakeLists.txt:321 (source_format_enable)
+
+
+CMake Error at CMakeModules/FindUncrustify.cmake:16 (string):
+  string sub-command FIND requires 3 or 4 parameters.
+Call Stack (most recent call first):
+  CMakeModules/SourceFormat.cmake:9 (find_package)
+  CMakeLists.txt:321 (source_format_enable)
+
+
+CMake Error at CMakeModules/FindUncrustify.cmake:17 (string):
+  string sub-command SUBSTRING requires four arguments.
+Call Stack (most recent call first):
+  CMakeModules/SourceFormat.cmake:9 (find_package)
+  CMakeLists.txt:321 (source_format_enable)
+
+
+CMake Error at CMakeModules/UseCompat.cmake:48 (list):
+  list sub-command REMOVE_ITEM requires two or more arguments.
+Call Stack (most recent call first):
+  CMakeLists.txt:339 (use_compat)
+
+
+CMake Warning at tests/yanglint/CMakeLists.txt:27 (message):
+  'tclsh' not found! The yanglint(1) interactive tests will not be available.
+
+
+CMake Warning at tests/yangre/CMakeLists.txt:3 (message):
+  'tclsh' not found! The yangre test will not be available.
+
+
+-- Configuring incomplete, errors occurred!
+See also "/libyang/build/CMakeFiles/CMakeOutput.log".
+See also "/libyang/build/CMakeFiles/CMakeError.log".

@@ -1,11 +1,4 @@
 Traceback (most recent call last):
-  File "Aa_test.py", line 30, in <module>
-    response = m.dispatch(m.get_rpc(get_config_rpc))
-  File "/home/tcs/.local/lib/python3.8/site-packages/ncclient/manager.py", line 299, in _missing
-    sub_ele(root, arg)
-  File "/home/tcs/.local/lib/python3.8/site-packages/ncclient/xml_.py", line 296, in <lambda>
-    sub_ele = lambda parent, tag, attrs={}, **extra: etree.SubElement(parent, qualify(tag, parent_ns(parent)), attrs, **extra)
-  File "src/lxml/etree.pyx", line 3136, in lxml.etree.SubElement
-  File "src/lxml/apihelpers.pxi", line 179, in lxml.etree._makeSubElement
-  File "src/lxml/apihelpers.pxi", line 1734, in lxml.etree._tagValidOrRaise
-ValueError: Invalid tag name '\n<rpc message-id="101" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\n  <get-config>\n    <source>\n      <running/>\n    </source>\n    <filter type="subtree">\n      <bgp-items xmlns="http://cisco.com/ns/yang/cisco-nx-os-device"/>\n    </filter>\n  </get-config>\n</rpc>\n'
+  File "Aa_test.py", line 15, in <module>
+    get_config_rpc = RPC("""
+TypeError: __init__() missing 1 required positional argument: 'device_handler'

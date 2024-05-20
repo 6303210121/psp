@@ -1,13 +1,10 @@
 Traceback (most recent call last):
-  File "Aa_test.py", line 30, in <module>
-    response = m.rpc(get_config_rpc).xml
+  File "Aa_test.py", line 34, in <module>
+    response = m.dispatch(rpc_element).xml
   File "/home/tcs/.local/lib/python3.8/site-packages/ncclient/manager.py", line 257, in execute
     return cls(self._session,
-  File "/home/tcs/.local/lib/python3.8/site-packages/ncclient/operations/rpc.py", line 511, in request
-    node = new_ele(rpc_command)
-  File "/home/tcs/.local/lib/python3.8/site-packages/ncclient/xml_.py", line 292, in <lambda>
-    new_ele = lambda tag, attrs={}, **extra: etree.Element(qualify(tag), attrs, **extra)
-  File "src/lxml/etree.pyx", line 3022, in lxml.etree.Element
-  File "src/lxml/apihelpers.pxi", line 101, in lxml.etree._makeElement
-  File "src/lxml/apihelpers.pxi", line 1734, in lxml.etree._tagValidOrRaise
-ValueError: Invalid tag name '\n<rpc message-id="101" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\n  <get-config>\n    <source>\n      <running/>\n    </source>\n    <filter type="subtree">\n      <bgp-items xmlns="http://cisco.com/ns/yang/cisco-nx-os-device"/>\n    </filter>\n  </get-config>\n</rpc>\n'
+  File "/home/tcs/.local/lib/python3.8/site-packages/ncclient/operations/retrieve.py", line 240, in request
+    return self._request(node)
+  File "/home/tcs/.local/lib/python3.8/site-packages/ncclient/operations/rpc.py", line 375, in _request
+    raise self._reply.error
+ncclient.operations.rpc.RPCError: Namespace="urn:ietf:params:xml:ns:netconf:base:1.0"

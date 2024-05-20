@@ -1,20 +1,6 @@
-User Access Verification
-Password:
-<?xml version="1.0" encoding="UTF-8"?>
-<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-    <capabilities>
-        <capability>urn:ietf:params:netconf:base:1.0</capability>
-        <capability>urn:ietf:params:netconf:base:1.1</capability>
-        <capability>urn:ietf:params:netconf:capability:writable-running:1.0</capability>
-        <capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</capability>
-        <capability>urn:ietf:params:netconf:capability:candidate:1.0</capability>
-        <capability>urn:ietf:params:netconf:capability:validate:1.1</capability>
-        <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.1</capability>
-        <capability>urn:ietf:params:netconf:capability:notification:1.0</capability>
-        <capability>urn:ietf:params:netconf:capability:interleave:1.0</capability>
-        <capability>urn:ietf:params:netconf:capability:with-defaults:1.0?basic-mode=report-all</capability>
-        <capability>http://cisco.com/ns/yang/cisco-nx-os-device?revision=2022-02-04&amp;module=Cisco-NX-OS-device</capability>
-    </capabilities>
-    <session-id>1560911993</session-id>
-</hello>
-]]>]]>
+2024 May 20 03:46:36 n9k1 nxsdk: <{nxsdk}>(ERR) nc_adpt_process_request_async_internal(580): mtx adpater process request failed: (operation-not-supported) http://cisco.
+com/ns/yang/cisco-nx-os-device does not have an RPC member rpc
+2024 May 20 05:20:46 n9k1 nxsdk: <{nxsdk}>(ERR) nc_adpt_hello_validate(367): mtx select capabilities failed: (operation-not-supported) Minimum Capabilities not met
+2024 May 20 05:22:04 n9k1 nxsdk: <{nxsdk}>(ERR) nc_adpt_hello_validate(367): mtx select capabilities failed: (operation-not-supported) Minimum Capabilities not met
+2024 May 20 05:22:26 n9k1 nxsdk: <{nxsdk}>(ERR) nc_adpt_hello_validate(367): mtx select capabilities failed: (operation-not-supported) Minimum Capabilities not met
+2024 May 20 05:23:31 n9k1 nxsdk: <{nxsdk}>(ERR) nc_adpt_hello_validate(367): mtx select capabilities failed: (operation-not-supported) Minimum Capabilities not met

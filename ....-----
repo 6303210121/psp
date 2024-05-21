@@ -1,0 +1,4 @@
+2024 May 21 04:36:02 n9k1 nxsdk: <{nxsdk}>(TRC) nc_pxs_send(251): Server->Client Size '459' Data ' #181 <?xml version="1.0" encoding="UTF-8"?> <rpc-reply xmlns="urn:iet
+f:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:e676dc44-4562-489e-a63a-5d25fdc29ca9">     <ok/> </rpc-reply>  ## '
+2024 May 21 04:53:13 n9k1 nxsdk: <{nxsdk}>(TRC) nc_pxs_send(251): Server->Client Size '1423' Data '<?xml version="1.0" encoding="UTF-8"?> <hello xmlns="urn:ietf:params:
+xml:ns:netconf:base:1.0">     <capabilities>         <capability>urn:ietf:params:netconf:base:1. ... ns/yang/cisco-nx-os-device?revision=2023-12-12&a

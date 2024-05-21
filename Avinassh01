@@ -1,8 +1,11 @@
 https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/7-x/programmability/guide/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide_7x/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide_7x_chapter_010101.html
-
-
-
-
+https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/7-x/programmability/guide/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide_7x/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide_7x_chapter_010101.html#id_41462
 
 
 https://discuss.tail-f.com/t/what-is-the-expected-reply-messages-sequence-after-sending-close-session/3889
+
+sample messages --   https://www.juniper.net/documentation/us/en/software/junos/netconf/topics/task/netconf-session-closing.html#:~:text=When%20a%20client%20application%20is%20finished%20making%20requests%2C,%3Cok%2F%3E%20tag%20enclosed%20in%20an%20%3Crpc-reply%3E%20tag%20element%3A
+
+sample messages --  https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/7-x/programmability/guide/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide_7x/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide_7x_chapter_0100000.html
+
+Another sample messages --  https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/cns/configuration/xe-3s/cns-xe-3s-book/cns-netconf.html

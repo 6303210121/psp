@@ -1,0 +1,148 @@
+############################working###############################################
+
+]]>]]>^Ctcs@01HW896031:~$ ssh admin@10.133.35.148 -s netconf
+User Access Verification
+Password:
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <capabilities>
+    <capability>urn:ietf:params:xml:ns:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:validate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:writable-running:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:url:1.0?scheme=file</capability>
+    <capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:candidate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</capability>
+  </capabilities>
+  <session-id>15213</session-id>
+</hello>
+]]>]]><?xml version="1.0" encoding="UTF-8"?>
+<hello
+xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+<capabilities>
+<capability>urn:ietf:params:netconf:base:1.0</capability>
+</capabilities></hello>]]>]]>
+<?xml version="1.0"?>
+<nc:rpc message-id="101" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"
+xmlns="http://www.cisco.com/nxos:1.0">
+<nc:close-session/>
+</nc:rpc>]]>]]>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nc:rpc-reply xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns="http://www.cisco.com/nxos:1.0" message-id="101">
+  <nc:ok/>
+</nc:rpc-reply>
+]]>]]>tcs@01HW896031:~$
+
+##################################################################
+
+<?xml version="1.0"?>
+<nc:rpc message-id="101" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"
+xmlns="http://www.cisco.com/nxos:1.0">
+<nc:copy-config>
+<nc:target>
+<nc:running/>
+</nc:target>
+<nc:source>
+<nc:url>https://user@example.com:passphrase/cfg/new.txt</url>
+</nc:source>
+</nc:copy-config>
+</nc:rpc>]]>]]>
+
+#########################working##################
+<?xml version="1.0"?>
+<nc:rpc message-id="16" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"
+xmlns="http://www.cisco.com/nxos:1.0:if_manager">
+<nc:edit-config>
+<nc:target>
+<nc:running/>
+</nc:target>
+<nc:config>
+<configure>
+<__XML__MODE__exec_configure>
+<interface>
+<ethernet>
+<interface>1/16</interface>
+<__XML__MODE_if-ethernet>
+<__XML__MODE_if-eth-base>
+<description>
+<desc_line>Marketing Network</desc_line>
+</description>
+</__XML__MODE_if-eth-base>
+</__XML__MODE_if-ethernet>
+</ethernet>
+</interface>
+</__XML__MODE__exec_configure>
+</configure>
+</nc:config>
+</nc:edit-config>
+</nc:rpc>]]>]]>
+
+#########result#################################
+
+
+]]>]]>^Ctcs@01HW896031:~$ ssh admin@10.133.35.148 -s netconf
+User Access Verification
+Password:
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <capabilities>
+    <capability>urn:ietf:params:xml:ns:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:validate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:writable-running:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:url:1.0?scheme=file</capability>
+    <capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:candidate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</capability>
+  </capabilities>
+  <session-id>19102</session-id>
+</hello>
+]]>]]><?xml version="1.0" encoding="UTF-8"?>
+<hello
+xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+<capabilities>
+<capability>urn:ietf:params:netconf:base:1.0</capability>
+</capabilities></hello>]]>]]>
+<?xml version="1.0"?>
+<nc:rpc message-id="16" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"
+xmlns="http://www.cisco.com/nxos:1.0:if_manager">
+<nc:edit-config>
+<nc:target>
+<nc:running/>
+</nc:target>
+<nc:config>
+<configure>
+<__XML__MODE__exec_configure>
+<interface>
+<ethernet>
+<interface>1/12</interface>
+<__XML__MODE_if-ethernet>
+<__XML__MODE_if-eth-base>
+<description>
+<desc_line>Marketing Network</desc_line>
+</description>
+</__XML__MODE_if-eth-base>
+</__XML__MODE_if-ethernet>
+</ethernet>
+</interface>
+</__XML__MODE__exec_configure>
+</configure>
+</nc:config>
+</nc:edit-config>
+</nc:rpc>]]>]]>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nc:rpc-reply xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns="http://www.cisco.com/nxos:1.0:if_manager" message-id="16">
+  <nc:ok/>
+</nc:rpc-reply>
+]]>]]>
+
+
+#############################Hello message##############################
+
+<?xml version="1.0" encoding="UTF-8"?>
+<hello
+xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+<capabilities>
+<capability>urn:ietf:params:netconf:base:1.0</capability>
+</capabilities></hello>]]>]]>

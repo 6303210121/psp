@@ -15,3 +15,35 @@
     <nf:error-message>Parsing namespace definition failed.</nf:error-message>
   </nf:rpc-error>
 </nf:rpc-reply>
+
+
+tcs@01HW896031:~$ ssh admin@10.133.35.152 -s netconf
+User Access Verification
+Password:
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <capabilities>
+    <capability>urn:ietf:params:xml:ns:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:validate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:writable-running:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:url:1.0?scheme=file</capability>
+    <capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:candidate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</capability>
+  </capabilities>
+  <session-id>18893</session-id>
+</hello>
+]]>]]><?xml version="1.0" encoding="UTF-8" ?>
+<rpc message-id="9.0"><notification-on/>
+</rpc>]]>]]>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="9.0">
+  <nf:rpc-error>
+    <nf:error-type>application</nf:error-type>
+    <nf:error-tag>invalid-value</nf:error-tag>
+    <nf:error-severity>error</nf:error-severity>
+    <nf:error-message>Parsing namespace definition failed.</nf:error-message>
+  </nf:rpc-error>
+</nf:rpc-reply>
+]]>]]>

@@ -121,3 +121,14 @@ IP access list copp-system-p-acl-vpc
         10 permit udp any any eq 3200
 IP access list copp-system-p-acl-vrrp
         10 permit ip any 224.0.0.18/32
+
+##############################################################################################
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="115">
+  <nf:rpc-error>
+    <nf:error-type>application</nf:error-type>
+    <nf:error-tag>invalid-value</nf:error-tag>
+    <nf:error-severity>error</nf:error-severity>
+    <nf:error-message>Element '{http://www.cisco.com/nxos:1.0}exec-config': This element is not expected. Expected is one of ( {urn:ietf:params:xml:ns:netconf:base:1.0}rpcOperation, {urn:ietf:params:xml:ns:netconf:base:1.0}get-config, {urn:ietf:params:xml:ns:netconf:base:1.0}e</nf:error-message>
+  </nf:rpc-error>
+</nf:rpc-reply>

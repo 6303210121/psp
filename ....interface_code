@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<nf:rpc xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0"
+xmlns:nxos="
+http://www.cisco.com/nxos:1.0"
+message-id="110">
+<nxos:exec-command>
+<nxos:cmd>conf t ; interface ethernet 1/2 ; ip address 1.1.1.4/24 </nxos:cmd>
+</nxos:exec-command>
+</nf:rpc>]]>]]>

@@ -338,14 +338,15 @@ IPv6 access list copp-system-p-acl-vrrp6
 
 ################################################################################################################
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="115">
+<nf:rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0">
   <nf:rpc-error>
-    <nf:error-type>rpc</nf:error-type>
-    <nf:error-tag>missing-attribute</nf:error-tag>
+    <nf:error-type>application</nf:error-type>
+    <nf:error-tag>invalid-value</nf:error-tag>
     <nf:error-severity>error</nf:error-severity>
-    <nf:error-message>Wrong document: namespaces not specified</nf:error-message>
+    <nf:error-message>Wrong rpc element</nf:error-message>
     <nf:error-info>
-      <nf:bad-element>rpc</nf:bad-element>
+      <nf:bad-element>rpc-reply</nf:bad-element>
     </nf:error-info>
   </nf:rpc-error>
 </nf:rpc-reply>
+]]>]]>

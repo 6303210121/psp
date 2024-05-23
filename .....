@@ -1,21 +1,32 @@
+from pyats.topology import loader
+from genie.testbed import load
+from pyats import aetest
+import re, logging
 
-<?xml version="1.0" encoding="UTF-8"?>
-<nf:rpc message-id="102" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
-    <nf:edit-config>
-        <nf:target>
-            <nf:running/>
-        </nf:target>
-        <nf:config>
-            <nxos:interface>
-                <nxos:name>Eth1/1</nxos:name>
-                <nxos:ip>
-                    <nxos:access-group>
-                        <nxos:in>
-                            <nxos:acl-name>user-acl-ssh</nxos:acl-name>
-                        </nxos:in>
-                    </nxos:access-group>
-                </nxos:ip>
-            </nxos:interface>
-        </nf:config>
-    </nf:edit-config>
-</nf:rpc>
+#prepare Netconf connection and create an instance of ModelDevice:
+testbed = loader.load("ios_xe_netconfig_testing.yaml")
+
+device = testbed.devices['ios-xe-mgmt']
+device.connect(alias='nc',via='netconf')
+print(device.nc)
+device.nc.timeout = 300
+
+#Download and scan models:
+device.nc.scan_models()
+#load the modules
+device.nc.models_loadable
+
+#Load multiple models depending on your testing requirement:
+#m1 = device.nc.load_model('openconfig-interfaces')
+#m2 = device.nc.load_model('Cisco-IOS-XE-native')
+#m3 = device.nc.load_model('openconfig-network-instance')
+
+#reply = device.nc.get(models='openconfig-interfaces')
+#print(reply)
+
+#assert(reply.ok)
+#print(reply)
+
+DATA = device.nc.get_config('running')
+
+print(DATA)

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="102">
   <nf:rpc-error>
-    <nf:error-type>application</nf:error-type>
-    <nf:error-tag>invalid-value</nf:error-tag>
+    <nf:error-type>rpc</nf:error-type>
+    <nf:error-tag>missing-attribute</nf:error-tag>
     <nf:error-severity>error</nf:error-severity>
-    <nf:error-message>Element '{http://www.cisco.com/nxos:1.0}configure': This element is not expected. Expected is one of ( {urn:ietf:params:xml:ns:netconf:base:1.0}rpcOperation, {urn:ietf:params:xml:ns:netconf:base:1.0}get-config, {urn:ietf:params:xml:ns:netconf:base:1.0}edi</nf:error-message>
+    <nf:error-message>Wrong document: namespaces not specified</nf:error-message>
+    <nf:error-info>
+      <nf:bad-element>rpc</nf:bad-element>
+    </nf:error-info>
   </nf:rpc-error>
 </nf:rpc-reply>

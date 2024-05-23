@@ -1,7 +1,9 @@
-Interface            IP Address      Interface Status
-Lo0                  10.0.1.1        protocol-up/link-up/admin-up
-Eth1/1               192.168.10.1    protocol-up/link-up/admin-up
-Eth1/2               1.1.1.4         protocol-down/link-down/admin-up
-Eth1/3               192.168.48.1    protocol-down/link-down/admin-up
-Eth1/5               192.168.5.1     protocol-up/link-up/admin-up
-Eth1/11              11.11.11.1      protocol-up/link-up/admin-up
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="101">
+  <nf:rpc-error>
+    <nf:error-type>application</nf:error-type>
+    <nf:error-tag>invalid-value</nf:error-tag>
+    <nf:error-severity>error</nf:error-severity>
+    <nf:error-message>Element '{http://www.cisco.com/nxos:1.0}exec-config': This element is not expected. Expected is one of ( {urn:ietf:params:xml:ns:netconf:base:1.0}rpcOperation, {urn:ietf:params:xml:ns:netconf:base:1.0}get-config, {urn:ietf:params:xml:ns:netconf:base:1.0}e</nf:error-message>
+  </nf:rpc-error>
+</nf:rpc-reply>

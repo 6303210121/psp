@@ -4,7 +4,7 @@
     <nxos:exec-config>
         <nxos:cmd>conf t ; ip access-list new-acl ; permit ip 192.168.1.0 0.0.0.255 any</nxos:cmd>
     </nxos:exec-config>
-</nf:rpc>
+</nf:rpc>]]>]]>
 
 
 

@@ -4,3 +4,34 @@
         <nxos:cmd>conf t ; ip access-list user-acl-ssh ; permit tcp any any eq 22 ; permit tcp any eq 22 any</nxos:cmd>
     </nxos:exec-command>
 </nf:rpc>]]>]]>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="108" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; router rip Enterprise ; address-family ipv4 unicast</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="108">
+  <nf:ok/>
+</nf:rpc-reply>
+]]>]]>
+
+######################################################################################################
+
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="108" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>show ip rip</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+####################################################################################################################
+
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="108" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; no router rip Enterprise </nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>

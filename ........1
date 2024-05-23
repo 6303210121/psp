@@ -1,0 +1,19 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="105" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:configure>
+        <nxos:router>
+            <nxos:rip>
+                <nxos:version>2</nxos:version>
+            </nxos:rip>
+        </nxos:router>
+        <nxos:interface>
+            <nxos:name>Eth1/9</nxos:name>
+            <nxos:ip>
+                <nxos:rip>
+                    <nxos:network>192.168.10.0</nxos:network>
+                </nxos:rip>
+            </nxos:ip>
+        </nxos:interface>
+    </nxos:configure>
+</nf:rpc>

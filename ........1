@@ -5,3 +5,12 @@
         <nxos:cmd>conf t ; ip access-list new-acl ; permit ip 192.168.1.0 0.0.0.255 any</nxos:cmd>
     </nxos:exec-config>
 </nf:rpc>
+###############################################
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="102" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:get>
+        <nxos:router-rip xmlns="http://www.cisco.com/nxos:1.0">
+            <nxos:instance/>
+        </nxos:router-rip>
+    </nxos:get>
+</nf:rpc>

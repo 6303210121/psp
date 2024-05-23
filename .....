@@ -1,12 +1,21 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="102">
-  <nf:rpc-error>
-    <nf:error-type>rpc</nf:error-type>
-    <nf:error-tag>missing-attribute</nf:error-tag>
-    <nf:error-severity>error</nf:error-severity>
-    <nf:error-message>Wrong document: namespaces not specified</nf:error-message>
-    <nf:error-info>
-      <nf:bad-element>rpc</nf:bad-element>
-    </nf:error-info>
-  </nf:rpc-error>
-</nf:rpc-reply>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="102" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nf:edit-config>
+        <nf:target>
+            <nf:running/>
+        </nf:target>
+        <nf:config>
+            <nxos:interface xmlns:nxos="http://www.cisco.com/nxos:1.0">
+                <nxos:name>Eth1/1</nxos:name>
+                <nxos:ip>
+                    <nxos:access-group>
+                        <nxos:in>
+                            <nxos:acl-name>user-acl-ssh</nxos:acl-name>
+                        </nxos:in>
+                    </nxos:access-group>
+                </nxos:ip>
+            </nxos:interface>
+        </nf:config>
+    </nf:edit-config>
+</nf:rpc>

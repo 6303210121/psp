@@ -6,16 +6,16 @@
             <nf:running/>
         </nf:target>
         <nf:config>
-            <nxos:interface xmlns:nxos="http://www.cisco.com/nxos:1.0">
-                <nxos:name>Eth1/1</nxos:name>
-                <nxos:ip>
-                    <nxos:access-group>
-                        <nxos:in>
-                            <nxos:acl-name>user-acl-ssh</nxos:acl-name>
-                        </nxos:in>
-                    </nxos:access-group>
-                </nxos:ip>
-            </nxos:interface>
+            <interface xmlns="http://www.cisco.com/nxos:1.0">
+                <name>Eth1/1</name>
+                <ip>
+                    <access-group>
+                        <in>
+                            <acl-name>user-acl-ssh</acl-name>
+                        </in>
+                    </access-group>
+                </ip>
+            </interface>
         </nf:config>
     </nf:edit-config>
 </nf:rpc>

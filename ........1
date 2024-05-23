@@ -1,29 +1,7 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
-<nf:rpc message-id="105" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
-    <nxos:configure>
-        <nxos:router>
-            <nxos:rip>
-                <nxos:version>2</nxos:version>
-            </nxos:rip>
-        </nxos:router>
-        <nxos:interface>
-            <nxos:name>Eth1/9</nxos:name>
-            <nxos:ip>
-                <nxos:rip>
-                    <nxos:network>192.168.10.0</nxos:network>
-                </nxos:rip>
-            </nxos:ip>
-        </nxos:interface>
-    </nxos:configure>
+<nf:rpc message-id="100" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-config>
+        <nxos:cmd>conf t ; ip access-list new-acl ; permit ip 192.168.1.0 0.0.0.255 any</nxos:cmd>
+    </nxos:exec-config>
 </nf:rpc>
-#######################################################################################
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="105">
-  <nf:rpc-error>
-    <nf:error-type>application</nf:error-type>
-    <nf:error-tag>invalid-value</nf:error-tag>
-    <nf:error-severity>error</nf:error-severity>
-    <nf:error-message>Element '{http://www.cisco.com/nxos:1.0}configure': This element is not expected. Expected is one of ( {urn:ietf:params:xml:ns:netconf:base:1.0}rpcOperation, {urn:ietf:params:xml:ns:netconf:base:1.0}get-config, {urn:ietf:params:xml:ns:netconf:base:1.0}edi</nf:error-message>
-  </nf:rpc-error>
-</nf:rpc-reply>

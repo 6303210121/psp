@@ -4,6 +4,6 @@
     <nf:error-type>application</nf:error-type>
     <nf:error-tag>invalid-value</nf:error-tag>
     <nf:error-severity>error</nf:error-severity>
-    <nf:error-message>Element '{urn:ietf:params:xml:ns:netconf:base:1.0}action': This element is not expected. Expected is one of ( {urn:ietf:params:xml:ns:netconf:base:1.0}rpcOperation, {urn:ietf:params:xml:ns:netconf:base:1.0}get-config, {urn:ietf:params:xml:ns:netconf:base:</nf:error-message>
+    <nf:error-message>Element '{http://www.cisco.com/nxos:1.0}configure': This element is not expected. Expected is one of ( {urn:ietf:params:xml:ns:netconf:base:1.0}rpcOperation, {urn:ietf:params:xml:ns:netconf:base:1.0}get-config, {urn:ietf:params:xml:ns:netconf:base:1.0}edi</nf:error-message>
   </nf:rpc-error>
 </nf:rpc-reply>

@@ -72,3 +72,16 @@ Password:
     </nf:error-info>
   </nf:rpc-error>
 </nf:rpc-reply>
+
+#########################################################################################################
+<nf:rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nf:rpc-error>
+    <nf:error-type>application</nf:error-type>
+    <nf:error-tag>invalid-value</nf:error-tag>
+    <nf:error-severity>error</nf:error-severity>
+    <nf:error-message>Entity: line 4: parser error : Opening and ending tag mismatch: nxos-cmd line 4 and nxos:cmd
+        &lt;nxos-cmd&gt;router ospf 1 ; network 192.168.1.0 0.0.0.255 area 0&lt;/nxos:cmd
+                                                                               ^
+</nf:error-message>
+  </nf:rpc-error>
+</nf:rpc-reply>

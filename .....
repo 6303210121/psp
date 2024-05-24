@@ -1,32 +1,13 @@
-from pyats.topology import loader
-from genie.testbed import load
-from pyats import aetest
-import re, logging
-
-#prepare Netconf connection and create an instance of ModelDevice:
-testbed = loader.load("ios_xe_netconfig_testing.yaml")
-
-device = testbed.devices['ios-xe-mgmt']
-device.connect(alias='nc',via='netconf')
-print(device.nc)
-device.nc.timeout = 300
-
-#Download and scan models:
-device.nc.scan_models()
-#load the modules
-device.nc.models_loadable
-
-#Load multiple models depending on your testing requirement:
-#m1 = device.nc.load_model('openconfig-interfaces')
-#m2 = device.nc.load_model('Cisco-IOS-XE-native')
-#m3 = device.nc.load_model('openconfig-network-instance')
-
-#reply = device.nc.get(models='openconfig-interfaces')
-#print(reply)
-
-#assert(reply.ok)
-#print(reply)
-
-DATA = device.nc.get_config('running')
-
-print(DATA)
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="109">
+  <nf:rpc-error>
+    <nf:error-type>application</nf:error-type>
+    <nf:error-tag>invalid-value</nf:error-tag>
+    <nf:error-severity>error</nf:error-severity>
+    <nf:error-message>command conf t ; router ospf 1 ; network 192.168.1.0 0.0.0.255 area 0 executed with err status [-500]
+</nf:error-message>
+    <nf:error-info>
+      <nf:bad-element>&lt;cmd&gt;</nf:bad-element>
+    </nf:error-info>
+  </nf:rpc-error>
+</nf:rpc-reply>

@@ -16,7 +16,7 @@
   </nf:rpc-error>
 </nf:rpc-reply>
 
-
+################################################################################################################################
 tcs@01HW896031:~$ ssh admin@10.133.35.152 -s netconf
 User Access Verification
 Password:
@@ -47,3 +47,14 @@ Password:
   </nf:rpc-error>
 </nf:rpc-reply>
 ]]>]]>
+
+###############################################################################################
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<nf:rpc-reply xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0" message-id="101">
+  <nf:rpc-error>
+    <nf:error-type>application</nf:error-type>
+    <nf:error-tag>invalid-value</nf:error-tag>
+    <nf:error-severity>error</nf:error-severity>
+    <nf:error-message>Element '{http://www.cisco.com/nxos:1.0}configure': This element is not expected. Expected is one of ( {urn:ietf:params:xml:ns:netconf:base:1.0}rpcOperation, {urn:ietf:params:xml:ns:netconf:base:1.0}get-config, {urn:ietf:params:xml:ns:netconf:base:1.0}edi</nf:error-message>
+  </nf:rpc-error>
+</nf:rpc-reply>

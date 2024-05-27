@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+<capabilities>
+  <capability>urn:ietf:params:netconf:base:1.0</capability>
+</capabilities></hello>]]>]]>
+
+
+#######################################################################################################################################################################
+
+<?xml version="1.0"?>
+<nf:rpc message-id="110" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>show ip access-list</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+____________________________________________________________________________________________
+<<<n9k1(config)# show ip access-list user-acl-ssh>>>
+
+#creating ACL
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="107" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; ip access-list user-acl-ssh ; permit tcp any any eq 22 ; permit tcp any eq 22 any</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+______________________________________________________________________________________________
+#adding a rule to ACL
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="108" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; ip access-list user-acl-ssh ; permit ip 192.168.1.0 0.0.0.255 any</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+______________________________________________________________________________________________
+#adding acl to interface(check manually show running-config unterface Eth1/9)
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="101" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; interface Eth1/9 ; ip access-group user-acl-ssh in</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+______________________________________________________________________________________________
+#removing the added acl to interface
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="101" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; interface Eth1/9 ; no ip access-group user-acl-ssh in</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+______________________________________________________________________________________________
+#adding ip to interface(show ip interface Eth1/9)
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="101" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; interface Eth1/9 ; no shutdown ; ip address 192.168.1.1 255.255.255.0</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+______________________________________________________________________________________________
+#deleting the new ACL
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="109" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; no ip access-list user-acl-ssh</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+#######################################################################################################################################################################
+<<<n9k1(config)# router ospf 1>>>
+
+#creating an ospf instance
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="100" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd>conf t ; router ospf 1</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+______________________________________________________________________________________________
+
+<?xml version="1.0" encoding="UTF-8"?>
+<nf:rpc message-id="108" xmlns:nf="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nxos="http://www.cisco.com/nxos:1.0">
+    <nxos:exec-command>
+        <nxos:cmd> conf t ; feature ospf ; router ospf 2 </nxos:cmd>
+        <nxos:cmd> int eth1/2 ; ip router ospf 2 area 0 ; exit ;</nxos:cmd>
+    </nxos:exec-command>
+</nf:rpc>]]>]]>
+
+______________________________________________________________________________________________
